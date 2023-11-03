@@ -3,10 +3,12 @@ import { View } from 'react-native';
 import { NavigationContainer } from '@react-navigation/native';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import Ionicons from 'react-native-vector-icons/Ionicons';
-
+import UserScreenTab from './Tabs/UserScreenTab';
 import HomeScreen from './Screens/HomeScreen';
 import TrendingScreen from './Screens/TrendingScreen';
 import UserScreen from './Screens/UserScreen';
+import LoginScreen from './Screens/LoginScreen';
+import SignupScreen from './Screens/SignupScreen';
 
 const homeName = "Home"
 const TrendingName = 'Trend';
@@ -34,7 +36,7 @@ export default function MainContainer() {
           },
         })}
         tabBarOptions={{
-            labelStyle: { display: 'none' },
+          labelStyle: { display: 'none' },
         }}
       >
         <Tab.Screen
@@ -53,7 +55,7 @@ export default function MainContainer() {
         />
         <Tab.Screen
           name={UserName}
-          component={UserScreen}
+          component={UserScreenTab}
           options={{
             headerShown: false,
           }}
