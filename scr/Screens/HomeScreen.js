@@ -1,12 +1,13 @@
 import * as React from 'react';
 import { Dimensions, Image } from 'react-native';
-import { View, Text, ScrollView, FlatList } from 'react-native';
+import { View, Text, ScrollView, FlatList} from 'react-native';
 import { useFonts } from 'expo-font';
 import * as SplashScreen from 'expo-splash-screen';
 import { useEffect } from 'react';
 import { Ionicons } from '@expo/vector-icons';
+import DetailScreen from './DetailScreen';
 
-export default function UserScreen({ navigation }) {
+export default function HomeScreen({ navigation }) {
     const [fontsLoaded] = useFonts({
         'GentiumBookBasic-Italic': require('./../../assets/fonts/GentiumBookBasic-Italic.ttf'),
         'Open-san':require('./../../assets/fonts/Montserrat-Bold.ttf')
@@ -57,10 +58,9 @@ export default function UserScreen({ navigation }) {
                     <Text style={{ fontFamily: "GentiumBookBasic-Italic", fontSize: 20, color: 'white' }}>Hello MingMing,</Text>
                     <Text style={{ fontFamily: "GentiumBookBasic-Italic", fontSize: 16, color: 'gray' }}>What do you want to hear today</Text>
                 </View>
-                <Ionicons name="notifications" color={"#ffffff"} size={25} style={{ paddingTop: 30, paddingRight: 30 }} />
+                <Ionicons name="notifications" color={"#ffffff"} size={25} style={{ paddingTop:30, paddingRight: 30 }} />
             </View>
             <View style={styles.Rectangle} />
-
             <Text style={{color:"#ffff",fontFamily:"Open-san",fontSize:25,marginBottom:10}}>Bài hát như quần què</Text>
             <ScrollView horizontal={true}>
                 <FlatList
@@ -94,8 +94,6 @@ export default function UserScreen({ navigation }) {
                     }
                 ></FlatList>
             </ScrollView>
-
-
         </ScrollView>
 
 
@@ -111,9 +109,7 @@ const styles = {
     img: {
         width: Dimensions.get("window").width / 3 - 13,
         height: Dimensions.get("window").height / 6 - 2,
-        backgroundColor: "#0000",
-        // borderTopRightRadius: 10,
-        // borderTopLeftRadius: 10,
+        backgroundColor: "#1A0938",
         borderRadius: 10,
         justifyContent: "center",
         alignSelf: "center",

@@ -1,6 +1,7 @@
 import React from 'react';
-import { View, Text, TouchableOpacity,Button } from 'react-native';
+import { View, Text, TouchableOpacity } from 'react-native';
 import UserScreenTab from '../Tabs/UserScreenTab';
+import { Button } from 'react-native-elements';
 
 export default function LoginScreen({ navigation }) {
     return (
