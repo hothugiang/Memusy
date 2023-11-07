@@ -12,33 +12,10 @@ import {
 } from "react-native";
 import logo from "/MobileApp/img/logo.png";
 import { Ionicons } from "react-native-vector-icons";
-import UserScreenTab from "../Tabs/UserScreenTab";
-import { useFonts } from "expo-font";
-import * as SplashScreen from "expo-splash-screen";
-import { useEffect } from "react";
 
 const { width: WIDTH } = Dimensions.get("window");
-const { height: HEIGHT } = Dimensions.get("window");
-const standardWidth = 360;
-const standardHeight = 800;
 
-export default function LoginScreen({ navigation }) {
-  const [fontsLoaded] = useFonts({
-    kinkee: require("./../../assets/fonts/Kinkee.otf"),
-    KedmoteScript: require("./../../assets/fonts/KedmoteScript.otf"),
-  });
-  useEffect(() => {
-    async function prepare() {
-      await SplashScreen.preventAutoHideAsync();
-    }
-    prepare();
-    if (!fontsLoaded) {
-      return undefined;
-    } else {
-      SplashScreen.hideAsync();
-    }
-  });
-
+export default function UserScreen({ navigator }) {
   const [showPass, setShowPass] = useState(false);
   const [press, setPress] = useState(false);
 
@@ -54,7 +31,7 @@ export default function LoginScreen({ navigation }) {
         <Text style={styles.logoText}>Memusy</Text>
       </View>
       <View style={styles.background}>
-        <Text style={styles.logIntext}>Login</Text>
+        <Text style={styles.logtext}>Sign up</Text>
         <View style={styles.inputContainer}>
           <TextInput
             style={styles.inputUsername}
@@ -104,12 +81,10 @@ export default function LoginScreen({ navigation }) {
               <Text style={styles.text}>Login</Text>
             </TouchableOpacity>
           </View>
-          <View style={styles.toSignUpContainer}>
+          <TouchableOpacity style={styles.toSignUpContainer}>
             <Text style={styles.new}>New to Memusy?</Text>
-            <TouchableOpacity onPress={() => navigation.navigate("Signup")}>
-              <Text style={styles.toSignUp}> Join now</Text>
-            </TouchableOpacity>
-          </View>
+            <Text style={styles.toSignUp}> Join now</Text>
+          </TouchableOpacity>
         </View>
       </View>
     </View>
@@ -129,34 +104,33 @@ const styles = {
   background: {
     backgroundColor: "rgba(236,230,221,255)",
     flex: 1,
-    marginTop: (20 / standardHeight) * HEIGHT,
+    marginTop: 30,
     borderTopLeftRadius: 25,
     borderTopRightRadius: 25,
   },
 
   logoContainer: {
-    marginTop: (30 / standardHeight) * HEIGHT,
+    marginTop: 50,
     alignItems: "center",
   },
   logo: {
-    width: (160 / standardWidth) * WIDTH,
-    height: (160 / standardHeight) * HEIGHT,
+    width: 150,
+    height: 150,
   },
   logoText: {
-    color: "rgb(246,  244,  246)",
+    color: "rgb(246,	244,	246)",
     fontSize: 20,
     fontFamily: "kinkee",
     fontWeight: "50",
-    marginTop: (5 / standardHeight) * HEIGHT,
+    marginTop: 10,
     opacity: 0.5,
   },
 
-  logIntext: {
-    fontSize: 50,
-    marginTop: (30 / standardHeight) * HEIGHT,
-    marginBottom: (25 / standardHeight) * HEIGHT,
+  logtext: {
+    fontSize: 30,
+    marginTop: 60,
+    marginBottom: 40,
     fontWeight: "bold",
-    fontFamily: "KedmoteScript",
     alignSelf: "center",
     color: "rgba(0,0,0,0.7)",
   },
@@ -165,37 +139,37 @@ const styles = {
   },
   inputUsername: {
     width: WIDTH - 55,
-    height: (70 / standardHeight) * HEIGHT,
+    height: 70,
     borderTopLeftRadius: 25,
     borderTopRightRadius: 25,
     fontSize: 16,
-    paddingLeft: (45 / standardWidth) * WIDTH,
+    paddingLeft: 45,
     backgroundColor: "rgba(221,114,158,1)",
     color: "rgba(255,255,255,0.7)",
-    marginHorizontal: (25 / standardWidth) * WIDTH,
+    marginHorizontal: 25,
   },
 
   inputPassword: {
     width: WIDTH - 55,
-    height: (70 / standardHeight) * HEIGHT,
+    height: 70,
     borderBottomLeftRadius: 25,
     borderBottomRightRadius: 25,
     fontSize: 16,
-    paddingLeft: (45 / standardWidth) * WIDTH,
+    paddingLeft: 45,
     backgroundColor: "rgba(221,114,158,1)",
     color: "rgba(255,255,255,0.7)",
-    marginHorizontal: (25 / standardWidth) * WIDTH,
+    marginHorizontal: 25,
   },
 
   inputIcon: {
     position: "absolute",
-    top: (20 / standardHeight) * HEIGHT,
-    left: (37 / standardWidth) * WIDTH,
+    top: 20,
+    left: 37,
   },
   btnEye: {
     position: "absolute",
-    top: (20 / standardHeight) * HEIGHT,
-    right: (37 / standardWidth) * WIDTH,
+    top: 20,
+    right: 37,
   },
 
   loginContainer: {
@@ -203,8 +177,8 @@ const styles = {
   },
 
   forgotPass: {
-    marginTop: (56 / standardHeight) * HEIGHT,
-    marginLeft: (30 / standardWidth) * WIDTH,
+    marginTop: 56,
+    marginLeft: 30,
     position: "absolute",
     fontSize: 12,
     color: "rgba(0,0,0,0.7)",
@@ -212,13 +186,13 @@ const styles = {
 
   btnLogin: {
     width: (WIDTH - 90) / 2,
-    height: (70 / standardHeight) * HEIGHT,
+    height: 70,
     borderRadius: 40,
     backgroundColor: "rgba(123,133,201,255)",
-    marginTop: (30 / standardHeight) * HEIGHT,
+    marginTop: 30,
     justifyContent: "center",
     alignItems: "center",
-    marginLeft: (196 / standardWidth) * WIDTH,
+    marginLeft: 220,
     position: "absolute",
   },
   text: {
@@ -229,20 +203,15 @@ const styles = {
 
   toSignUpContainer: {
     flexDirection: "row",
-    justifyContent: "center",
-    alignItems: "center",
-    marginTop: (200 / standardHeight) * HEIGHT,
   },
   toSignUp: {
-    //marginTop: 170,
+    marginTop: 215,
     fontWeight: "bold",
     color: "rgba(0,0,0,0.7)",
-    //marginBottom: 10,
   },
   new: {
-    //marginTop: 170,
-    //marginLeft: 100,
+    marginTop: 215,
+    marginLeft: 100,
     color: "rgba(0,0,0,0.7)",
-    //marginBottom: 10,
   },
 };
