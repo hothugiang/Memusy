@@ -1,4 +1,16 @@
 import * as React from "react";
+<<<<<<< HEAD
+import { View,Text } from "react-native";
+
+
+export default function TrendingScreen({ navigator }) {
+  return (
+    <View>
+      <Text>Trend</Text>
+    </View>
+  )
+            
+=======
 import { useState } from "react";
 import {
   Keyboard,
@@ -21,4 +33,5 @@ const IMAGE_HEIGHT_SMALL = WIDTH / 3;
 
 export default function TrendingScreen({ navigator }) {
   return <Text>TrendingScreen</Text>;
+>>>>>>> 98653932758f667e173812980d2c2409bcb0269e
 }

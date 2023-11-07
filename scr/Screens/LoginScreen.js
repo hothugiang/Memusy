@@ -50,7 +50,7 @@ export default function LoginScreen({ navigation }) {
   return (
     <View style={styles.backgroundContainer}>
       <View style={styles.logoContainer}>
-        <Image source={logo} style={styles.logo} />
+        <Image source={require("./../../img/logo.png")} style={styles.logo} />
         <Text style={styles.logoText}>Memusy</Text>
       </View>
       <View style={styles.background}>
