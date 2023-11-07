@@ -5,13 +5,8 @@ import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import UserScreenTab from './Tabs/UserScreenTab';
 import PlayerScreenTab from './Tabs/PlayerScreenTab';
-import HomeScreen from './Screens/HomeScreen';
 import TrendingScreen from './Screens/TrendingScreen';
 import Search from './Screens/Search';
-
-import UserScreen from "./Screens/UserScreen";
-import LoginScreen from "./Screens/LoginScreen";
-import SignupScreen from "./Screens/SignupScreen";
 
 const homeName = "Home";
 const TrendingName = "Trend";
@@ -49,11 +44,11 @@ export default function MainContainer() {
             return <Ionicons name={iconName} size={size} color={color} />;
           },
         })}
-        tabBarOptions={{
-          labelStyle: { display: "none" },
-          activeTintColor: "white",
-          inactiveTintColor: "gray",
-        }}
+      // tabBarOptions={{
+      //   labelStyle: { display: "none" },
+      //   activeTintColor: "white",
+      //   inactiveTintColor: "gray",
+      // }}
       >
         <Tab.Screen
           name={homeName}

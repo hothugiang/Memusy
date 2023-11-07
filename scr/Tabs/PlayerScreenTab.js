@@ -1,7 +1,7 @@
 import React, { useContext } from "react";
 import TokenContext from "../contexts/TokenContext";
 import { View } from "react-native";
-import { createNativeStackNavigator } from 'react-native-screens/native-stack';
+import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import HomeScreen from "../Screens/HomeScreen";
 import DetailScreen from "../Screens/DetailScreen";
 

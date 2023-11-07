@@ -12,7 +12,6 @@ import {
 } from "react-native";
 import logo from "./../../assets/img/logo.png";
 import { Ionicons } from "react-native-vector-icons";
-import UserScreenTab from "../Tabs/UserScreenTab";
 import { useFonts } from "expo-font";
 import * as SplashScreen from "expo-splash-screen";
 
@@ -26,21 +25,21 @@ const TEXT_FONTSIZE = (40 / standardHeight) * HEIGHT;
 const TEXT_FONTSIZE_SMALL = (30 / standardHeight) * HEIGHT;
 
 export default function Sign({ navigation }) {
-  const [fontsLoaded] = useFonts({
-    kinkee: require("./../../assets/fonts/Kinkee.otf"),
-    KedmoteScript: require("./../../assets/fonts/KedmoteScript.otf"),
-  });
-  useEffect(() => {
-    async function prepare() {
-      await SplashScreen.preventAutoHideAsync();
-    }
-    prepare();
-    if (!fontsLoaded) {
-      return undefined;
-    } else {
-      SplashScreen.hideAsync();
-    }
-  });
+//   const [fontsLoaded] = useFonts({
+//     kinkee: require("./../../assets/fonts/Kinkee.otf"),
+//     KedmoteScript: require("./../../assets/fonts/KedmoteScript.otf"),
+//   });
+//   useEffect(() => {
+//     async function prepare() {
+//       await SplashScreen.preventAutoHideAsync();
+//     }
+//     prepare();
+//     if (!fontsLoaded) {
+//       return undefined;
+//     } else {
+//       SplashScreen.hideAsync();
+//     }
+//   });
 
   const [imageHeight] = useState(new Animated.Value(IMAGE_HEIGHT));
   const [textFontSize] = useState(new Animated.Value(TEXT_FONTSIZE));
@@ -99,7 +98,7 @@ export default function Sign({ navigation }) {
       keyboardVerticalOffset={-WIDTH / 2.5} // Set the offset to move the view up
     >
       <Animated.Image
-        source={require("./../../img/logo.png")}
+        source={logo}
         style={[styles.logo, { height: imageHeight }]}
       />
       <Animated.Text style={[styles.logtext, { fontSize: textFontSize }]}>
@@ -225,15 +224,15 @@ const styles = {
     //marginTop: (5 / standardHeight) * HEIGHT,
     //marginBottom: (2 / standardHeight) * HEIGHT,
     fontWeight: "bold",
-    fontFamily: "KedmoteScript",
+    //fontFamily: "KedmoteScript",
     alignSelf: "center",
     color: "rgba(255,255,255,0.7)",
   },
   inputContainer: {
-    marginTop: (10 / standardHeight) * HEIGHT,
+    marginTop: 10,
   },
   inputContent: {
-    marginTop: (5 / standardHeight) * HEIGHT,
+    marginTop: 5,
     width: WIDTH - 55,
     height: (60 / standardHeight) * HEIGHT,
     borderRadius: 25,
@@ -241,7 +240,7 @@ const styles = {
     paddingLeft: (45 / standardWidth) * WIDTH,
     backgroundColor: "rgba(221,114,158,1)",
     color: "rgba(255,255,255,0.7)",
-    marginHorizontal: (25 / standardWidth) * WIDTH,
+    marginHorizontal: 25,
   },
   inputIcon: {
     position: "absolute",
@@ -258,8 +257,8 @@ const styles = {
     height: (65 / standardHeight) * HEIGHT,
     borderRadius: 40,
     backgroundColor: "rgba(123,133,201,255)",
-    marginTop: (20 / standardHeight) * HEIGHT,
-    marginBottom: (10 / standardHeight) * HEIGHT,
+    marginTop: 20,
+    marginBottom: 10,
     justifyContent: "center",
     alignItems: "center",
     alignSelf: "center",
@@ -278,7 +277,6 @@ const styles = {
     //marginTop: (5 / standardHeight) * HEIGHT,
   },
   new: {
-    marginLeft: (0 / standardWidth) * WIDTH,
     color: "rgba(0,0,0,0.7)",
     //marginTop: (15 / standardHeight) * HEIGHT,
   },
