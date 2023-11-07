@@ -12,7 +12,7 @@ export default function UserScreenTab() {
 
   return (
     <Stack.Navigator>
-      <Stack.Screen name="User" component={UserScreen} options={{headerShown: false}} />
+      <Stack.Screen name="UserScreen" component={UserScreen} options={{headerShown: false}} />
       <Stack.Screen name="Login" component={LoginScreen} options={{headerShown: false}} />
       <Stack.Screen name="Signup" component={SignupScreen} options={{headerShown: false}} />
     </Stack.Navigator>

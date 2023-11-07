@@ -4,6 +4,7 @@ import { NavigationContainer } from '@react-navigation/native';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import UserScreenTab from './Tabs/UserScreenTab';
+import PlayerScreenTab from './Tabs/PlayerScreenTab';
 import HomeScreen from './Screens/HomeScreen';
 import TrendingScreen from './Screens/TrendingScreen';
 import Search from './Screens/Search';
@@ -57,7 +58,7 @@ export default function MainContainer() {
       >
         <Tab.Screen
           name={homeName}
-          component={HomeScreen}
+          component={PlayerScreenTab}
           options={{
             headerShown: false,
           }}
