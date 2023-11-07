@@ -1,16 +1,16 @@
-import * as React from 'react';
-import { View } from 'react-native';
-import { NavigationContainer } from '@react-navigation/native';
-import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
-import Ionicons from 'react-native-vector-icons/Ionicons';
+import * as React from "react";
+import { View } from "react-native";
+import { NavigationContainer } from "@react-navigation/native";
+import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
+import Ionicons from "react-native-vector-icons/Ionicons";
 
-import HomeScreen from './Screens/HomeScreen';
-import TrendingScreen from './Screens/TrendingScreen';
-import UserScreen from './Screens/UserScreen';
+import HomeScreen from "./Screens/HomeScreen";
+import TrendingScreen from "./Screens/TrendingScreen";
+import UserScreen from "./Screens/UserScreen";
 
-const homeName = "Home"
-const TrendingName = 'Trend';
-const UserName = 'User';
+const homeName = "Home";
+const TrendingName = "Trend";
+const UserName = "User";
 
 const Tab = createBottomTabNavigator();
 
@@ -24,11 +24,11 @@ export default function MainContainer() {
             let iconName;
             let rn = route.name;
             if (rn === homeName) {
-              iconName = focused ? 'home' : 'home-outline';
+              iconName = focused ? "home" : "home-outline";
             } else if (rn === TrendingName) {
-              iconName = focused ? 'trending-up' : 'trending-up-outline';
+              iconName = focused ? "trending-up" : "trending-up-outline";
             } else if (rn === UserName) {
-              iconName = focused ? 'person' : 'person-outline';
+              iconName = focused ? "person" : "person-outline";
             }
             return <Ionicons name={iconName} size={size} color={color} />;
           },
