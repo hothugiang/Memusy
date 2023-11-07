@@ -10,7 +10,7 @@ import {
   Dimensions,
   TouchableOpacity,
 } from "react-native";
-import logo from "/MobileApp/img/logo.png";
+// import logo from "/MobileApp/img/logo.png";
 import { Ionicons } from "react-native-vector-icons";
 import UserScreenTab from "../Tabs/UserScreenTab";
 
@@ -78,7 +78,7 @@ export default function Sign({ navigation }) {
       keyboardVerticalOffset={-WIDTH / 2.5} // Set the offset to move the view up
     >
       <Animated.Image
-        source={logo}
+        source={require("./../../img/logo.png")}
         style={[styles.logo, { height: imageHeight }]}
       />
       <Animated.Text style={[styles.logtext, { fontSize: textFontSize }]}>
