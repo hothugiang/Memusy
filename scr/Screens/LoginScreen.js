@@ -10,7 +10,7 @@ import {
   Dimensions,
   TouchableOpacity,
 } from "react-native";
-// import logo from "./../../assets/img/logo.png";
+import logo from "./../../assets/img/logo.png";
 import { Ionicons } from "react-native-vector-icons";
 import UserScreenTab from "../Tabs/UserScreenTab";
 import { useFonts } from "expo-font";
@@ -23,21 +23,21 @@ const standardWidth = 360;
 const standardHeight = 800;
 
 export default function LoginScreen({ navigation }) {
-  const [fontsLoaded] = useFonts({
-    kinkee: require("./../../assets/fonts/Kinkee.otf"),
-    KedmoteScript: require("./../../assets/fonts/KedmoteScript.otf"),
-  });
-  useEffect(() => {
-    async function prepare() {
-      await SplashScreen.preventAutoHideAsync();
-    }
-    prepare();
-    if (!fontsLoaded) {
-      return undefined;
-    } else {
-      SplashScreen.hideAsync();
-    }
-  });
+    const [fontsLoaded] = useFonts({
+        kinkee: require('./../../assets/fonts/Kinkee.ttf'),
+        KedmoteScript: require('./../../assets/fonts/KedmoteScript.ttf'),
+    });
+    useEffect(() => {
+        async function prepare() {
+          await SplashScreen.preventAutoHideAsync();
+        }
+        prepare();
+        if (!fontsLoaded) {
+          return undefined;
+        } else {
+          SplashScreen.hideAsync();
+        }
+    });
 
   const [showPass, setShowPass] = useState(false);
   const [press, setPress] = useState(false);

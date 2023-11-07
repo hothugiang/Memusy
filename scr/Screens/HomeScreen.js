@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { Dimensions, Image } from 'react-native';
+import { Dimensions, Image, TouchableOpacity } from 'react-native';
 import { View, Text, ScrollView, FlatList} from 'react-native';
 import { useFonts } from 'expo-font';
 import * as SplashScreen from 'expo-splash-screen';
@@ -143,8 +143,9 @@ export default function HomeScreen({ navigation }) {
                     nestedScrollEnabled={true}
                     scrollToOverflowEnabled={false}
                     data={data}
-                    renderItem={({item}) =>
-                        <View style={{flexDirection: "row"}}>
+                    renderItem={({ item }) =>
+                    <TouchableOpacity onPress={() => navigation.navigate("SongDetail")}>
+                        <View style={{ flexDirection: "row", flexWrap: "wrap" }}>
                             <View style={styles.content}>
                                 <Image
                                     source={item.src}
@@ -165,6 +166,7 @@ export default function HomeScreen({ navigation }) {
                                 </View>
                             </View>
                         </View>
+                        </TouchableOpacity>
                     }
                 ></FlatList>
             </ScrollView>

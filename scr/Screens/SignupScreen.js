@@ -10,17 +10,38 @@ import {
   Dimensions,
   TouchableOpacity,
 } from "react-native";
-// import logo from "/MobileApp/img/logo.png";
+import logo from "./../../assets/img/logo.png";
 import { Ionicons } from "react-native-vector-icons";
 import UserScreenTab from "../Tabs/UserScreenTab";
+import { useFonts } from "expo-font";
+import * as SplashScreen from "expo-splash-screen";
 
 const { width: WIDTH } = Dimensions.get("window");
+const { height: HEIGHT } = Dimensions.get("window");
+const standardWidth = 360;
+const standardHeight = 800;
 const IMAGE_HEIGHT = WIDTH / 2;
 const IMAGE_HEIGHT_SMALL = WIDTH / 3;
-const TEXT_FONTSIZE = 25;
-const TEXT_FONTSIZE_SMALL = 18;
+const TEXT_FONTSIZE = (40 / standardHeight) * HEIGHT;
+const TEXT_FONTSIZE_SMALL = (30 / standardHeight) * HEIGHT;
 
 export default function Sign({ navigation }) {
+  const [fontsLoaded] = useFonts({
+    kinkee: require("./../../assets/fonts/Kinkee.otf"),
+    KedmoteScript: require("./../../assets/fonts/KedmoteScript.otf"),
+  });
+  useEffect(() => {
+    async function prepare() {
+      await SplashScreen.preventAutoHideAsync();
+    }
+    prepare();
+    if (!fontsLoaded) {
+      return undefined;
+    } else {
+      SplashScreen.hideAsync();
+    }
+  });
+
   const [imageHeight] = useState(new Animated.Value(IMAGE_HEIGHT));
   const [textFontSize] = useState(new Animated.Value(TEXT_FONTSIZE));
 
@@ -197,48 +218,48 @@ const styles = {
   logo: {
     height: IMAGE_HEIGHT,
     resizeMode: "contain",
-    marginBottom: 0,
-    marginTop: 100,
+    //marginTop: (1 / standardHeight) * HEIGHT,
   },
   logtext: {
-    fontSize: 25,
-    marginTop: 10,
-    marginBottom: 10,
+    fontSize: 40,
+    //marginTop: (5 / standardHeight) * HEIGHT,
+    //marginBottom: (2 / standardHeight) * HEIGHT,
     fontWeight: "bold",
+    fontFamily: "KedmoteScript",
     alignSelf: "center",
     color: "rgba(255,255,255,0.7)",
   },
   inputContainer: {
-    marginTop: 10,
+    marginTop: (10 / standardHeight) * HEIGHT,
   },
   inputContent: {
-    marginTop: 10,
+    marginTop: (5 / standardHeight) * HEIGHT,
     width: WIDTH - 55,
-    height: 60,
+    height: (60 / standardHeight) * HEIGHT,
     borderRadius: 25,
     fontSize: 14,
-    paddingLeft: 45,
+    paddingLeft: (45 / standardWidth) * WIDTH,
     backgroundColor: "rgba(221,114,158,1)",
     color: "rgba(255,255,255,0.7)",
-    marginHorizontal: 25,
+    marginHorizontal: (25 / standardWidth) * WIDTH,
   },
   inputIcon: {
     position: "absolute",
-    top: 25,
-    left: 37,
+    top: (25 / standardHeight) * HEIGHT,
+    left: (37 / standardWidth) * WIDTH,
   },
   btnEye: {
     position: "absolute",
-    top: 25,
-    right: 37,
+    top: (25 / standardHeight) * HEIGHT,
+    right: (37 / standardWidth) * WIDTH,
   },
   btnsignup: {
     width: (WIDTH - 90) / 2,
-    height: 65,
+    height: (65 / standardHeight) * HEIGHT,
     borderRadius: 40,
     backgroundColor: "rgba(123,133,201,255)",
-    marginTop: 20,
-    marginBottom: 10,
+    marginTop: (20 / standardHeight) * HEIGHT,
+    marginBottom: (10 / standardHeight) * HEIGHT,
     justifyContent: "center",
     alignItems: "center",
     alignSelf: "center",
@@ -252,13 +273,13 @@ const styles = {
     flexDirection: "row",
   },
   toLogIn: {
-    marginBottom: 10,
     fontWeight: "bold",
     color: "rgba(0,0,0,0.7)",
+    //marginTop: (5 / standardHeight) * HEIGHT,
   },
   new: {
-    marginBottom: 100,
-    marginLeft: 10,
+    marginLeft: (0 / standardWidth) * WIDTH,
     color: "rgba(0,0,0,0.7)",
+    //marginTop: (15 / standardHeight) * HEIGHT,
   },
 };
