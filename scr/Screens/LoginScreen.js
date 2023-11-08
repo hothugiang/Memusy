@@ -10,9 +10,8 @@ import {
   Dimensions,
   TouchableOpacity,
 } from "react-native";
-import logo from "./../../assets/img/logo.png";
+import logo from "../../assets/img/logo.png";
 import { Ionicons } from "react-native-vector-icons";
-import UserScreenTab from "../Tabs/UserScreenTab";
 import { useFonts } from "expo-font";
 import * as SplashScreen from "expo-splash-screen";
 import { useEffect } from "react";
@@ -23,21 +22,21 @@ const standardWidth = 360;
 const standardHeight = 800;
 
 export default function LoginScreen({ navigation }) {
-    const [fontsLoaded] = useFonts({
-        kinkee: require('./../../assets/fonts/Kinkee.ttf'),
-        KedmoteScript: require('./../../assets/fonts/KedmoteScript.ttf'),
-    });
-    useEffect(() => {
-        async function prepare() {
-          await SplashScreen.preventAutoHideAsync();
-        }
-        prepare();
-        if (!fontsLoaded) {
-          return undefined;
-        } else {
-          SplashScreen.hideAsync();
-        }
-    });
+    // const [fontsLoaded] = useFonts({
+    //     kinkee: require('./../../assets/fonts/Kinkee.ttf'),
+    //     KedmoteScript: require('./../../assets/fonts/KedmoteScript.ttf'),
+    //   });
+    // useEffect(() => {
+    //     async function prepare() {
+    //       await SplashScreen.preventAutoHideAsync();
+    //     }
+    //     prepare();
+    //     if (!fontsLoaded) {
+    //       return undefined;
+    //     } else {
+    //       SplashScreen.hideAsync();
+    //     }
+    //   });
 
   const [showPass, setShowPass] = useState(false);
   const [press, setPress] = useState(false);
@@ -129,13 +128,13 @@ const styles = {
   background: {
     backgroundColor: "rgba(236,230,221,255)",
     flex: 1,
-    marginTop: (20 / standardHeight) * HEIGHT,
+    marginTop: 20,
     borderTopLeftRadius: 25,
     borderTopRightRadius: 25,
   },
 
   logoContainer: {
-    marginTop: (30 / standardHeight) * HEIGHT,
+    marginTop: 30,
     alignItems: "center",
   },
   logo: {
@@ -145,18 +144,18 @@ const styles = {
   logoText: {
     color: "rgb(246,  244,  246)",
     fontSize: 20,
-    fontFamily: "kinkee",
-    fontWeight: "50",
-    marginTop: (5 / standardHeight) * HEIGHT,
+    //fontFamily: "kinkee",
+    fontWeight: "bold",
+    marginTop: 5,
     opacity: 0.5,
   },
 
   logIntext: {
     fontSize: 50,
-    marginTop: (30 / standardHeight) * HEIGHT,
-    marginBottom: (25 / standardHeight) * HEIGHT,
+    marginTop: 30,
+    marginBottom: 25,
     fontWeight: "bold",
-    fontFamily: "KedmoteScript",
+    //fontFamily: "KedmoteScript",
     alignSelf: "center",
     color: "rgba(0,0,0,0.7)",
   },
@@ -172,7 +171,7 @@ const styles = {
     paddingLeft: (45 / standardWidth) * WIDTH,
     backgroundColor: "rgba(221,114,158,1)",
     color: "rgba(255,255,255,0.7)",
-    marginHorizontal: (25 / standardWidth) * WIDTH,
+    marginHorizontal: 25,
   },
 
   inputPassword: {
@@ -184,7 +183,7 @@ const styles = {
     paddingLeft: (45 / standardWidth) * WIDTH,
     backgroundColor: "rgba(221,114,158,1)",
     color: "rgba(255,255,255,0.7)",
-    marginHorizontal: (25 / standardWidth) * WIDTH,
+    marginHorizontal: 25,
   },
 
   inputIcon: {
@@ -203,8 +202,8 @@ const styles = {
   },
 
   forgotPass: {
-    marginTop: (56 / standardHeight) * HEIGHT,
-    marginLeft: (30 / standardWidth) * WIDTH,
+    marginTop: 56,
+    marginLeft: 30,
     position: "absolute",
     fontSize: 12,
     color: "rgba(0,0,0,0.7)",
@@ -215,10 +214,10 @@ const styles = {
     height: (70 / standardHeight) * HEIGHT,
     borderRadius: 40,
     backgroundColor: "rgba(123,133,201,255)",
-    marginTop: (30 / standardHeight) * HEIGHT,
+    marginTop: 30,
     justifyContent: "center",
     alignItems: "center",
-    marginLeft: (196 / standardWidth) * WIDTH,
+    marginLeft: 196,
     position: "absolute",
   },
   text: {
@@ -231,7 +230,7 @@ const styles = {
     flexDirection: "row",
     justifyContent: "center",
     alignItems: "center",
-    marginTop: (200 / standardHeight) * HEIGHT,
+    marginTop: 200,
   },
   toSignUp: {
     //marginTop: 170,

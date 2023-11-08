@@ -5,7 +5,6 @@ import { useFonts } from 'expo-font';
 import * as SplashScreen from 'expo-splash-screen';
 import { useEffect } from 'react';
 import { Ionicons } from '@expo/vector-icons';
-import DetailScreen from './DetailScreen';
 
 export default function HomeScreen({ navigation }) {
     const [fontsLoaded] = useFonts({
