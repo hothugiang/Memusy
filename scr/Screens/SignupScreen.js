@@ -99,7 +99,7 @@ export default function Sign({ navigation }) {
       keyboardVerticalOffset={-WIDTH / 2.5} // Set the offset to move the view up
     >
       <Animated.Image
-        source={require("./../../img/logo.png")}
+        source={logo}
         style={[styles.logo, { height: imageHeight }]}
       />
       <Animated.Text style={[styles.logtext, { fontSize: textFontSize }]}>
