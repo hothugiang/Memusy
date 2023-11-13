@@ -1,4 +1,3 @@
-import * as React from "react";
 import {
   Dimensions,
   Image,
@@ -11,6 +10,7 @@ import {
   ImageBackground,
 } from "react-native";
 import { Button } from "react-native-elements";
+import * as React from 'react';
 
 import electronic from "./../../assets/img/electronic.jpg";
 import remix from "./../../assets/img/remix.jpg";
@@ -54,6 +54,7 @@ export default function Search({ navigation }) {
           containerStyle={{ alignItems: "flex-start" }}
           icon={{ name: "search", type: "font-awesome", color: "black" }}
           iconPosition="left"
+          onPress={() => navigation.navigator('SearchScreen')}
         />
       </View>
       <ScrollView>
@@ -155,6 +156,7 @@ export default function Search({ navigation }) {
 
           {/* Add more items here */}
         </View>
+        <View style={{ height: 60 }}></View>
       </ScrollView>
     </View>
   );

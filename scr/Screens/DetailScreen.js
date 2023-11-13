@@ -2,6 +2,12 @@ import React, { useState } from 'react';
 import { View, Text, StyleSheet, Image, TouchableOpacity } from 'react-native';
 import Slider from '@react-native-community/slider';
 import { FontAwesome5 } from "@expo/vector-icons";
+// import TrackPlayer, {
+//   AppKilledPlaybackBehavior,
+//   Capability,
+//   RepeatMode,
+//   Event
+// } from 'react-native-track-player';
 
 export default function DetailScreen({ navigation }) {
   const [isPlaying, setIsPlaying] = useState(false);

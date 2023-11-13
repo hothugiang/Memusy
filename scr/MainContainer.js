@@ -7,6 +7,8 @@ import UserScreenTab from './Tabs/UserScreenTab';
 import PlayerScreenTab from './Tabs/PlayerScreenTab';
 import TrendingScreen from './Screens/TrendingScreen';
 import Search from './Screens/Search';
+import SearchScreen from './Screens/SearchScreen';
+import LinearGradient from 'react-native-linear-gradient';
 
 const homeName = "Home";
 const TrendingName = "Trend";
@@ -28,6 +30,7 @@ export default function MainContainer() {
             backgroundColor: "rgba(34,36,40,1)",
             position: "absolute",
             borderTopWidth: 0,
+            
           },
           tabBarIcon: ({ focused, color, size }) => {
             let iconName;
@@ -43,12 +46,11 @@ export default function MainContainer() {
             }
             return <Ionicons name={iconName} size={size} color={color} />;
           },
+          tabBarLabelStyle: { display: 'none' },
+          tabBarActiveTintColor: 'white',
+          tabBarInactiveTintColor: 'gray',
+          tabBarHideOnKeyboard:true
         })}
-      // tabBarOptions={{
-      //   labelStyle: { display: "none" },
-      //   activeTintColor: "white",
-      //   inactiveTintColor: "gray",
-      // }}
       >
         <Tab.Screen
           name={homeName}
