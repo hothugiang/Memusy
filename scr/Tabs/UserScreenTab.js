@@ -5,8 +5,9 @@ import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import UserScreen from "../Screens/UserScreen";
 import LoginScreen from "../Screens/LoginScreen";
 import SignupScreen from "../Screens/SignupScreen";
+import SearchScreen from "../Screens/SearchScreen";
+import TrendingScreen from "../Screens/TrendingScreen";
 import EditProfileScreen from "../Screens/EditProfile";
-
 const Stack = createNativeStackNavigator();
 
 export default function UserScreenTab() {
@@ -32,6 +33,8 @@ export default function UserScreenTab() {
         component={EditProfileScreen}
         options={{ headerShown: false }}
       />
+
+      
     </Stack.Navigator>
   );
 }

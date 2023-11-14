@@ -1,6 +1,6 @@
-import React, { useState } from 'react';
-import { View, Text, StyleSheet, Image, TouchableOpacity } from 'react-native';
-import Slider from '@react-native-community/slider';
+import React, { useState } from "react";
+import { View, Text, StyleSheet, Image, TouchableOpacity } from "react-native";
+import Slider from "@react-native-community/slider";
 import { FontAwesome5 } from "@expo/vector-icons";
 // import TrackPlayer, {
 //   AppKilledPlaybackBehavior,
@@ -13,7 +13,7 @@ export default function DetailScreen({ navigation }) {
   const [isPlaying, setIsPlaying] = useState(false);
   const [trackLength] = useState(300); // Thời gian của bài hát
   const [currentPosition, setCurrentPosition] = useState(0);
-  
+
   const changeTime = (seconds) => {
     setCurrentPosition(seconds);
   };
@@ -33,14 +33,19 @@ export default function DetailScreen({ navigation }) {
   const formatTime = (seconds) => {
     const minutes = Math.floor(seconds / 60);
     const remainingSeconds = Math.round(seconds % 60);
-    return `${minutes < 10 ? '0' : ''}${minutes}:${remainingSeconds < 10 ? '0' : ''}${remainingSeconds}`;
+    return `${minutes < 10 ? "0" : ""}${minutes}:${
+      remainingSeconds < 10 ? "0" : ""
+    }${remainingSeconds}`;
   };
 
   return (
     <View style={styles.container}>
       <Text style={styles.title}>Now Playing</Text>
       <View style={styles.trackInfo}>
-        <Image source={require("../../assets/img/cho.jpg")} style={styles.coverImage} />
+        <Image
+          source={require("./../../assets/img/cho.jpg")}
+          style={styles.coverImage}
+        />
         <Text style={styles.trackName}>Tên bài hát</Text>
         <Text style={styles.artistName}>Nghệ sỹ</Text>
       </View>
@@ -57,21 +62,30 @@ export default function DetailScreen({ navigation }) {
 
       <View style={styles.timeContainer}>
         <Text style={styles.timeStamp}>{formatTime(currentPosition)}</Text>
-        <Text style={styles.timeStamp}>{formatTime(trackLength - currentPosition)}</Text>
+        <Text style={styles.timeStamp}>
+          {formatTime(trackLength - currentPosition)}
+        </Text>
       </View>
 
       <View style={styles.controls}>
         <TouchableOpacity onPress={skipToPreviousTrack}>
-        <FontAwesome5 name='backward' size={32} color="#3D425C"></FontAwesome5>
+          <FontAwesome5
+            name="backward"
+            size={32}
+            color="#3D425C"
+          ></FontAwesome5>
         </TouchableOpacity>
         <TouchableOpacity onPress={playPauseToggle}>
-          <FontAwesome5 name={isPlaying ? 'pause' : 'play'} size={32} color="#3D425C" />
+          <FontAwesome5
+            name={isPlaying ? "pause" : "play"}
+            size={32}
+            color="#3D425C"
+          />
         </TouchableOpacity>
         <TouchableOpacity onPress={skipToNextTrack}>
-          <FontAwesome5 name='forward' size={32} color="#3D425C"></FontAwesome5>
+          <FontAwesome5 name="forward" size={32} color="#3D425C"></FontAwesome5>
         </TouchableOpacity>
       </View>
-      
     </View>
   );
 }
@@ -86,12 +100,12 @@ const styles = StyleSheet.create({
     marginTop: 10,
     marginBottom: 20,
     fontSize: 24,
-    fontWeight: 'bold',
+    fontWeight: "bold",
     color: "white",
-    textAlign: 'center',
+    textAlign: "center",
   },
   trackInfo: {
-    alignItems: 'center',
+    alignItems: "center",
   },
   coverImage: {
     width: 250,
@@ -101,21 +115,21 @@ const styles = StyleSheet.create({
   },
   trackName: {
     fontSize: 20,
-    fontWeight: 'bold',
+    fontWeight: "bold",
     color: "white",
-    textAlign: 'center',
+    textAlign: "center",
   },
   artistName: {
     fontSize: 16,
     color: "white",
-    textAlign: 'center',
+    textAlign: "center",
   },
   slider: {
     marginTop: 20,
   },
   timeContainer: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
+    flexDirection: "row",
+    justifyContent: "space-between",
   },
   timeStamp: {
     fontSize: 11,
@@ -123,13 +137,13 @@ const styles = StyleSheet.create({
     color: "white",
   },
   controls: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
+    flexDirection: "row",
+    justifyContent: "space-between",
     marginTop: 20,
   },
   controlText: {
     fontSize: 18,
-    fontWeight: 'bold',
+    fontWeight: "bold",
     color: "white",
   },
 });
