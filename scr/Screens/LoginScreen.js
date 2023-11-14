@@ -9,6 +9,8 @@ import {
   TextInput,
   Dimensions,
   TouchableOpacity,
+  KeyboardAvoidingView,
+  ScrollView,
 } from "react-native";
 import logo from "../../assets/img/logo.png";
 import { Ionicons } from "react-native-vector-icons";
@@ -22,21 +24,21 @@ const standardWidth = 360;
 const standardHeight = 800;
 
 export default function LoginScreen({ navigation }) {
-    // const [fontsLoaded] = useFonts({
-    //     kinkee: require('./../../assets/fonts/Kinkee.ttf'),
-    //     KedmoteScript: require('./../../assets/fonts/KedmoteScript.ttf'),
-    //   });
-    // useEffect(() => {
-    //     async function prepare() {
-    //       await SplashScreen.preventAutoHideAsync();
-    //     }
-    //     prepare();
-    //     if (!fontsLoaded) {
-    //       return undefined;
-    //     } else {
-    //       SplashScreen.hideAsync();
-    //     }
-    //   });
+  // const [fontsLoaded] = useFonts({
+  //     kinkee: require('./../../assets/fonts/Kinkee.ttf'),
+  //     KedmoteScript: require('./../../assets/fonts/KedmoteScript.ttf'),
+  //   });
+  // useEffect(() => {
+  //     async function prepare() {
+  //       await SplashScreen.preventAutoHideAsync();
+  //     }
+  //     prepare();
+  //     if (!fontsLoaded) {
+  //       return undefined;
+  //     } else {
+  //       SplashScreen.hideAsync();
+  //     }
+  //   });
 
   const [showPass, setShowPass] = useState(false);
   const [press, setPress] = useState(false);
@@ -47,12 +49,16 @@ export default function LoginScreen({ navigation }) {
   };
 
   return (
-    <View style={styles.backgroundContainer}>
+    <KeyboardAvoidingView
+      style={styles.backgroundContainer}
+      behavior="position"
+      keyboardVerticalOffset={-300}
+    >
       <View style={styles.logoContainer}>
         <Image source={logo} style={styles.logo} />
         <Text style={styles.logoText}>Memusy</Text>
       </View>
-      <View style={styles.background}>
+      <View style={styles.background} showsVerticalScrollIndicator={false}>
         <Text style={styles.logIntext}>Login</Text>
         <View style={styles.inputContainer}>
           <TextInput
@@ -111,7 +117,7 @@ export default function LoginScreen({ navigation }) {
           </View>
         </View>
       </View>
-    </View>
+    </KeyboardAvoidingView>
   );
 }
 
@@ -134,7 +140,7 @@ const styles = {
   },
 
   logoContainer: {
-    marginTop: 30,
+    marginTop: 50,
     alignItems: "center",
   },
   logo: {
@@ -230,7 +236,7 @@ const styles = {
     flexDirection: "row",
     justifyContent: "center",
     alignItems: "center",
-    marginTop: 200,
+    marginTop: 220,
   },
   toSignUp: {
     //marginTop: 170,
