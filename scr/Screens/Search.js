@@ -10,8 +10,6 @@ import {
   ImageBackground,
 } from "react-native";
 import { Button } from "react-native-elements";
-import UserScreenTab from "../Tabs/UserScreenTab";
-import SearchScreenTab from "../Tabs/SearchScreenTab";
 
 import electronic from "./../../assets/img/electronic.jpg";
 import remix from "./../../assets/img/remix.jpg";
