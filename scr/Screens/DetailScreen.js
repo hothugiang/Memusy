@@ -1,25 +1,82 @@
-import React, { useState } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import { View, Text, StyleSheet, Image, TouchableOpacity } from "react-native";
 import Slider from "@react-native-community/slider";
 import { FontAwesome5 } from "@expo/vector-icons";
+import { 
+  FlatList,
+  Dimensions
+} from "react-native";
 // import TrackPlayer, {
 //   AppKilledPlaybackBehavior,
 //   Capability,
 //   RepeatMode,
 //   Event
 // } from 'react-native-track-player';
+import { Audio, InterruptionModeAndroid, InterruptionModeIOS } from "expo-av";
+import * as Animatable from "react-native-animatable";
 
 export default function DetailScreen({ navigation }) {
   const [isPlaying, setIsPlaying] = useState(false);
-  const [trackLength] = useState(300); // Thời gian của bài hát
   const [currentPosition, setCurrentPosition] = useState(0);
+  const [sound, setSound] = useState();
+  const [duration, setDuration] = useState(0);
+
+  useEffect(() => {
+    loadAudio();
+  }, []);
+
+  const loadAudio = async () => {
+    try {
+      const { sound } = await Audio.Sound.createAsync(
+        require('./../../assets/mp3/VungLaMeBay-DuongHongLoan-4796874.mp3')
+      );
+      setSound(sound);
+
+      const status = await sound.getStatusAsync();
+      setDuration(Math.round(status.durationMillis / 1000));
+
+      sound.setOnPlaybackStatusUpdate((status) => {
+        if (status.isPlaying) {
+          setCurrentPosition(Math.round(status.positionMillis / 1000));
+        }
+      });
+    } catch (error) {
+      console.error("Error loading audio:", error);
+    }
+  };
+
+  if (Platform.OS === "ios") {
+    const enableAudio = async () => {
+      await Audio.requestPermissionsAsync();
+      await Audio.setAudioModeAsync({
+        staysActiveInBackground: true,
+        interruptionModeAndroid: InterruptionModeAndroid.DoNotMix,
+        shouldDuckAndroid: false,
+        playThroughEarpieceAndroid: false,
+        allowsRecordingIOS: false,
+        interruptionModeIOS: InterruptionModeIOS.DoNotMix,
+        playsInSilentModeIOS: true,
+      });
+    };
+    enableAudio();
+  } else {
+    Audio.setAudioModeAsync({
+      playsInSilentModeIOS: true,
+    });
+  }
+
+  const playSound = async () => {
+    if (!isPlaying) {
+      await sound.playAsync();
+    } else {
+      await sound.pauseAsync();
+    }
+    setIsPlaying(!isPlaying);
+  };
 
   const changeTime = (seconds) => {
     setCurrentPosition(seconds);
-  };
-
-  const playPauseToggle = () => {
-    setIsPlaying(!isPlaying);
+    sound.setPositionAsync(seconds * 1000);
   };
 
   const skipToNextTrack = () => {
@@ -42,18 +99,33 @@ export default function DetailScreen({ navigation }) {
     <View style={styles.container}>
       <Text style={styles.title}>Now Playing</Text>
       <View style={styles.trackInfo}>
-        <Image
-          source={require("./../../assets/img/cho.jpg")}
-          style={styles.coverImage}
+        <Animatable.Image
+          animation={
+            isPlaying
+              ? {
+                  from: { rotate: "0deg" },
+                  to: { rotate: "360deg" },
+                }
+              : undefined
+          }
+          easing="linear"
+          iterationCount={isPlaying ? "infinite" : 1}
+          duration={isPlaying ? 10000 : 0}
+          source={require("./../../assets/img/vlmb.jpg")}
+          style={ styles.coverImage }
         />
-        <Text style={styles.trackName}>Tên bài hát</Text>
-        <Text style={styles.artistName}>Nghệ sỹ</Text>
-      </View>
+          {/* <Image
+            source={require("./../../assets/img/vlmb.jpg")}
+            style={styles.coverImage}
+          /> */}
+          <Text style={styles.trackName}>Vùng lá me bay</Text>
+          <Text style={styles.artistName}>Hihi</Text>
+        </View>
 
       <Slider
         style={styles.slider}
         minimumValue={0}
-        maximumValue={trackLength}
+        maximumValue={duration}
         value={currentPosition}
         minimumTrackTintColor="#93A8B3"
         thumbTintColor="#3D425C"
@@ -63,7 +135,7 @@ export default function DetailScreen({ navigation }) {
       <View style={styles.timeContainer}>
         <Text style={styles.timeStamp}>{formatTime(currentPosition)}</Text>
         <Text style={styles.timeStamp}>
-          {formatTime(trackLength - currentPosition)}
+          {formatTime(duration - currentPosition)}
         </Text>
       </View>
 
@@ -75,7 +147,7 @@ export default function DetailScreen({ navigation }) {
             color="#3D425C"
           ></FontAwesome5>
         </TouchableOpacity>
-        <TouchableOpacity onPress={playPauseToggle}>
+        <TouchableOpacity onPress={playSound}>
           <FontAwesome5
             name={isPlaying ? "pause" : "play"}
             size={32}
@@ -86,9 +158,16 @@ export default function DetailScreen({ navigation }) {
           <FontAwesome5 name="forward" size={32} color="#3D425C"></FontAwesome5>
         </TouchableOpacity>
       </View>
+
+      <View style="lyricContainer">
+
+      </View>
     </View>
   );
 }
+
+const width = Dimensions.get("window").width;
+const height = Dimensions.get("window").height;
 
 const styles = StyleSheet.create({
   container: {
@@ -96,8 +175,20 @@ const styles = StyleSheet.create({
     backgroundColor: "black",
     padding: 16,
   },
+
+  songInfor: {
+    width: width,
+    justifyContent: "center",
+    alignItems: "center",
+  },
+
+  songInfor: {
+    width: width,
+
+  },
+
   title: {
-    marginTop: 10,
+    marginTop: 30,
     marginBottom: 20,
     fontSize: 24,
     fontWeight: "bold",
@@ -140,6 +231,8 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     justifyContent: "space-between",
     marginTop: 20,
+    marginLeft: 50,
+    marginRight: 50,
   },
   controlText: {
     fontSize: 18,

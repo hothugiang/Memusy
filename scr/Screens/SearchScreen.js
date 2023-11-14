@@ -44,7 +44,7 @@ const { height: HEIGHT } = Dimensions.get("window");
 const standardWidth = 360;
 const standardHeight = 800;
 
-export default function Search({ navigation }) {
+export default function SearchScreen({ navigation }) {
   const [selectedCategory, setSelectedCategory] = useState("Songs");
   const data = [
     {

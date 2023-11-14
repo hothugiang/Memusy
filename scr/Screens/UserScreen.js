@@ -8,7 +8,6 @@ import { useFonts } from 'expo-font';
 import * as SplashScreen from 'expo-splash-screen';
 import { useEffect } from 'react';
 import { createMaterialTopTabNavigator } from "@react-navigation/material-top-tabs";
-import UserScreenTab from '../Tabs/UserScreenTab';
 const { width: WIDTH } = Dimensions.get("window");
 const { height: HEIGHT } = Dimensions.get("window");
 const standardWidth = 360;
