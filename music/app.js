@@ -4,11 +4,17 @@ var express = require('express');
 var path = require('path');
 var cookieParser = require('cookie-parser');
 var logger = require('morgan');
+const cors = require('cors');
 
-var indexRouter = require('./routes/index');
-var usersRouter = require('./routes/users');
+const allowedOrigins = ['http://localhost:5500', 'http://127.0.0.1:5500'];
+
+var indexRouter = require('./routes/index.js');
+var usersRouter = require('./routes/users.js');
 
 var app = express();
+
+// cho phép truy cập
+app.use(cors());
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
@@ -29,14 +35,22 @@ var conn = mysql.createConnection({
   database: process.env.DB_DATABASE
 })
 
-conn.connect(function(err) {
-  if (err) throw err;
-  console.log("Connected!!!")
+conn.connect((err) => {
+  if (err) {
+    console.error('Lỗi kết nối cơ sở dữ liệu: ' + err.message);
+  } else {
+    console.log('Kết nối cơ sở dữ liệu thành công.');
+  }
 });
 
+app.locals.db = conn;
 
-app.use('/', indexRouter);
+// app.use('/', indexRouter);
 app.use('/users', usersRouter);
+
+app.get('/', (req, res) => {
+  res.send('Hello World!');
+});
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {

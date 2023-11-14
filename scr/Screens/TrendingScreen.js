@@ -1,4 +1,5 @@
 import * as React from "react";
+<<<<<<< HEAD
 import { useState } from "react";
 
 import {
@@ -49,3 +50,16 @@ export default function TrendingScreen({ navigation }) {
   return (
     <Text>TrendingScreen</Text>
   )}
+=======
+import { View,Text } from "react-native";
+
+
+export default function TrendingScreen({ navigator }) {
+  return (
+    <View>
+      <Text>Trend</Text>
+    </View>
+  )
+            
+}
+>>>>>>> d42bff21c910f582f387969c208ad3fc934f4eaa

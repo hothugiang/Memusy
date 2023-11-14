@@ -7,7 +7,7 @@ import { TouchableOpacity } from 'react-native';
 export default function UserScreen({ navigation }) {
   
     return (
-      <View style={{ flex: 1, alignItems: 'center' }}>
+      <View style={{ flex: 1, alignItems: 'center', marginTop:400 }}>
         <Text>UserScreen</Text>
         <Button
               title="Login"

@@ -1,4 +1,3 @@
-import * as React from "react";
 import {
   Dimensions,
   Image,
@@ -49,13 +48,13 @@ export default function Search({ navigation }) {
       <StatusBar backgroundColor="black" barStyle="light-content" />
       <View style={{ alignItems: "center", marginTop: 50, marginBottom: 20 }}>
         <Button
-          onPress={() => navigation.navigate("SearchScreen")}
           title=" Bạn muốn nghe gì...                                       "
           titleStyle={styles.buttonText}
           buttonStyle={styles.buttonBackground}
           containerStyle={{ alignItems: "flex-start" }}
           icon={{ name: "search", type: "font-awesome", color: "black" }}
           iconPosition="left"
+          onPress={() => navigation.navigator('SearchScreen')}
         />
       </View>
       <ScrollView>
