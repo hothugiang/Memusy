@@ -12,55 +12,72 @@ import {
 //   RepeatMode,
 //   Event
 // } from 'react-native-track-player';
-import {Audio} from "expo-av"
+import { Audio, InterruptionModeAndroid, InterruptionModeIOS } from "expo-av";
+import * as Animatable from "react-native-animatable";
+import { Ionicons } from '@expo/vector-icons';
 
 export default function DetailScreen({ navigation }) {
   const [isPlaying, setIsPlaying] = useState(false);
-  const [duration, setDuration] = useState(0);
   const [currentPosition, setCurrentPosition] = useState(0);
   const [sound, setSound] = useState();
-
-  async function playPauseSound() {
-    if (sound) {
-      if (isPlaying) {
-        await sound.pauseAsync();
-      } else {
-        await sound.playAsync();
-      }
-      setIsPlaying(!isPlaying);
-    }
-  }
-
-  async function playSound() {
-    const { sound } = await Audio.Sound.createAsync(
-      require('./../../assets/mp3/VungLaMeBay-DuongHongLoan-4796874.mp3')
-    );
-    setSound(sound);
-
-    const status = await sound.getStatusAsync();
-    setDuration(Math.round(status.durationMillis/1000));
-    console.log(duration);
-
-    if (!isPlaying) {
-      setIsPlaying(true);
-      await sound.playAsync();
-    } else {
-      setIsPlaying(false);
-      const position = await sound.getStatusAsync();
-      await sound.setPositionAsync(position.positionMillis);
-    }
-  }
+  const [duration, setDuration] = useState(0);
 
   useEffect(() => {
-    return sound
-      ? () => {
-          sound.unloadAsync();
+    loadAudio();
+  }, []);
+
+  const loadAudio = async () => {
+    try {
+      const { sound } = await Audio.Sound.createAsync(
+        require('./../../assets/mp3/VungLaMeBay-DuongHongLoan-4796874.mp3')
+      );
+      setSound(sound);
+
+      const status = await sound.getStatusAsync();
+      setDuration(Math.round(status.durationMillis / 1000));
+
+      sound.setOnPlaybackStatusUpdate((status) => {
+        if (status.isPlaying) {
+          setCurrentPosition(Math.round(status.positionMillis / 1000));
         }
-      : undefined;
-  }, [sound]);
+      });
+    } catch (error) {
+      console.error("Error loading audio:", error);
+    }
+  };
+
+  if (Platform.OS === "ios") {
+    const enableAudio = async () => {
+      await Audio.requestPermissionsAsync();
+      await Audio.setAudioModeAsync({
+        staysActiveInBackground: true,
+        interruptionModeAndroid: InterruptionModeAndroid.DoNotMix,
+        shouldDuckAndroid: false,
+        playThroughEarpieceAndroid: false,
+        allowsRecordingIOS: false,
+        interruptionModeIOS: InterruptionModeIOS.DoNotMix,
+        playsInSilentModeIOS: true,
+      });
+    };
+    enableAudio();
+  } else {
+    Audio.setAudioModeAsync({
+      playsInSilentModeIOS: true,
+    });
+  }
+
+  const playSound = async () => {
+    if (!isPlaying) {
+      await sound.playAsync();
+    } else {
+      await sound.pauseAsync();
+    }
+    setIsPlaying(!isPlaying);
+  };
 
   const changeTime = (seconds) => {
     setCurrentPosition(seconds);
+    sound.setPositionAsync(seconds * 1000);
   };
 
   const skipToNextTrack = () => {
@@ -79,50 +96,51 @@ export default function DetailScreen({ navigation }) {
     }${remainingSeconds}`;
   };
 
-  const renderSongs = ({item, index}) => {
-    return (
-      <View style={styles.songInfor}>
-        <View style={styles.trackInfo}>
-          <Image
-            source={item.src}
-            style={styles.coverImage}
-          />
-          <Text style={styles.trackName}>{item.name}</Text>
-          <Text style={styles.artistName}>{item.artist}</Text>
-        </View>
-      </View>
-    )
-  }
+  const [isHeartFull, setIsHeartFull] = useState(false);
+
+  const toggleHeart = () => {
+    setIsHeartFull(!isHeartFull);
+  };
 
   return (
     <View style={styles.container}>
       <Text style={styles.title}>Now Playing</Text>
       <View style={styles.trackInfo}>
-          <Image
-            source={require("./../../assets/img/cho.jpg")}
-            style={styles.coverImage}
+        <Animatable.Image
+          animation={
+            isPlaying
+              ? {
+                  from: { rotate: "0deg" },
+                  to: { rotate: "360deg" },
+                }
+              : undefined
+          }
+          easing="linear"
+          useNativeDriver
+          iterationCount={isPlaying ? "infinite" : 1}
+          duration={isPlaying ? 10000 : 0}
+          source={require("./../../assets/img/vlmb.jpg")}
+          style={ styles.coverImage }
+        />
+          <Text style={styles.trackName}>Vùng lá me bay</Text>
+          <Text style={styles.artistName}>Hihi</Text>
+          <TouchableOpacity onPress={toggleHeart}>
+          <Ionicons 
+            name={isHeartFull ? 'heart' : 'heart-outline'} 
+            size={32} 
+            color={"rgba(221,114,158,1)"} 
+            style={{marginTop: 10}}
           />
-          <Text style={styles.trackName}>Tên bài hát</Text>
-          <Text style={styles.artistName}>Artist</Text>
+          </TouchableOpacity>
         </View>
-      {/* <FlatList
-        data={songs}
-        keyExtractor={(item) => item.id}
-        renderItem={renderSongs}
-        horizontal
-        pagingEnabled
-        showsHorizontalScrollIndicator={false}
-        scrollEventThrottle={16}
-        onScroll={() => {}}
-      /> */}
 
       <Slider
         style={styles.slider}
         minimumValue={0}
         maximumValue={duration}
         value={currentPosition}
-        minimumTrackTintColor="#93A8B3"
-        thumbTintColor="#3D425C"
+        minimumTrackTintColor="gray"
+        thumbTintColor="rgba(221,114,158,1)"
         onValueChange={changeTime}
       />
 
@@ -138,18 +156,18 @@ export default function DetailScreen({ navigation }) {
           <FontAwesome5
             name="backward"
             size={32}
-            color="#3D425C"
+            color="gray"
           ></FontAwesome5>
         </TouchableOpacity>
         <TouchableOpacity onPress={playSound}>
           <FontAwesome5
             name={isPlaying ? "pause" : "play"}
             size={32}
-            color="#3D425C"
+            color="gray"
           />
         </TouchableOpacity>
         <TouchableOpacity onPress={skipToNextTrack}>
-          <FontAwesome5 name="forward" size={32} color="#3D425C"></FontAwesome5>
+          <FontAwesome5 name="forward" size={32} color="gray"></FontAwesome5>
         </TouchableOpacity>
       </View>
 
@@ -178,11 +196,9 @@ const styles = StyleSheet.create({
 
   songInfor: {
     width: width,
-
   },
 
   title: {
-    marginTop: 30,
     marginBottom: 20,
     fontSize: 24,
     fontWeight: "bold",
@@ -195,19 +211,20 @@ const styles = StyleSheet.create({
   coverImage: {
     width: 250,
     height: 250,
-    borderRadius: 125,
-    marginBottom: 20,
+    borderRadius: 150,
+    marginBottom: 30,
   },
   trackName: {
-    fontSize: 20,
+    fontSize: 26,
     fontWeight: "bold",
     color: "white",
     textAlign: "center",
   },
   artistName: {
-    fontSize: 16,
+    fontSize: 18,
     color: "white",
     textAlign: "center",
+    fontStyle: "italic",
   },
   slider: {
     marginTop: 20,

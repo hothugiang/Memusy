@@ -3,6 +3,7 @@ import { View, Text, TextInput, Button, TouchableOpacity, Image } from "react-na
 import { Ionicons } from "@expo/vector-icons";
 import { Dimensions } from "react-native";
 import { SafeAreaView } from "react-native";
+import UserScreenTab from "../Tabs/UserScreenTab";
 const { width: WIDTH } = Dimensions.get("window");
 const { height: HEIGHT } = Dimensions.get("window");
 const standardWidth = 360;
@@ -14,7 +15,7 @@ export default function EditProfileScreen({ navigation }) {
             <View style={styles.headcontainer} >
                 <View style={styles.header}>
                     <TouchableOpacity
-                        onPress={() => navigation.navigate("UserScreen")}
+                        onPress={() => navigation.navigate("User")}
                     >
                         <Ionicons name="close-outline" style={{ fontSize: 35, color: 'white' }}></Ionicons>
                     </TouchableOpacity>

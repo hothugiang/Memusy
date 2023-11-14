@@ -25,21 +25,22 @@ const TEXT_FONTSIZE = (40 / standardHeight) * HEIGHT;
 const TEXT_FONTSIZE_SMALL = (30 / standardHeight) * HEIGHT;
 
 export default function Sign({ navigation }) {
-//   const [fontsLoaded] = useFonts({
-//     kinkee: require("./../../assets/fonts/Kinkee.otf"),
-//     KedmoteScript: require("./../../assets/fonts/KedmoteScript.otf"),
-//   });
-//   useEffect(() => {
-//     async function prepare() {
-//       await SplashScreen.preventAutoHideAsync();
-//     }
-//     prepare();
-//     if (!fontsLoaded) {
-//       return undefined;
-//     } else {
-//       SplashScreen.hideAsync();
-//     }
-//   });
+  //   const [fontsLoaded] = useFonts({
+  //     kinkee: require("./../../assets/fonts/Kinkee.otf"),
+  //     KedmoteScript: require("./../../assets/fonts/KedmoteScript.otf"),
+  //   });
+  //   useEffect(() => {
+  //     async function prepare() {
+  //       await SplashScreen.preventAutoHideAsync();
+  //     }
+  //     prepare();
+  //     if (!fontsLoaded) {
+  //       return undefined;
+  //     } else {
+  //       SplashScreen.hideAsync();
+  //     }
+  //   });
+
 
   const [imageHeight] = useState(new Animated.Value(IMAGE_HEIGHT));
   const [textFontSize] = useState(new Animated.Value(TEXT_FONTSIZE));
@@ -91,12 +92,64 @@ export default function Sign({ navigation }) {
     setPress(!press);
   };
 
+
+  const [email, setEmail] = useState("");
+  const [username, setUsername] = useState("");
+  const [password, setPassword] = useState("");
+  const [confirmPassword, setConfirmPassword] = useState("");
+  const [loading, setLoading] = useState(false);
+
+  const onSubmit = async () => {
+    console.log("username: ", username);
+    console.log("password: ", password);
+    console.log("confirmpass: ", confirmPassword);
+
+    if (password !== confirmPassword) {
+      showAlert("Passwords don't match", false, "Login");
+      return;
+    }
+
+    setLoading(true);
+    console.log("oke 1")
+    try {
+      const response = await fetch('http://localhost:3000/users/register', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({ username, email, password })
+      });
+    
+      const data = await response.json();
+      console.log(data);
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
+  const onChangeUsername = (input) => {
+    setUsername(input);
+  };
+
+  const onChangePassword = (input) => {
+    setPassword(input);
+  };
+
+  const onChangeConfirmPassword = (input) => {
+    setConfirmPassword(input);
+  };
+
+  const onChangeEmail = (input) => {
+    setEmail(input);
+  };
+
   return (
     <KeyboardAvoidingView
       style={styles.backgroundContainer}
       behavior="padding"
       keyboardVerticalOffset={-WIDTH / 2.5} // Set the offset to move the view up
     >
+      {loading}
       <Animated.Image
         source={logo}
         style={[styles.logo, { height: imageHeight }]}
@@ -111,6 +164,7 @@ export default function Sign({ navigation }) {
           placeholder={"Email"}
           placeholderTextColor={"rgba(255, 255, 255, 0.7)"}
           underlineColorAndroid="transparent"
+          onChangeText={(value) => onChangeEmail(value)}
         />
         <Ionicons
           name={"mail"}
@@ -126,6 +180,7 @@ export default function Sign({ navigation }) {
           placeholder={"Username"}
           placeholderTextColor={"rgba(255, 255, 255, 0.7)"}
           underlineColorAndroid="transparent"
+          onChangeText={(value) => onChangeUsername(value)}
         />
         <Ionicons
           name={"ios-person"}
@@ -142,6 +197,7 @@ export default function Sign({ navigation }) {
           secureTextEntry={!showPass}
           placeholderTextColor={"rgba(255, 255, 255, 0.7)"}
           underlineColorAndroid="transparent"
+          onChangeText={(value) => onChangePassword(value)}
         />
         <Ionicons
           name={"lock-closed"}
@@ -168,6 +224,7 @@ export default function Sign({ navigation }) {
           secureTextEntry={!showPass}
           placeholderTextColor={"rgba(255, 255, 255, 0.7)"}
           underlineColorAndroid="transparent"
+          onChangeText={(value) => onChangeConfirmPassword(value)}
         />
         <Ionicons
           name={"lock-closed"}
@@ -187,7 +244,7 @@ export default function Sign({ navigation }) {
         </TouchableOpacity>
       </KeyboardAvoidingView>
       <View>
-        <TouchableOpacity style={styles.btnsignup}>
+        <TouchableOpacity style={styles.btnsignup} onPress={() => onSubmit()}>
           <Text style={styles.text}>Sign up</Text>
         </TouchableOpacity>
         <View style={styles.toLogInContainer}>
