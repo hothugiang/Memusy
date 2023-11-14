@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 import * as React from "react";
 import { View } from "react-native";
 import { NavigationContainer } from "@react-navigation/native";
@@ -8,19 +7,6 @@ import UserScreenTab from "./Tabs/UserScreenTab";
 import PlayerScreenTab from "./Tabs/PlayerScreenTab";
 import TrendingScreen from "./Screens/TrendingScreen";
 import SearchScreenTab from "./Tabs/SearchScreenTab";
-=======
-import * as React from 'react';
-import { View } from 'react-native';
-import { NavigationContainer } from '@react-navigation/native';
-import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
-import Ionicons from 'react-native-vector-icons/Ionicons';
-import UserScreenTab from './Tabs/UserScreenTab';
-import PlayerScreenTab from './Tabs/PlayerScreenTab';
-import TrendingScreen from './Screens/TrendingScreen';
-import Search from './Screens/Search';
-import SearchScreen from './Screens/SearchScreen';
-import LinearGradient from 'react-native-linear-gradient';
->>>>>>> d42bff21c910f582f387969c208ad3fc934f4eaa
 
 const homeName = "Home";
 const TrendingName = "Trend";
@@ -58,7 +44,6 @@ export default function MainContainer() {
             }
             return <Ionicons name={iconName} size={size} color={color} />;
           },
-<<<<<<< HEAD
           tabBarLabelStyle: { display: "none" },
           tabBarActiveTintColor: "rgba(221,114,158,1)",
           tabBarInactiveTintColor: "gray",
@@ -69,13 +54,6 @@ export default function MainContainer() {
         //   activeTintColor: "white",
         //   inactiveTintColor: "gray",
         // }}
-=======
-          tabBarLabelStyle: { display: 'none' },
-          tabBarActiveTintColor: 'white',
-          tabBarInactiveTintColor: 'gray',
-          tabBarHideOnKeyboard:true
-        })}
->>>>>>> d42bff21c910f582f387969c208ad3fc934f4eaa
       >
         <Tab.Screen
           name={homeName}

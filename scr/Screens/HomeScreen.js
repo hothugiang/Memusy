@@ -295,7 +295,7 @@ const styles = {
   container: {
     flex: 1,
     backgroundColor: "black",
-    marginBottom: 60,
+    marginBottom: 45,
     //marginTop: 30,
   },
   img: {

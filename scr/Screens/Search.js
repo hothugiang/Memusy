@@ -11,6 +11,7 @@ import {
 } from "react-native";
 import { Button } from "react-native-elements";
 import UserScreenTab from "../Tabs/UserScreenTab";
+import SearchScreenTab from "../Tabs/SearchScreenTab";
 
 import electronic from "./../../assets/img/electronic.jpg";
 import remix from "./../../assets/img/remix.jpg";
@@ -54,7 +55,7 @@ export default function Search({ navigation }) {
           containerStyle={{ alignItems: "flex-start" }}
           icon={{ name: "search", type: "font-awesome", color: "black" }}
           iconPosition="left"
-          onPress={() => navigation.navigator('SearchScreen')}
+          onPress={() => navigation.navigate('SearchScreen')}
         />
       </View>
       <ScrollView>

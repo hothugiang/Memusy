@@ -189,7 +189,7 @@ export default function Search({ navigation }) {
                 </View>
               )}
             ></FlatList>
-            <View style = {{height:90}}></View>
+            <View style = {{height:60}}></View>
           </View>
         );
       case "Artists":
@@ -293,7 +293,7 @@ export default function Search({ navigation }) {
               numColumns={2}
               key={2}
             ></FlatList>
-            <View style = {{height:80}}></View>
+            <View style = {{height:30}}></View>
           </View>
         );
       case "Playlists":
@@ -344,7 +344,7 @@ export default function Search({ navigation }) {
               numColumns={2}
               key={2}
             ></FlatList>
-            <View style = {{height:80}}></View>
+            <View style = {{height:50}}></View>
           </View>
         );
       default:

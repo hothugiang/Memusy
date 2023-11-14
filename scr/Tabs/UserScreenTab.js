@@ -7,21 +7,18 @@ import LoginScreen from "../Screens/LoginScreen";
 import SignupScreen from "../Screens/SignupScreen";
 import SearchScreen from "../Screens/SearchScreen";
 import TrendingScreen from "../Screens/TrendingScreen";
-
+import EditProfileScreen from "../Screens/EditProfile";
 const Stack = createNativeStackNavigator();
 
 export default function UserScreenTab() {
   return (
     <Stack.Navigator>
       <Stack.Screen
-<<<<<<< HEAD
-=======
         name="UserScreen"
         component={UserScreen}
         options={{ headerShown: false }}
       />
       <Stack.Screen
->>>>>>> d42bff21c910f582f387969c208ad3fc934f4eaa
         name="Login"
         component={LoginScreen}
         options={{ headerShown: false }}
@@ -31,15 +28,13 @@ export default function UserScreenTab() {
         component={SignupScreen}
         options={{ headerShown: false }}
       />
-<<<<<<< HEAD
       <Stack.Screen
-        name="UserScreen"
-        component={UserScreen}
+        name="EditProfile"
+        component={EditProfileScreen}
         options={{ headerShown: false }}
       />
+
       
-=======
->>>>>>> d42bff21c910f582f387969c208ad3fc934f4eaa
     </Stack.Navigator>
   );
 }
