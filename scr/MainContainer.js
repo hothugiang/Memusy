@@ -10,8 +10,8 @@ import SearchScreenTab from "./Tabs/SearchScreenTab";
 
 const homeName = "Home";
 const TrendingName = "Trend";
-const UserName = "User";
-const SearchName = "Search";
+const UserName = "UserTab";
+const SearchName = "SearchTab";
 
 const Tab = createBottomTabNavigator();
 
@@ -49,11 +49,6 @@ export default function MainContainer() {
           tabBarInactiveTintColor: "gray",
           tabBarHideOnKeyboard: true,
         })}
-        // tabBarOptions={{
-        //   labelStyle: { display: "none" },
-        //   activeTintColor: "white",
-        //   inactiveTintColor: "gray",
-        // }}
       >
         <Tab.Screen
           name={homeName}

@@ -8,23 +8,20 @@ import TrendingScreen from "../Screens/TrendingScreen";
 import DetailScreen from "../Screens/DetailScreen";
 const Stack = createNativeStackNavigator();
 
-export default function UserScreenTab() {
+export default function SearchScreenTab() {
   return (
-    <Stack.Navigator>
+    <Stack.Navigator initialRouteName="Search" screenOptions={{ headerShown: false }}>
       <Stack.Screen
         name="Search"
         component={Search}
-        options={{ headerShown: false }}
       />
       <Stack.Screen
         name="SearchScreen"
         component={SearchScreen}
-        options={{ headerShown: false }}
       />
       <Stack.Screen
         name="SongDetail"
         component={DetailScreen}
-        options={{ headerShown: false }}
       />
     </Stack.Navigator>
   );
