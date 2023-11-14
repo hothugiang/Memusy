@@ -12,55 +12,71 @@ import {
 //   RepeatMode,
 //   Event
 // } from 'react-native-track-player';
-import {Audio} from "expo-av"
+import { Audio, InterruptionModeAndroid, InterruptionModeIOS } from "expo-av";
+import * as Animatable from "react-native-animatable";
 
 export default function DetailScreen({ navigation }) {
   const [isPlaying, setIsPlaying] = useState(false);
-  const [duration, setDuration] = useState(0);
   const [currentPosition, setCurrentPosition] = useState(0);
   const [sound, setSound] = useState();
-
-  async function playPauseSound() {
-    if (sound) {
-      if (isPlaying) {
-        await sound.pauseAsync();
-      } else {
-        await sound.playAsync();
-      }
-      setIsPlaying(!isPlaying);
-    }
-  }
-
-  async function playSound() {
-    const { sound } = await Audio.Sound.createAsync(
-      require('./../../assets/mp3/VungLaMeBay-DuongHongLoan-4796874.mp3')
-    );
-    setSound(sound);
-
-    const status = await sound.getStatusAsync();
-    setDuration(Math.round(status.durationMillis/1000));
-    console.log(duration);
-
-    if (!isPlaying) {
-      setIsPlaying(true);
-      await sound.playAsync();
-    } else {
-      setIsPlaying(false);
-      const position = await sound.getStatusAsync();
-      await sound.setPositionAsync(position.positionMillis);
-    }
-  }
+  const [duration, setDuration] = useState(0);
 
   useEffect(() => {
-    return sound
-      ? () => {
-          sound.unloadAsync();
+    loadAudio();
+  }, []);
+
+  const loadAudio = async () => {
+    try {
+      const { sound } = await Audio.Sound.createAsync(
+        require('./../../assets/mp3/VungLaMeBay-DuongHongLoan-4796874.mp3')
+      );
+      setSound(sound);
+
+      const status = await sound.getStatusAsync();
+      setDuration(Math.round(status.durationMillis / 1000));
+
+      sound.setOnPlaybackStatusUpdate((status) => {
+        if (status.isPlaying) {
+          setCurrentPosition(Math.round(status.positionMillis / 1000));
         }
-      : undefined;
-  }, [sound]);
+      });
+    } catch (error) {
+      console.error("Error loading audio:", error);
+    }
+  };
+
+  if (Platform.OS === "ios") {
+    const enableAudio = async () => {
+      await Audio.requestPermissionsAsync();
+      await Audio.setAudioModeAsync({
+        staysActiveInBackground: true,
+        interruptionModeAndroid: InterruptionModeAndroid.DoNotMix,
+        shouldDuckAndroid: false,
+        playThroughEarpieceAndroid: false,
+        allowsRecordingIOS: false,
+        interruptionModeIOS: InterruptionModeIOS.DoNotMix,
+        playsInSilentModeIOS: true,
+      });
+    };
+    enableAudio();
+  } else {
+    Audio.setAudioModeAsync({
+      playsInSilentModeIOS: true,
+    });
+  }
+
+  const playSound = async () => {
+    if (!isPlaying) {
+      await sound.playAsync();
+    } else {
+      await sound.pauseAsync();
+    }
+    setIsPlaying(!isPlaying);
+  };
 
   const changeTime = (seconds) => {
     setCurrentPosition(seconds);
+    sound.setPositionAsync(seconds * 1000);
   };
 
   const skipToNextTrack = () => {
@@ -79,42 +95,32 @@ export default function DetailScreen({ navigation }) {
     }${remainingSeconds}`;
   };
 
-  const renderSongs = ({item, index}) => {
-    return (
-      <View style={styles.songInfor}>
-        <View style={styles.trackInfo}>
-          <Image
-            source={item.src}
-            style={styles.coverImage}
-          />
-          <Text style={styles.trackName}>{item.name}</Text>
-          <Text style={styles.artistName}>{item.artist}</Text>
-        </View>
-      </View>
-    )
-  }
-
   return (
     <View style={styles.container}>
       <Text style={styles.title}>Now Playing</Text>
       <View style={styles.trackInfo}>
-          <Image
-            source={require("./../../assets/img/cho.jpg")}
+        <Animatable.Image
+          animation={
+            isPlaying
+              ? {
+                  from: { rotate: "0deg" },
+                  to: { rotate: "360deg" },
+                }
+              : undefined
+          }
+          easing="linear"
+          iterationCount={isPlaying ? "infinite" : 1}
+          duration={isPlaying ? 10000 : 0}
+          source={require("./../../assets/img/vlmb.jpg")}
+          style={ styles.coverImage }
+        />
+          {/* <Image
+            source={require("./../../assets/img/vlmb.jpg")}
             style={styles.coverImage}
-          />
-          <Text style={styles.trackName}>Tên bài hát</Text>
-          <Text style={styles.artistName}>Artist</Text>
+          /> */}
+          <Text style={styles.trackName}>Vùng lá me bay</Text>
+          <Text style={styles.artistName}>Hihi</Text>
         </View>
-      {/* <FlatList
-        data={songs}
-        keyExtractor={(item) => item.id}
-        renderItem={renderSongs}
-        horizontal
-        pagingEnabled
-        showsHorizontalScrollIndicator={false}
-        scrollEventThrottle={16}
-        onScroll={() => {}}
-      /> */}
 
       <Slider
         style={styles.slider}
