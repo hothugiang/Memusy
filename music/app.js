@@ -6,7 +6,7 @@ var cookieParser = require('cookie-parser');
 var logger = require('morgan');
 const cors = require('cors');
 
-const allowedOrigins = ['http://localhost:5500', 'http://127.0.0.1:5500'];
+const allowedOrigins = ['http://localhost:5500', 'http://127.0.0.1:5500', 'http://192.168.1.128:8081'];
 
 var indexRouter = require('./routes/index.js');
 var usersRouter = require('./routes/users.js');
@@ -32,7 +32,8 @@ var conn = mysql.createConnection({
   host: process.env.DB_HOST,
   user: process.env.DB_USER,
   password: process.env.DB_PASSWORD,
-  database: process.env.DB_DATABASE
+  database: process.env.DB_DATABASE,
+  port: 3307
 })
 
 conn.connect((err) => {

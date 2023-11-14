@@ -52,15 +52,14 @@ export default function Search({ navigation }) {
           title=" Bạn muốn nghe gì...                                       "
           titleStyle={styles.buttonText}
           buttonStyle={styles.buttonBackground}
-          containerStyle={{ alignItems: "flex-start" }}
-          icon={{ name: "search", type: "font-awesome", color: "black" }}
-          iconPosition="left"
+          icon={{ name: "search", type: "font-awesome", color: "black" ,flexDirection: 'row',justifyContent: 'flex-start'}}
           onPress={() => navigation.navigate('SearchScreen')}
+          containerStyle={styles.buttonContainer}
+          iconLeft
         />
       </View>
       <ScrollView>
         <View style={{ flexDirection: "row", flexWrap: "wrap" }}>
-          {/* Wrap each text element with a View for consistent borderRadius */}
           <View style={styles.imgWrapper}>
             <ImageBackground source={electronic} style={styles.img}>
               <Text style={styles.imgText}>Dance & Electronic</Text>
@@ -172,9 +171,13 @@ const styles = StyleSheet.create({
   buttonText: {
     color: "black",
     fontSize: 16,
+    position:"relative",
   },
   buttonBackground: {
     backgroundColor: "white",
+    width:WIDTH -20,
+    flexDirection: 'row',
+    justifyContent: 'flex-start'
   },
   imgWrapper: {
     width: WIDTH / 2 - 15,
@@ -196,5 +199,10 @@ const styles = StyleSheet.create({
   img: {
     width: WIDTH / 2 - 15,
     height: (100 / standardHeight) * HEIGHT,
+  },
+  buttonContainer: {
+    flexDirection: 'row', // Hiển thị các phần tử con theo chiều ngang
+    justifyContent: 'flex-start', // Căn trái
+    alignItems: 'center', // Căn giữa theo chiều dọc
   },
 });
