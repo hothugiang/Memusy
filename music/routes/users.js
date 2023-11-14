@@ -15,6 +15,29 @@ const hashPassword = async (password) => {
   }
 };
 
+const isAuthenticated = (req, res, next) => {
+  const token = req.headers.authorization.split(' ')[1];
+  
+  if (!token) {
+    console.log("Not token");
+    return res.status(401).json({ message: 'Unauthorized' });
+  }
+
+  try {
+    // Xác thực token
+    console.log("vào try");
+    const decodedToken = jwt.verify(token, process.env.SECRET_KEY, { algorithms: ['HS256'] });
+    
+    // Thêm thông tin người dùng vào req để sử dụng ở các middleware hoặc route khác
+    console.log("sử dụng decodedToken");
+    req.user = decodedToken;
+    next();
+  } catch (error) {
+    console.error('Invalid token:', error);
+    return res.status(401).json({ message: 'Unauthorized' });
+  }
+}
+
 const createUser = async (username, email, password, db, res) => {
   // Kiểm tra có tồn tại mail chưa
   const checkUserQuery = "SELECT * FROM Users WHERE email = ? OR username = ?";
@@ -99,9 +122,23 @@ router.post("/login", async (req, res) => {
   }
 });
 
-/* GET users listing. */
-router.get("/", function (req, res, next) {
-  res.send("respond with a resource");
+
+router.get("/me", isAuthenticated, (req, res) => {
+  // Thông tin người dùng đã được thêm vào req.user trong quá trình xác thực
+  const user = req.user;
+
+  // Trả về thông tin người dùng
+  return res.status(200).json({ user: { userId: user.id, username: user.username } });
+});
+
+router.post('/logout', isAuthenticated, (req, res) => {
+  try {
+    res.setHeader('Authorization', ''); // Xóa token khỏi header
+    res.status(200).json({ message: 'Logout successful' });
+  } catch (error) {
+    console.error('Error during logout:', error);
+    res.status(500).json({ message: 'Internal Server Error' });
+  }
 });
 
 module.exports = router;

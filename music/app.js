@@ -6,7 +6,6 @@ var cookieParser = require('cookie-parser');
 var logger = require('morgan');
 const cors = require('cors');
 
-const allowedOrigins = ['http://localhost:5500', 'http://127.0.0.1:5500'];
 
 var indexRouter = require('./routes/index.js');
 var usersRouter = require('./routes/users.js');
