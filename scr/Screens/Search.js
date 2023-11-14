@@ -11,6 +11,7 @@ import {
   ImageBackground,
 } from "react-native";
 import { Button } from "react-native-elements";
+import UserScreenTab from "../Tabs/UserScreenTab";
 
 import electronic from "./../../assets/img/electronic.jpg";
 import remix from "./../../assets/img/remix.jpg";
@@ -46,8 +47,9 @@ export default function Search({ navigation }) {
       }}
     >
       <StatusBar backgroundColor="black" barStyle="light-content" />
-      <View style={{ alignItems: "center", marginTop: 20, marginBottom: 20 }}>
+      <View style={{ alignItems: "center", marginTop: 50, marginBottom: 20 }}>
         <Button
+          onPress={() => navigation.navigate("SearchScreen")}
           title=" Bạn muốn nghe gì...                                       "
           titleStyle={styles.buttonText}
           buttonStyle={styles.buttonBackground}
@@ -88,73 +90,74 @@ export default function Search({ navigation }) {
             </ImageBackground>
           </View>
           <View style={styles.imgWrapper}>
-            <ImageBackground source={latin } style={styles.img}>
+            <ImageBackground source={latin} style={styles.img}>
               <Text style={styles.imgText}>Latin</Text>
             </ImageBackground>
           </View>
           <View style={styles.imgWrapper}>
-            <ImageBackground source={rock } style={styles.img}>
+            <ImageBackground source={rock} style={styles.img}>
               <Text style={styles.imgText}>Rock</Text>
             </ImageBackground>
           </View>
           <View style={styles.imgWrapper}>
-            <ImageBackground source={acoustic } style={styles.img}>
+            <ImageBackground source={acoustic} style={styles.img}>
               <Text style={styles.imgText}>Folk & Acoustic</Text>
             </ImageBackground>
           </View>
           <View style={styles.imgWrapper}>
-            <ImageBackground source={indie } style={styles.img}>
+            <ImageBackground source={indie} style={styles.img}>
               <Text style={styles.imgText}>Indie</Text>
             </ImageBackground>
           </View>
           <View style={styles.imgWrapper}>
-            <ImageBackground source={jazz } style={styles.img}>
+            <ImageBackground source={jazz} style={styles.img}>
               <Text style={styles.imgText}>Jazz</Text>
             </ImageBackground>
           </View>
           <View style={styles.imgWrapper}>
-            <ImageBackground source={classical } style={styles.img}>
+            <ImageBackground source={classical} style={styles.img}>
               <Text style={styles.imgText}>Classical</Text>
             </ImageBackground>
           </View>
           <View style={styles.imgWrapper}>
-            <ImageBackground source={pop } style={styles.img}>
+            <ImageBackground source={pop} style={styles.img}>
               <Text style={styles.imgText}>Pop</Text>
             </ImageBackground>
           </View>
           <View style={styles.imgWrapper}>
-            <ImageBackground source={country } style={styles.img}>
+            <ImageBackground source={country} style={styles.img}>
               <Text style={styles.imgText}>Country</Text>
             </ImageBackground>
           </View>
           <View style={styles.imgWrapper}>
-            <ImageBackground source={metal } style={styles.img}>
+            <ImageBackground source={metal} style={styles.img}>
               <Text style={styles.imgText}>Metal</Text>
             </ImageBackground>
           </View>
           <View style={styles.imgWrapper}>
-            <ImageBackground source={instrumental } style={styles.img}>
+            <ImageBackground source={instrumental} style={styles.img}>
               <Text style={styles.imgText}>Instrumental</Text>
             </ImageBackground>
           </View>
           <View style={styles.imgWrapper}>
-            <ImageBackground source={blues } style={styles.img}>
+            <ImageBackground source={blues} style={styles.img}>
               <Text style={styles.imgText}>Blues</Text>
             </ImageBackground>
           </View>
           <View style={styles.imgWrapper}>
-            <ImageBackground source={disco } style={styles.img}>
+            <ImageBackground source={disco} style={styles.img}>
               <Text style={styles.imgText}>Funk & Disco</Text>
             </ImageBackground>
           </View>
           <View style={styles.imgWrapper}>
-            <ImageBackground source={kpop } style={styles.img}>
+            <ImageBackground source={kpop} style={styles.img}>
               <Text style={styles.imgText}>Kpop</Text>
             </ImageBackground>
           </View>
 
           {/* Add more items here */}
         </View>
+        <View style={{height:100}}></View>
       </ScrollView>
     </View>
   );
@@ -183,9 +186,9 @@ const styles = StyleSheet.create({
     overflow: "hidden", // Hide any overflow content
   },
   imgText: {
-    marginLeft:10,
-    marginTop:10,
-    fontWeight:"bold",
+    marginLeft: 10,
+    marginTop: 10,
+    fontWeight: "bold",
     flex: 1,
     fontSize: 20,
     color: "white",

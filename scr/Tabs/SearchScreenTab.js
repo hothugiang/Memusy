@@ -2,33 +2,30 @@ import React, { useContext } from "react";
 import TokenContext from "../contexts/TokenContext";
 import { View } from "react-native";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
-import UserScreen from "../Screens/UserScreen";
-import LoginScreen from "../Screens/LoginScreen";
-import SignupScreen from "../Screens/SignupScreen";
 import SearchScreen from "../Screens/SearchScreen";
+import Search from "../Screens/Search";
 import TrendingScreen from "../Screens/TrendingScreen";
-
+import DetailScreen from "../Screens/DetailScreen";
 const Stack = createNativeStackNavigator();
 
 export default function UserScreenTab() {
   return (
     <Stack.Navigator>
       <Stack.Screen
-        name="Login"
-        component={LoginScreen}
+        name="Search"
+        component={Search}
         options={{ headerShown: false }}
       />
       <Stack.Screen
-        name="Signup"
-        component={SignupScreen}
+        name="SearchScreen"
+        component={SearchScreen}
         options={{ headerShown: false }}
       />
       <Stack.Screen
-        name="UserScreen"
-        component={UserScreen}
+        name="SongDetail"
+        component={DetailScreen}
         options={{ headerShown: false }}
       />
-      
     </Stack.Navigator>
   );
 }

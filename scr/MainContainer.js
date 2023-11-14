@@ -1,12 +1,12 @@
-import * as React from 'react';
-import { View } from 'react-native';
-import { NavigationContainer } from '@react-navigation/native';
-import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
-import Ionicons from 'react-native-vector-icons/Ionicons';
-import UserScreenTab from './Tabs/UserScreenTab';
-import PlayerScreenTab from './Tabs/PlayerScreenTab';
-import TrendingScreen from './Screens/TrendingScreen';
-import Search from './Screens/Search';
+import * as React from "react";
+import { View } from "react-native";
+import { NavigationContainer } from "@react-navigation/native";
+import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
+import Ionicons from "react-native-vector-icons/Ionicons";
+import UserScreenTab from "./Tabs/UserScreenTab";
+import PlayerScreenTab from "./Tabs/PlayerScreenTab";
+import TrendingScreen from "./Screens/TrendingScreen";
+import SearchScreenTab from "./Tabs/SearchScreenTab";
 
 const homeName = "Home";
 const TrendingName = "Trend";
@@ -43,12 +43,16 @@ export default function MainContainer() {
             }
             return <Ionicons name={iconName} size={size} color={color} />;
           },
+          tabBarLabelStyle: { display: "none" },
+          tabBarActiveTintColor: "rgba(221,114,158,1)",
+          tabBarInactiveTintColor: "gray",
+          tabBarHideOnKeyboard: true,
         })}
-      // tabBarOptions={{
-      //   labelStyle: { display: "none" },
-      //   activeTintColor: "white",
-      //   inactiveTintColor: "gray",
-      // }}
+        // tabBarOptions={{
+        //   labelStyle: { display: "none" },
+        //   activeTintColor: "white",
+        //   inactiveTintColor: "gray",
+        // }}
       >
         <Tab.Screen
           name={homeName}
@@ -66,7 +70,7 @@ export default function MainContainer() {
         />
         <Tab.Screen
           name={SearchName}
-          component={Search}
+          component={SearchScreenTab}
           options={{
             headerShown: false,
           }}
