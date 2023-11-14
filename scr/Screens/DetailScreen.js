@@ -14,6 +14,7 @@ import {
 // } from 'react-native-track-player';
 import { Audio, InterruptionModeAndroid, InterruptionModeIOS } from "expo-av";
 import * as Animatable from "react-native-animatable";
+import { Ionicons } from '@expo/vector-icons';
 
 export default function DetailScreen({ navigation }) {
   const [isPlaying, setIsPlaying] = useState(false);
@@ -95,6 +96,12 @@ export default function DetailScreen({ navigation }) {
     }${remainingSeconds}`;
   };
 
+  const [isHeartFull, setIsHeartFull] = useState(false);
+
+  const toggleHeart = () => {
+    setIsHeartFull(!isHeartFull);
+  };
+
   return (
     <View style={styles.container}>
       <Text style={styles.title}>Now Playing</Text>
@@ -109,17 +116,22 @@ export default function DetailScreen({ navigation }) {
               : undefined
           }
           easing="linear"
+          useNativeDriver
           iterationCount={isPlaying ? "infinite" : 1}
           duration={isPlaying ? 10000 : 0}
           source={require("./../../assets/img/vlmb.jpg")}
           style={ styles.coverImage }
         />
-          {/* <Image
-            source={require("./../../assets/img/vlmb.jpg")}
-            style={styles.coverImage}
-          /> */}
           <Text style={styles.trackName}>Vùng lá me bay</Text>
           <Text style={styles.artistName}>Hihi</Text>
+          <TouchableOpacity onPress={toggleHeart}>
+          <Ionicons 
+            name={isHeartFull ? 'heart' : 'heart-outline'} 
+            size={32} 
+            color={"rgba(221,114,158,1)"} 
+            style={{marginTop: 10}}
+          />
+          </TouchableOpacity>
         </View>
 
       <Slider
@@ -127,8 +139,8 @@ export default function DetailScreen({ navigation }) {
         minimumValue={0}
         maximumValue={duration}
         value={currentPosition}
-        minimumTrackTintColor="#93A8B3"
-        thumbTintColor="#3D425C"
+        minimumTrackTintColor="gray"
+        thumbTintColor="rgba(221,114,158,1)"
         onValueChange={changeTime}
       />
 
@@ -144,18 +156,18 @@ export default function DetailScreen({ navigation }) {
           <FontAwesome5
             name="backward"
             size={32}
-            color="#3D425C"
+            color="gray"
           ></FontAwesome5>
         </TouchableOpacity>
         <TouchableOpacity onPress={playSound}>
           <FontAwesome5
             name={isPlaying ? "pause" : "play"}
             size={32}
-            color="#3D425C"
+            color="gray"
           />
         </TouchableOpacity>
         <TouchableOpacity onPress={skipToNextTrack}>
-          <FontAwesome5 name="forward" size={32} color="#3D425C"></FontAwesome5>
+          <FontAwesome5 name="forward" size={32} color="gray"></FontAwesome5>
         </TouchableOpacity>
       </View>
 
@@ -184,11 +196,9 @@ const styles = StyleSheet.create({
 
   songInfor: {
     width: width,
-
   },
 
   title: {
-    marginTop: 30,
     marginBottom: 20,
     fontSize: 24,
     fontWeight: "bold",
@@ -201,19 +211,20 @@ const styles = StyleSheet.create({
   coverImage: {
     width: 250,
     height: 250,
-    borderRadius: 125,
-    marginBottom: 20,
+    borderRadius: 150,
+    marginBottom: 30,
   },
   trackName: {
-    fontSize: 20,
+    fontSize: 26,
     fontWeight: "bold",
     color: "white",
     textAlign: "center",
   },
   artistName: {
-    fontSize: 16,
+    fontSize: 18,
     color: "white",
     textAlign: "center",
+    fontStyle: "italic",
   },
   slider: {
     marginTop: 20,
