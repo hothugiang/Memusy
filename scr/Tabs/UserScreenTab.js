@@ -5,6 +5,7 @@ import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import UserScreen from "../Screens/UserScreen";
 import LoginScreen from "../Screens/LoginScreen";
 import SignupScreen from "../Screens/SignupScreen";
+import EditProfileScreen from "../Screens/EditProfile";
 
 const Stack = createNativeStackNavigator();
 
@@ -24,6 +25,11 @@ export default function UserScreenTab() {
       <Stack.Screen
         name="Signup"
         component={SignupScreen}
+        options={{ headerShown: false }}
+      />
+      <Stack.Screen
+        name="EditProfile"
+        component={EditProfileScreen}
         options={{ headerShown: false }}
       />
     </Stack.Navigator>
