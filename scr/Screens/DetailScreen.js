@@ -16,10 +16,10 @@ import { Audio, InterruptionModeAndroid, InterruptionModeIOS } from "expo-av";
 import * as Animatable from "react-native-animatable";
 
 export default function DetailScreen({ navigation }) {
-  const [isPlaying, setIsPlaying] = useState(false);
-  const [currentPosition, setCurrentPosition] = useState(0);
-  const [sound, setSound] = useState();
-  const [duration, setDuration] = useState(0);
+  // const [isPlaying, setIsPlaying] = useState(false);
+  // const [currentPosition, setCurrentPosition] = useState(0);
+  // const [sound, setSound] = useState();
+  // const [duration, setDuration] = useState(0);
 
   useEffect(() => {
     loadAudio();
@@ -159,9 +159,11 @@ export default function DetailScreen({ navigation }) {
         </TouchableOpacity>
       </View>
 
-      <View style="lyricContainer">
-
-      </View>
+      {/* <View style="lyricContainer">
+          <View>
+            
+          </View>
+      </View> */}
     </View>
   );
 }
