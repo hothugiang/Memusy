@@ -1,6 +1,6 @@
 import axios from 'axios';
 
-const baseURL = 'http://192.168.30.103:3000';
+const baseURL = 'http://10.90.63.43:3000';
 const axiosInstance = axios.create({
   baseURL: baseURL,
   timeout: 10000,
@@ -9,4 +9,4 @@ const axiosInstance = axios.create({
   },
 });
 
-export default axiosInstance;
+export { baseURL, axiosInstance };

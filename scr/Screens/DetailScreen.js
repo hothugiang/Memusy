@@ -2,10 +2,9 @@ import React, { useState, useEffect, useRef } from "react";
 import { View, Text, StyleSheet, Image, TouchableOpacity } from "react-native";
 import Slider from "@react-native-community/slider";
 import { FontAwesome5 } from "@expo/vector-icons";
-import { 
-  FlatList,
-  Dimensions
-} from "react-native";
+import { FlatList, Dimensions } from "react-native";
+import { baseURL, axiosInstance } from "../constants/Axios";
+import * as SplashScreen from "expo-splash-screen";
 // import TrackPlayer, {
 //   AppKilledPlaybackBehavior,
 //   Capability,
@@ -16,7 +15,9 @@ import { Audio, InterruptionModeAndroid, InterruptionModeIOS } from "expo-av";
 import * as Animatable from "react-native-animatable";
 import { Ionicons } from '@expo/vector-icons';
 
-export default function DetailScreen({ navigation }) {
+export default function DetailScreen({ navigation, route }) {
+  const { s_id } = route.params;
+  console.log(s_id);
   const [isPlaying, setIsPlaying] = useState(false);
   const [currentPosition, setCurrentPosition] = useState(0);
   const [sound, setSound] = useState();
@@ -171,9 +172,7 @@ export default function DetailScreen({ navigation }) {
         </TouchableOpacity>
       </View>
 
-      <View style="lyricContainer">
-
-      </View>
+      <View style="lyricContainer"></View>
     </View>
   );
 }
