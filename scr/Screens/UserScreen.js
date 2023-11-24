@@ -50,7 +50,7 @@ export default function UserScreen({ navigation }) {
   return (
     <View style={{ flex: 1, backgroundColor: 'black' }}>
       <View style={{ marginTop: 24 }}>
-        <Ionicons name='ios-arrow-back' size={24} color="#5257D"></Ionicons>
+        <Ionicons name='ios-arrow-back' size={24} color='#5257D'></Ionicons>
       </View>
 
       <View style={{ flexDirection: 'row' }}>

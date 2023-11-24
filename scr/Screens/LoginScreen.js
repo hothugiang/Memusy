@@ -281,7 +281,7 @@ const styles = {
     flexDirection: "row",
     justifyContent: "center",
     alignItems: "center",
-    marginTop: 220,
+    marginTop: 200,
   },
   toSignUp: {
     //marginTop: 170,

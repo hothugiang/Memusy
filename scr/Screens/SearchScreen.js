@@ -19,9 +19,7 @@ import {
 } from "react-native";
 import UserScreenTab from "../Tabs/UserScreenTab";
 import { Ionicons } from "@expo/vector-icons";
-
-import { Button } from "react-native-elements";
-
+import { Button, Input } from "react-native-elements";
 import electronic from "./../../assets/img/electronic.jpg";
 import remix from "./../../assets/img/remix.jpg";
 import hiphop from "./../../assets/img/hiphop.jpg";
@@ -157,7 +155,7 @@ export default function SearchScreen({ navigation }) {
       artist: "Hơn cả mây trôi",
       src: require("./../../assets/img/hon.jpg"),
     },
-    
+
   ];
   const renderContent = () => {
     switch (selectedCategory) {
@@ -189,7 +187,7 @@ export default function SearchScreen({ navigation }) {
                 </View>
               )}
             ></FlatList>
-            <View style = {{height:60}}></View>
+            <View style={{ height: 60 }}></View>
           </View>
         );
       case "Artists":
@@ -226,13 +224,13 @@ export default function SearchScreen({ navigation }) {
                 </View>
               )}
             ></FlatList>
-            <View style = {{height:90}}></View>
+            <View style={{ height: 90 }}></View>
           </View>
         );
 
       case "Albums":
         return (
-          <View style = {{flexDirection:"column",flex:1}}>
+          <View style={{ flexDirection: "column", flex: 1 }}>
             <FlatList
               showsVerticalScrollIndicator={false}
               data={data}
@@ -293,12 +291,12 @@ export default function SearchScreen({ navigation }) {
               numColumns={2}
               key={2}
             ></FlatList>
-            <View style = {{height:30}}></View>
+            <View style={{ height: 30 }}></View>
           </View>
         );
       case "Playlists":
         return (
-          <View  style = {{flexDirection:"column",flex:1}}>
+          <View style={{ flexDirection: "column", flex: 1 }}>
             <FlatList
               showsVerticalScrollIndicator={false}
               data={data}
@@ -344,7 +342,7 @@ export default function SearchScreen({ navigation }) {
               numColumns={2}
               key={2}
             ></FlatList>
-            <View style = {{height:50}}></View>
+            <View style={{ height: 50 }}></View>
           </View>
         );
       default:
@@ -354,33 +352,35 @@ export default function SearchScreen({ navigation }) {
 
   return (
     <View style={styles.background}>
-      <View style={styles.buttonContainer}>
-        <TextInput
-          style={styles.buttonText}
-          placeholder={"Bạn muốn nghe gì..."}
-          placeholderTextColor={"rgba(255, 255, 255, 0.7)"}
-          underlineColorAndroid="transparent"
-        />
-        <Ionicons
-          name={"search-outline"}
-          size={28}
-          color={"rgb(255,255,255)"}
-          style={styles.buttonIconLeft}
-        />
-        <TouchableOpacity>
-          <Ionicons
-            name={"backspace"}
-            size={28}
-            color={"rgb(255,255,255)"}
-            style={styles.buttonIconRight}
+      <View style={{ flexDirection: 'row', marginTop: 50 }}>
+        <View style = {{width: WIDTH - 60}}>
+          <Input
+            placeholder="Bạn muốn nghe gì..."
+            leftIcon={{
+              type: "search-outline",
+              name: "search",
+              color: "rgb(255,255,255)"
+            }}
+            rightIcon={{
+              type: "backspace",
+              name: "backspace",
+              color: "rgb(255,255,255)",
+
+            }}
+            inputContainerStyle={styles.inputContainerStyle}
+            inputStyle={styles.inputStyle}
+            leftIconContainerStyle={styles.leftIconStyle}
+            rightIconContainerStyle={styles.rightIconStyle}
+            placeholderTextColor={"rgba(255, 255, 255, 0.7)"}
+            underlineColorAndroid="transparent"
           />
-        </TouchableOpacity>
-
-        <TouchableOpacity onPress={() => navigation.navigate("Search")}>
-          <Text style={styles.cancelButton}>Cancel</Text>
-        </TouchableOpacity>
+        </View>
+        <View style = {{marginTop:10}}>
+          <TouchableOpacity onPress={() => navigation.navigate("Search")}>
+            <Text style={styles.cancelButton}>Cancel</Text>
+          </TouchableOpacity>
+        </View>
       </View>
-
       <View style={styles.scrollView}>
         <ScrollView horizontal={true} showsHorizontalScrollIndicator={false}>
           <TouchableOpacity
@@ -468,9 +468,6 @@ const styles = StyleSheet.create({
     width: null,
     height: null,
   },
-  buttonContainer: {
-    marginTop: 50,
-  },
   buttonText: {
     width: WIDTH - 100,
     height: (40 / standardHeight) * HEIGHT,
@@ -483,20 +480,7 @@ const styles = StyleSheet.create({
     color: "rgb(255,255,255)",
     marginHorizontal: 20,
   },
-  buttonIconLeft: {
-    position: "absolute",
-    top: (7 / standardHeight) * HEIGHT,
-    left: (30 / standardWidth) * WIDTH,
-  },
-  buttonIconRight: {
-    position: "absolute",
-    top: (-33 / standardHeight) * HEIGHT,
-    right: (75 / standardWidth) * WIDTH,
-  },
   cancelButton: {
-    position: "absolute",
-    top: (-30 / standardHeight) * HEIGHT,
-    right: (10 / standardWidth) * WIDTH,
     color: "rgb(255,255,255)",
     fontSize: 15,
   },
@@ -511,7 +495,7 @@ const styles = StyleSheet.create({
     backgroundColor: "#242424",
     height: (40 / standardHeight) * HEIGHT,
     alignSelf: "flex-start",
-    marginTop: 20,
+    // marginTop: 20,
     borderRadius: 20,
     marginHorizontal: 5,
     paddingHorizontal: 20,
@@ -567,4 +551,26 @@ const styles = StyleSheet.create({
     alignItems: "center",
     marginTop: 10,
   },
+
+  inputContainer: {
+    width: 100
+  },
+
+  inputContainerStyle: {
+    borderRadius: 10,
+    borderColor: "white",
+    borderWidth: 1,
+    height: 40,
+  },
+
+  inputStyle: {
+    paddingLeft: 10,
+  },
+
+  leftIconStyle: {
+    paddingLeft: 15,
+  },
+  rightIconStyle: {
+    paddingRight: 15,
+  }
 });
