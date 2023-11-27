@@ -127,11 +127,6 @@ export default function Sign({ navigation }) {
     setPress(!press);
   };
 
-
-  const [email, setEmail] = useState("");
-  const [username, setUsername] = useState("");
-  const [password, setPassword] = useState("");
-  const [confirmPassword, setConfirmPassword] = useState("");
   const [loading, setLoading] = useState(false);
 
   const onSubmit = async () => {

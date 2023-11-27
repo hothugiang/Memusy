@@ -1,22 +1,40 @@
 import * as React from "react";
+import { useState, useEffect } from "react";
 import { Dimensions, Image, TouchableOpacity } from "react-native";
 import { View, Text, ScrollView, FlatList } from "react-native";
 import { useFonts } from "expo-font";
 import * as SplashScreen from "expo-splash-screen";
-import { useEffect } from "react";
 import { Ionicons } from "@expo/vector-icons";
+import { axiosInstance } from "../constants/Axios";
 
 export default function HomeScreen({ navigation }) {
   const [fontsLoaded] = useFonts({
     "GentiumBookBasic-Italic": require("./../../assets/fonts/GentiumBookBasic-Italic.ttf"),
     "Open-san": require("./../../assets/fonts/Montserrat-Bold.ttf"),
   });
+
+  const [songData, setSongData] = useState("");
   useEffect(() => {
     async function prepare() {
       await SplashScreen.preventAutoHideAsync();
     }
+
+    async function fetchData() {
+      try {
+        const response = await axiosInstance.get("/music/songs");
+        setSongData(response.data.results);
+        console.log(songData);
+      } catch (error) {
+        console.error("Error:", error);
+      }
+    }
+
     prepare();
-  });
+    if(!songData)
+      fetchData();
+    else
+      console.info(songData);
+      });
   if (!fontsLoaded) {
     return undefined;
   } else {
@@ -174,13 +192,13 @@ export default function HomeScreen({ navigation }) {
           scrollEnabled={false}
           nestedScrollEnabled={true}
           scrollToOverflowEnabled={false}
-          data={data}
+          data={songData}
           renderItem={({ item }) => (
-            <TouchableOpacity onPress={() => navigation.navigate("SongDetail")}>
+            <TouchableOpacity onPress={() => navigation.navigate("SongDetail", { s_id: item.s_id })}>
               <View style={{ flexDirection: "row", flexWrap: "wrap" }}>
                 <View style={styles.content}>
                   <Image
-                    source={item.src}
+                    source={{uri: item.image}}
                     style={styles.img}
                     resizeMode="cover"
                   ></Image>
@@ -188,6 +206,18 @@ export default function HomeScreen({ navigation }) {
                     <Text
                       style={{
                         fontSize: 16,
+                        flexWrap: "wrap",
+                        textAlign: "left",
+                        color: "gray",
+                      }}
+                    >
+                      {item.title}
+                    </Text>
+                  </View>
+                  <View style={styles.name}>
+                    <Text
+                      style={{
+                        fontSize: 14,
                         flexWrap: "wrap",
                         textAlign: "left",
                         color: "gray",
@@ -317,8 +347,6 @@ const styles = {
     paddingVertical: 2,
     alignSelf: "center",
     alignItems: "center",
-    // borderBottomRightRadius: 10,
-    // borderBottomLeftRadius: 10,
     borderColor: "black",
     borderWidth: 1,
     flexWrap: "wrap",

@@ -39,7 +39,7 @@ const isAuthenticated = (req, res, next) => {
 }
 
 const createUser = async (username, email, password, db, res) => {
-  // Kiểm tra có tồn tại mail chưa
+  // Kiểm tra có tồn tại mail chưa (injection)
   const checkUserQuery = "SELECT * FROM Users WHERE email = ? OR username = ?";
   console.log(username + " " + email + " " + password);
   const hashedPassword = await hashPassword(password);
