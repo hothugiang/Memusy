@@ -12,7 +12,7 @@ import {
 } from "react-native";
 import logo from "./../../assets/img/logo.png";
 import { Ionicons } from "react-native-vector-icons";
-import axiosInstance from "../constants/Axios";
+import { axiosInstance } from "../constants/Axios";
 import { useFonts } from "expo-font";
 import * as SplashScreen from "expo-splash-screen";
 
@@ -106,6 +106,8 @@ export default function Sign({ navigation }) {
         email: email,
         password: password,
       };
+
+      console.log(userData);
 
       // Gọi API đăng ký ở đây, ví dụ:
       const response = await axiosInstance.post("/users/register", userData);

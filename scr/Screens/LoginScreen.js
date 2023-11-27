@@ -15,8 +15,7 @@ import {
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import logo from "../../assets/img/logo.png";
 import { Ionicons } from "react-native-vector-icons";
-import axios from "axios";
-import axiosInstance from "../constants/Axios";
+import { axiosInstance } from "../constants/Axios";
 import { useFonts } from "expo-font";
 import * as SplashScreen from "expo-splash-screen";
 import { useEffect } from "react";
