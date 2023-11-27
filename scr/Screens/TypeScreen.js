@@ -49,7 +49,6 @@ export default function TypeScreen({ navigation }) {
   return (
     <View style={styles.container}>
       <Animated.View style={[styles.header, { height: headerHeight,alignContent:'space-between'}]}>
-        <Text>quay lại</Text>
         <Text style={styles.headerText}>Thể loại</Text>
       </Animated.View>
       <FlatList
@@ -62,7 +61,7 @@ export default function TypeScreen({ navigation }) {
         )}
         scrollEventThrottle={16}
       />
-      <View style={{ height: 60 }}></View>
+      <View style={{ height: 60,backgroundColor:"black", }}></View>
     </View>
   );
 }
@@ -81,6 +80,7 @@ const styles = StyleSheet.create({
     fontSize: 20,
   },
   songsWrapper: {
+    backgroundColor:"black",
     flexDirection: "row",
   },
   songs: {

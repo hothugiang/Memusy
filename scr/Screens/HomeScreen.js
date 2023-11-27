@@ -41,38 +41,38 @@ export default function HomeScreen({ navigation }) {
     SplashScreen.hideAsync();
   }
 
-  const data = [
-    {
-      name: "Vùng lá me bay",
-      src: require("./../../assets/img/vlmb.jpg"),
-      // image:'https://png.pngtree.com/png-clipart/20230825/original/pngtree-bored-character-man-working-with-laptop-vector-picture-image_8492047.png'
-    },
-    {
-      name: "Tấm lòng son",
-      src: require("./../../assets/img/tamlongson.jpg"),
-      // image:'https://png.pngtree.com/png-clipart/20230825/original/pngtree-bored-character-man-working-with-laptop-vector-picture-image_8492047.png'
-    },
-    {
-      name: "Bạn đời",
-      src: require("./../../assets/img/bandoi.jpg"),
-      // image:'https://png.pngtree.com/png-clipart/20230825/original/pngtree-bored-character-man-working-with-laptop-vector-picture-image_8492047.png'
-    },
-    {
-      name: "Mang tiền về cho mẹ",
-      src: require("./../../assets/img/mangtien.jpg"),
-      // image:'https://png.pngtree.com/png-clipart/20230825/original/pngtree-bored-character-man-working-with-laptop-vector-picture-image_8492047.png'
-    },
-    {
-      name: "Đi theo bóng mặt trời",
-      src: require("./../../assets/img/theobong.jpg"),
-      // image:'https://png.pngtree.com/png-clipart/20230825/original/pngtree-bored-character-man-working-with-laptop-vector-picture-image_8492047.png'
-    },
-    {
-      name: "Đi về nhà",
-      src: require("./../../assets/img/divenha.jpg"),
-      // image:'https://png.pngtree.com/png-clipart/20230825/original/pngtree-bored-character-man-working-with-laptop-vector-picture-image_8492047.png'
-    },
-  ];
+  // const data = [
+  //   {
+  //     name: "Vùng lá me bay",
+  //     src: require("./../../assets/img/vlmb.jpg"),
+  //     // image:'https://png.pngtree.com/png-clipart/20230825/original/pngtree-bored-character-man-working-with-laptop-vector-picture-image_8492047.png'
+  //   },
+  //   {
+  //     name: "Tấm lòng son",
+  //     src: require("./../../assets/img/tamlongson.jpg"),
+  //     // image:'https://png.pngtree.com/png-clipart/20230825/original/pngtree-bored-character-man-working-with-laptop-vector-picture-image_8492047.png'
+  //   },
+  //   {
+  //     name: "Bạn đời",
+  //     src: require("./../../assets/img/bandoi.jpg"),
+  //     // image:'https://png.pngtree.com/png-clipart/20230825/original/pngtree-bored-character-man-working-with-laptop-vector-picture-image_8492047.png'
+  //   },
+  //   {
+  //     name: "Mang tiền về cho mẹ",
+  //     src: require("./../../assets/img/mangtien.jpg"),
+  //     // image:'https://png.pngtree.com/png-clipart/20230825/original/pngtree-bored-character-man-working-with-laptop-vector-picture-image_8492047.png'
+  //   },
+  //   {
+  //     name: "Đi theo bóng mặt trời",
+  //     src: require("./../../assets/img/theobong.jpg"),
+  //     // image:'https://png.pngtree.com/png-clipart/20230825/original/pngtree-bored-character-man-working-with-laptop-vector-picture-image_8492047.png'
+  //   },
+  //   {
+  //     name: "Đi về nhà",
+  //     src: require("./../../assets/img/divenha.jpg"),
+  //     // image:'https://png.pngtree.com/png-clipart/20230825/original/pngtree-bored-character-man-working-with-laptop-vector-picture-image_8492047.png'
+  //   },
+  // ];
 
   const data2 = [
     {
