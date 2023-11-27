@@ -8,7 +8,7 @@ import { useFonts } from 'expo-font';
 import * as SplashScreen from 'expo-splash-screen';
 import { useEffect } from 'react';
 import { createMaterialTopTabNavigator } from "@react-navigation/material-top-tabs";
-import axiosInstance from '../constants/Axios';
+import { axiosInstance } from '../constants/Axios';
 const { width: WIDTH } = Dimensions.get("window");
 const { height: HEIGHT } = Dimensions.get("window");
 const standardWidth = 360;
@@ -32,20 +32,21 @@ export default function UserScreen({ navigation }) {
   }
 
   const logOut = async () => {
-    try {
-      // Gọi API logout từ phía backend
-      const response = await axiosInstance.post('/users/logout');
+    navigation.navigate('Login');
+    // try {
+    //   // Gọi API logout từ phía backend
+    //   const response = await axiosInstance.post('/users/logout');
 
-      // Kiểm tra xem yêu cầu có thành công hay không
-      if (response.status === 200) {
-        // Xử lý khi logout thành công, ví dụ: chuyển hướng đến màn hình đăng nhập
-        navigation.navigate('Login');
-      } else {
-        console.error('Logout failed');
-      }
-    } catch (error) {
-      console.error('Error during logout:', error);
-    }
+    //   // Kiểm tra xem yêu cầu có thành công hay không
+    //   if (response.status === 200) {
+    //     // Xử lý khi logout thành công, ví dụ: chuyển hướng đến màn hình đăng nhập
+    //     navigation.navigate('Login');
+    //   } else {
+    //     console.error('Logout failed');
+    //   }
+    // } catch (error) {
+    //   console.error('Error during logout:', error);
+    // }
   };
   return (
     <View style={{ flex: 1, backgroundColor: 'black' }}>
