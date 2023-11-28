@@ -143,12 +143,14 @@ const styles = {
   img: {
     width: (100 / standardWidth) * WIDTH,
     height: (100 / standardWidth) * WIDTH,
-    margin: 18,
+    justifyContent: "center",
+    margin: 8,
     borderRadius: 20,
   },
   songContainer: {
     position: "absolute",
-    marginTop: 20,
+    justifyContent: "center",
+    marginTop: 10,
     marginLeft: 150,
   },
   chartName: {

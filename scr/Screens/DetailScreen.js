@@ -6,15 +6,10 @@ import {
   FlatList,
   Dimensions
 } from "react-native";
-// import TrackPlayer, {
-//   AppKilledPlaybackBehavior,
-//   Capability,
-//   RepeatMode,
-//   Event
-// } from 'react-native-track-player';
 import { Audio, InterruptionModeAndroid, InterruptionModeIOS } from "expo-av";
 import * as Animatable from "react-native-animatable";
 import { Ionicons } from '@expo/vector-icons';
+import { Notifications } from 'expo';
 
 export default function DetailScreen({ navigation }) {
   const [isPlaying, setIsPlaying] = useState(false);
@@ -24,6 +19,11 @@ export default function DetailScreen({ navigation }) {
 
   useEffect(() => {
     loadAudio();
+    // Notifications.presentLocalNotificationAsync({
+    //   title: 'Now Playing',
+    //   body: 'Your Music is playing in the background.',
+    //   ios: { _displayInForeground: true },
+    // });
   }, []);
 
   const loadAudio = async () => {
@@ -199,6 +199,7 @@ const styles = StyleSheet.create({
   },
 
   title: {
+    marginTop: 30,
     marginBottom: 20,
     fontSize: 24,
     fontWeight: "bold",
