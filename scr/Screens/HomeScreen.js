@@ -21,8 +21,8 @@ export default function HomeScreen({ navigation }) {
 
     async function fetchData() {
       try {
-        const response = await axiosInstance.get("/music/songs");
-        setSongData(response.data.results);
+        const response = await axiosInstance.get("/musics/songsplaylist/67WIO6CF");
+        setSongData(response.data.data);
         console.log(songData);
       } catch (error) {
         console.error("Error:", error);
@@ -184,7 +184,7 @@ export default function HomeScreen({ navigation }) {
           marginBottom: 10,
         }}
       >
-        Nghe gần đây{" "}
+        Nhạc mới mỗi tuần{" "}
       </Text>
       <ScrollView horizontal={true}>
         <FlatList
@@ -194,11 +194,11 @@ export default function HomeScreen({ navigation }) {
           scrollToOverflowEnabled={false}
           data={songData}
           renderItem={({ item }) => (
-            <TouchableOpacity onPress={() => navigation.navigate("SongDetail", { s_id: item.s_id })}>
+            <TouchableOpacity onPress={() => navigation.navigate("SongDetail", { s_id: item.encodeId })}>
               <View style={{ flexDirection: "row", flexWrap: "wrap" }}>
                 <View style={styles.content}>
                   <Image
-                    source={{uri: item.image}}
+                    source={{uri: item.thumbnailM}}
                     style={styles.img}
                     resizeMode="cover"
                   ></Image>
@@ -223,7 +223,7 @@ export default function HomeScreen({ navigation }) {
                         color: "gray",
                       }}
                     >
-                      {item.name}
+                      {item.artistsNames}
                     </Text>
                   </View>
                 </View>

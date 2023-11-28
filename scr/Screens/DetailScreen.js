@@ -29,6 +29,7 @@ export default function DetailScreen({ navigation, route }) {
 
   const loadAudio = async () => {
     try {
+      const mp3 = 
       const { sound } = await Audio.Sound.createAsync(
         require('./../../assets/mp3/VungLaMeBay-DuongHongLoan-4796874.mp3')
       );

@@ -1,207 +1,45 @@
-var express = require("express");
+const express = require("express");
+const router = express.Router();
 
-var router = express.Router();
+const MusicController = require("./../controllers/MusicController");
 
-const { ZingMp3 } = require("zingmp3-api-full");
+// getSong
+router.get("/song/:id", MusicController.getSong);
 
-// GET /musics/song
-router.get("/song", async (req, res) => {
-  try {
-    const data = await ZingMp3.getSong("ZOACFBBU");
-    console.log(data);
+// getDetailPlaylist
+router.get("/detailplaylist/:id", MusicController.getDetailPlaylist);
 
-    res.status(200).json({
-      status: "success",
-      data: data,
-    });
-  } catch (error) {
-    console.error(error);
+// getSongFromPlaylist
+router.get("/songsplaylist/:id", MusicController.getSongsPlaylist)
 
-    res.status(500).json({
-      status: "error",
-      message: "Internal Server Error",
-    });
-  }
-});
+// getHome
+router.get("/home", MusicController.getHome);
 
-// GET /musics/playlist_detail
-router.get("/playlist_detail", async (req, res) => {
-  try {
-    const data = await ZingMp3.getDetailPlaylist("ZWZB969E");
-    console.log(data);
+// getHomeAlbum
+router.get("/homealbum", MusicController.getHomeAlbum);
 
-    res.status(200).json({
-      status: "success",
-      data: data,
-    });
-  } catch (error) {
-    console.error(error);
+// getTop100
+router.get("/top100", MusicController.getTop100);
 
-    res.status(500).json({
-      status: "error",
-      message: "Internal Server Error",
-    });
-  }
-});
+// getChartHome
+router.get("/charthome", MusicController.getChartHome);
 
-// GET /musics/home
-router.get("/home", async (req, res) => {
-  try {
-    const data = await ZingMp3.getHome();
-    console.log(data);
+// getNewReleaseChart
+router.get("/newreleasechart", MusicController.getNewReleaseChart);
 
-    res.status(200).json({
-      status: "success",
-      data: data,
-    });
-  } catch (error) {
-    console.error(error);
+// getInfoSong
+router.get("/infosong/:id", MusicController.getInfo);
 
-    res.status(500).json({
-      status: "error",
-      message: "Internal Server Error",
-    });
-  }
-});
+// getArtist
+router.get("/artist/:name", MusicController.getArtist);
 
-// GET /musics/Top100
-router.get("/top100", async (req, res) => {
-  try {
-    const data = await ZingMp3.getTop100();
-    console.log(data);
+// getArtistSong
+router.get("/artistsong/:id/:page/:count", MusicController.getArtistSong);
 
-    res.status(200).json({
-      status: "success",
-      data: data,
-    });
-  } catch (error) {
-    console.error(error);
+// getLyric
+router.get("/lyric/:id", MusicController.getLyric);
 
-    res.status(500).json({
-      status: "error",
-      message: "Internal Server Error",
-    });
-  }
-});
-
-// GET /musics/chartHome
-router.get("/chartHome", async (req, res) => {
-  try {
-    const data = await ZingMp3.getChartHome();
-    console.log(data);
-
-    res.status(200).json({
-      status: "success",
-      data: data,
-    });
-  } catch (error) {
-    console.error(error);
-
-    res.status(500).json({
-      status: "error",
-      message: "Internal Server Error",
-    });
-  }
-});
-
-// GET /musics/songInfo
-router.get("songInfo", async (req, res) => {
-  try {
-    const data = await ZingMp3.getInfoSong("ZOACFBBU");
-    console.log(data);
-
-    res.status(200).json({
-      status: "success",
-      data: data,
-    });
-  } catch (error) {
-    console.error(error);
-
-    res.status(500).json({
-      status: "error",
-      message: "Internal Server Error",
-    });
-  }
-});
-
-// GET /musics/artist
-router.get("/artist", async (req, res) => {
-  try {
-    const data = await ZingMp3.getArtist("sontungmtp");
-    console.log(data);
-
-    res.status(200).json({
-      status: "success",
-      data: data,
-    });
-  } catch (error) {
-    console.error(error);
-
-    res.status(500).json({
-      status: "error",
-      message: "Internal Server Error",
-    });
-  }
-});
-
-// GET /musics/artistSongs
-router.get("/artistSongs", async (req, res) => {
-  try {
-    const data = await ZingMp3.getListArtistSong("IWZ9ZD8A", "1", "15");
-    console.log(data);
-
-    res.status(200).json({
-      status: "success",
-      data: data,
-    });
-  } catch (error) {
-    console.error(error);
-
-    res.status(500).json({
-      status: "error",
-      message: "Internal Server Error",
-    });
-  }
-});
-
-// GET /musics/lyrics
-router.get("/lyrics", async (req, res) => {
-  try {
-    const data = await ZingMp3.getLyric("ZOACFBBU");
-    console.log(data);
-
-    res.status(200).json({
-      status: "success",
-      data: data,
-    });
-  } catch (error) {
-    console.error(error);
-
-    res.status(500).json({
-      status: "error",
-      message: "Internal Server Error",
-    });
-  }
-});
-
-// GET /musics/search
-router.get("/search", async (req, res) => {
-  try {
-    const data = await ZingMp3.search("sontungmtp");
-    console.log(data);
-
-    res.status(200).json({
-      status: "success",
-      data: data,
-    });
-  } catch (error) {
-    console.error(error);
-
-    res.status(500).json({
-      status: "error",
-      message: "Internal Server Error",
-    });
-  }
-});
+// search
+router.get("/search/:q", MusicController.search);
 
 module.exports = router;
