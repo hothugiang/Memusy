@@ -21,58 +21,24 @@ export default function HomeScreen({ navigation }) {
 
     async function fetchData() {
       try {
-        const response = await axiosInstance.get("/musics/songsplaylist/67WIO6CF");
+        const response = await axiosInstance.get(
+          "/musics/songsplaylist/67WIO6CF"
+        );
         setSongData(response.data.data);
-        console.log(songData);
       } catch (error) {
         console.error("Error:", error);
       }
     }
 
     prepare();
-    if(!songData)
-      fetchData();
-    else
-      console.info(songData);
-      });
+    if (!songData) fetchData();
+  });
+
   if (!fontsLoaded) {
     return undefined;
   } else {
     SplashScreen.hideAsync();
   }
-
-  // const data = [
-  //   {
-  //     name: "Vùng lá me bay",
-  //     src: require("./../../assets/img/vlmb.jpg"),
-  //     // image:'https://png.pngtree.com/png-clipart/20230825/original/pngtree-bored-character-man-working-with-laptop-vector-picture-image_8492047.png'
-  //   },
-  //   {
-  //     name: "Tấm lòng son",
-  //     src: require("./../../assets/img/tamlongson.jpg"),
-  //     // image:'https://png.pngtree.com/png-clipart/20230825/original/pngtree-bored-character-man-working-with-laptop-vector-picture-image_8492047.png'
-  //   },
-  //   {
-  //     name: "Bạn đời",
-  //     src: require("./../../assets/img/bandoi.jpg"),
-  //     // image:'https://png.pngtree.com/png-clipart/20230825/original/pngtree-bored-character-man-working-with-laptop-vector-picture-image_8492047.png'
-  //   },
-  //   {
-  //     name: "Mang tiền về cho mẹ",
-  //     src: require("./../../assets/img/mangtien.jpg"),
-  //     // image:'https://png.pngtree.com/png-clipart/20230825/original/pngtree-bored-character-man-working-with-laptop-vector-picture-image_8492047.png'
-  //   },
-  //   {
-  //     name: "Đi theo bóng mặt trời",
-  //     src: require("./../../assets/img/theobong.jpg"),
-  //     // image:'https://png.pngtree.com/png-clipart/20230825/original/pngtree-bored-character-man-working-with-laptop-vector-picture-image_8492047.png'
-  //   },
-  //   {
-  //     name: "Đi về nhà",
-  //     src: require("./../../assets/img/divenha.jpg"),
-  //     // image:'https://png.pngtree.com/png-clipart/20230825/original/pngtree-bored-character-man-working-with-laptop-vector-picture-image_8492047.png'
-  //   },
-  // ];
 
   const data2 = [
     {
@@ -194,11 +160,15 @@ export default function HomeScreen({ navigation }) {
           scrollToOverflowEnabled={false}
           data={songData}
           renderItem={({ item }) => (
-            <TouchableOpacity onPress={() => navigation.navigate("SongDetail", { s_id: item.encodeId })}>
+            <TouchableOpacity
+              onPress={() =>
+                navigation.navigate("SongDetail", { s_id: item.encodeId })
+              }
+            >
               <View style={{ flexDirection: "row", flexWrap: "wrap" }}>
                 <View style={styles.content}>
                   <Image
-                    source={{uri: item.thumbnailM}}
+                    source={{ uri: item.thumbnailM }}
                     style={styles.img}
                     resizeMode="cover"
                   ></Image>
@@ -347,8 +317,6 @@ const styles = {
     paddingVertical: 2,
     alignSelf: "center",
     alignItems: "center",
-    // borderBottomRightRadius: 10,
-    // borderBottomLeftRadius: 10,
     borderColor: "black",
     borderWidth: 1,
     flexWrap: "wrap",

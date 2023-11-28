@@ -172,7 +172,7 @@ class ZingController {
 
       res.status(200).json({
         status: "success",
-        data: data,
+        data: data.data,
       });
     } catch (error) {
       console.error(error);

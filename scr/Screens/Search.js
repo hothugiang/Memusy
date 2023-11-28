@@ -8,6 +8,7 @@ import {
   View,
   StatusBar,
   ImageBackground,
+  TouchableOpacity,
 } from "react-native";
 import { Button } from "react-native-elements";
 
@@ -50,7 +51,7 @@ export default function Search({ navigation }) {
           title=" Bạn muốn nghe gì...                                       "
           titleStyle={styles.buttonText}
           buttonStyle={styles.buttonBackground}
-          icon={{ name: "search", type: "font-awesome", color: "black" ,flexDirection: 'row',justifyContent: 'flex-start'}}
+          icon={{ name: "search", type: "font-awesome", color: "black", flexDirection: 'row', justifyContent: 'flex-start' }}
           onPress={() => navigation.navigate('SearchScreen')}
           containerStyle={styles.buttonContainer}
           iconLeft
@@ -58,11 +59,14 @@ export default function Search({ navigation }) {
       </View>
       <ScrollView>
         <View style={{ flexDirection: "row", flexWrap: "wrap" }}>
-          <View style={styles.imgWrapper}>
-            <ImageBackground source={electronic} style={styles.img}>
-              <Text style={styles.imgText}>Dance & Electronic</Text>
-            </ImageBackground>
-          </View>
+          <TouchableOpacity onPress={() => navigation.navigate('Type')}>
+            <View style={styles.imgWrapper}>
+              <ImageBackground source={electronic} style={styles.img}>
+                <Text style={styles.imgText}>Dance & Electronic</Text>
+              </ImageBackground>
+            </View>
+          </TouchableOpacity>
+
 
           <View style={styles.imgWrapper}>
             <ImageBackground source={remix} style={styles.img}>
@@ -154,7 +158,7 @@ export default function Search({ navigation }) {
 
           {/* Add more items here */}
         </View>
-        <View style={{height:100}}></View>
+        <View style={{ height: 100 }}></View>
       </ScrollView>
     </View>
   );
@@ -169,11 +173,11 @@ const styles = StyleSheet.create({
   buttonText: {
     color: "black",
     fontSize: 16,
-    position:"relative",
+    position: "relative",
   },
   buttonBackground: {
     backgroundColor: "white",
-    width:WIDTH -20,
+    width: WIDTH - 20,
     flexDirection: 'row',
     justifyContent: 'flex-start'
   },
