@@ -6,10 +6,11 @@ var cookieParser = require('cookie-parser');
 var logger = require('morgan');
 const cors = require('cors');
 
-const allowedOrigins = ['http://localhost:5500', 'http://127.0.0.1:5500', 'http://192.168.1.128:8081'];
 
 var indexRouter = require('./routes/index.js');
 var usersRouter = require('./routes/users.js');
+var musicRouter = require('./routes/music.js');
+var musicsRouter = require('./routes/musics.js');
 
 var app = express();
 
@@ -33,7 +34,7 @@ var conn = mysql.createConnection({
   user: process.env.DB_USER,
   password: process.env.DB_PASSWORD,
   database: process.env.DB_DATABASE,
-  port: 3307
+  port: process.env.DB_PORT
 })
 
 conn.connect((err) => {
@@ -48,6 +49,8 @@ app.locals.db = conn;
 
 // app.use('/', indexRouter);
 app.use('/users', usersRouter);
+app.use('/music', musicRouter);
+app.use('/musics', musicsRouter);
 
 app.get('/', (req, res) => {
   res.send('Hello World!');

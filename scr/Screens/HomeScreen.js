@@ -1,60 +1,44 @@
 import * as React from "react";
+import { useState, useEffect } from "react";
 import { Dimensions, Image, TouchableOpacity } from "react-native";
 import { View, Text, ScrollView, FlatList } from "react-native";
 import { useFonts } from "expo-font";
 import * as SplashScreen from "expo-splash-screen";
-import { useEffect } from "react";
 import { Ionicons } from "@expo/vector-icons";
+import { axiosInstance } from "../constants/Axios";
 
 export default function HomeScreen({ navigation }) {
   const [fontsLoaded] = useFonts({
     "GentiumBookBasic-Italic": require("./../../assets/fonts/GentiumBookBasic-Italic.ttf"),
     "Open-san": require("./../../assets/fonts/Montserrat-Bold.ttf"),
   });
+
+  const [songData, setSongData] = useState("");
   useEffect(() => {
     async function prepare() {
       await SplashScreen.preventAutoHideAsync();
     }
+
+    async function fetchData() {
+      try {
+        const response = await axiosInstance.get(
+          "/musics/songsplaylist/67WIO6CF"
+        );
+        setSongData(response.data.data);
+      } catch (error) {
+        console.error("Error:", error);
+      }
+    }
+
     prepare();
+    if (!songData) fetchData();
   });
+
   if (!fontsLoaded) {
     return undefined;
   } else {
     SplashScreen.hideAsync();
   }
-
-  const data = [
-    {
-      name: "Vùng lá me bay",
-      src: require("./../../assets/img/vlmb.jpg"),
-      // image:'https://png.pngtree.com/png-clipart/20230825/original/pngtree-bored-character-man-working-with-laptop-vector-picture-image_8492047.png'
-    },
-    {
-      name: "Tấm lòng son",
-      src: require("./../../assets/img/tamlongson.jpg"),
-      // image:'https://png.pngtree.com/png-clipart/20230825/original/pngtree-bored-character-man-working-with-laptop-vector-picture-image_8492047.png'
-    },
-    {
-      name: "Bạn đời",
-      src: require("./../../assets/img/bandoi.jpg"),
-      // image:'https://png.pngtree.com/png-clipart/20230825/original/pngtree-bored-character-man-working-with-laptop-vector-picture-image_8492047.png'
-    },
-    {
-      name: "Mang tiền về cho mẹ",
-      src: require("./../../assets/img/mangtien.jpg"),
-      // image:'https://png.pngtree.com/png-clipart/20230825/original/pngtree-bored-character-man-working-with-laptop-vector-picture-image_8492047.png'
-    },
-    {
-      name: "Đi theo bóng mặt trời",
-      src: require("./../../assets/img/theobong.jpg"),
-      // image:'https://png.pngtree.com/png-clipart/20230825/original/pngtree-bored-character-man-working-with-laptop-vector-picture-image_8492047.png'
-    },
-    {
-      name: "Đi về nhà",
-      src: require("./../../assets/img/divenha.jpg"),
-      // image:'https://png.pngtree.com/png-clipart/20230825/original/pngtree-bored-character-man-working-with-laptop-vector-picture-image_8492047.png'
-    },
-  ];
 
   const data2 = [
     {
@@ -166,7 +150,7 @@ export default function HomeScreen({ navigation }) {
           marginBottom: 10,
         }}
       >
-        Nghe gần đây{" "}
+        Nhạc mới mỗi tuần{" "}
       </Text>
       <ScrollView horizontal={true}>
         <FlatList
@@ -174,13 +158,17 @@ export default function HomeScreen({ navigation }) {
           scrollEnabled={false}
           nestedScrollEnabled={true}
           scrollToOverflowEnabled={false}
-          data={data}
+          data={songData}
           renderItem={({ item }) => (
-            <TouchableOpacity onPress={() => navigation.navigate("SongDetail")}>
+            <TouchableOpacity
+              onPress={() =>
+                navigation.navigate("SongDetail", { s_id: item.encodeId })
+              }
+            >
               <View style={{ flexDirection: "row", flexWrap: "wrap" }}>
                 <View style={styles.content}>
                   <Image
-                    source={item.src}
+                    source={{ uri: item.thumbnailM }}
                     style={styles.img}
                     resizeMode="cover"
                   ></Image>
@@ -193,7 +181,19 @@ export default function HomeScreen({ navigation }) {
                         color: "gray",
                       }}
                     >
-                      {item.name}
+                      {item.title}
+                    </Text>
+                  </View>
+                  <View style={styles.name}>
+                    <Text
+                      style={{
+                        fontSize: 14,
+                        flexWrap: "wrap",
+                        textAlign: "left",
+                        color: "gray",
+                      }}
+                    >
+                      {item.artistsNames}
                     </Text>
                   </View>
                 </View>
@@ -317,8 +317,6 @@ const styles = {
     paddingVertical: 2,
     alignSelf: "center",
     alignItems: "center",
-    // borderBottomRightRadius: 10,
-    // borderBottomLeftRadius: 10,
     borderColor: "black",
     borderWidth: 1,
     flexWrap: "wrap",

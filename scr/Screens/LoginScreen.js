@@ -12,8 +12,10 @@ import {
   KeyboardAvoidingView,
   ScrollView,
 } from "react-native";
+import AsyncStorage from '@react-native-async-storage/async-storage';
 import logo from "../../assets/img/logo.png";
 import { Ionicons } from "react-native-vector-icons";
+import { axiosInstance } from "../constants/Axios";
 import { useFonts } from "expo-font";
 import * as SplashScreen from "expo-splash-screen";
 import { useEffect } from "react";
@@ -40,12 +42,52 @@ export default function LoginScreen({ navigation }) {
   //     }
   //   });
 
+  const [username, setUsername] = useState("");
+  const [password, setPassword] = useState("");
   const [showPass, setShowPass] = useState(false);
   const [press, setPress] = useState(false);
 
   const togglePasswordVisibility = () => {
     setShowPass(!showPass);
     setPress(!press);
+  };
+
+  const saveToken = async (token) => {
+    try {
+      await AsyncStorage.setItem("token", token);
+    } catch (error) {
+      console.error("Error saving token:", error);
+    }
+  };
+
+  const handleLogin = async () => {
+    try {
+      const response = await axiosInstance.post("/users/login", {
+        username: username,
+        password: password,
+      });
+
+      if (response.status === 200) {
+        // Xử lý khi đăng nhập thành công
+        const token = response.data.token;
+        console.log("Login successfully!");
+        saveToken(token);
+        const response2 = await axiosInstance.get("/users/me", {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        });
+        if (response2.status === 200) {
+          navigation.navigate("Home");
+        }
+      } else {
+        // Xử lý khi đăng nhập thất bại
+        console.error("Login failed");
+      }
+    } catch (error) {
+      // Xử lý khi có lỗi
+      console.error("Error during login:", error);
+    }
   };
 
   return (
@@ -66,6 +108,7 @@ export default function LoginScreen({ navigation }) {
             placeholder={"Username"}
             placeholderTextColor={"rgba(255, 255, 255, 0.7)"}
             underlineColorAndroid="transparent"
+            onChangeText={(text) => setUsername(text)}
           />
           <Ionicons
             name={"ios-person"}
@@ -83,6 +126,7 @@ export default function LoginScreen({ navigation }) {
             secureTextEntry={!showPass}
             placeholderTextColor={"rgba(255, 255, 255, 0.7)"}
             underlineColorAndroid="transparent"
+            onChangeText={(text) => setPassword(text)}
           />
           <Ionicons
             name={"lock-closed"}
@@ -105,7 +149,7 @@ export default function LoginScreen({ navigation }) {
               <Text style={styles.forgotPass}>Forgot Password?</Text>
             </TouchableOpacity>
 
-            <TouchableOpacity style={styles.btnLogin}>
+            <TouchableOpacity style={styles.btnLogin} onPress={handleLogin}>
               <Text style={styles.text}>Login</Text>
             </TouchableOpacity>
           </View>

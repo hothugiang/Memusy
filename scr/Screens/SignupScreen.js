@@ -12,6 +12,7 @@ import {
 } from "react-native";
 import logo from "./../../assets/img/logo.png";
 import { Ionicons } from "react-native-vector-icons";
+import { axiosInstance } from "../constants/Axios";
 import { useFonts } from "expo-font";
 import * as SplashScreen from "expo-splash-screen";
 
@@ -40,7 +41,6 @@ export default function Sign({ navigation }) {
   //       SplashScreen.hideAsync();
   //     }
   //   });
-
 
   const [imageHeight] = useState(new Animated.Value(IMAGE_HEIGHT));
   const [textFontSize] = useState(new Animated.Value(TEXT_FONTSIZE));
@@ -84,19 +84,51 @@ export default function Sign({ navigation }) {
     };
   }, [imageHeight, textFontSize]);
 
+  const [email, setEmail] = useState("");
+  const [username, setUsername] = useState("");
+  const [password, setPassword] = useState("");
+  const [confirmPassword, setConfirmPassword] = useState("");
+
   const [showPass, setShowPass] = useState(false);
   const [press, setPress] = useState(false);
+
+  const handleSignup = async () => {
+    try {
+      // Kiểm tra xác nhận mật khẩu
+      if (password !== confirmPassword) {
+        console.error("Password and Confirm Password do not match");
+        return;
+      }
+
+      // Thực hiện yêu cầu đăng ký API
+      const userData = {
+        username: username,
+        email: email,
+        password: password,
+      };
+
+      console.log(userData);
+
+      // Gọi API đăng ký ở đây, ví dụ:
+      const response = await axiosInstance.post("/users/register", userData);
+
+      // Xử lý kết quả từ API
+      if (response.status === 201) {
+        console.log("Signup successful");
+        navigation.navigate("Login"); // Chuyển hướng đến trang đăng nhập sau khi đăng ký thành công
+      } else {
+        console.error("Signup failed");
+      }
+    } catch (error) {
+      console.error("Error during signup:", error);
+    }
+  };
 
   const togglePasswordVisibility = () => {
     setShowPass(!showPass);
     setPress(!press);
   };
 
-
-  const [email, setEmail] = useState("");
-  const [username, setUsername] = useState("");
-  const [password, setPassword] = useState("");
-  const [confirmPassword, setConfirmPassword] = useState("");
   const [loading, setLoading] = useState(false);
 
   const onSubmit = async () => {
@@ -164,7 +196,7 @@ export default function Sign({ navigation }) {
           placeholder={"Email"}
           placeholderTextColor={"rgba(255, 255, 255, 0.7)"}
           underlineColorAndroid="transparent"
-          onChangeText={(value) => onChangeEmail(value)}
+          onChangeText={(text) => setEmail(text)}
         />
         <Ionicons
           name={"mail"}
@@ -180,7 +212,7 @@ export default function Sign({ navigation }) {
           placeholder={"Username"}
           placeholderTextColor={"rgba(255, 255, 255, 0.7)"}
           underlineColorAndroid="transparent"
-          onChangeText={(value) => onChangeUsername(value)}
+          onChangeText={(text) => setUsername(text)}
         />
         <Ionicons
           name={"ios-person"}
@@ -197,7 +229,7 @@ export default function Sign({ navigation }) {
           secureTextEntry={!showPass}
           placeholderTextColor={"rgba(255, 255, 255, 0.7)"}
           underlineColorAndroid="transparent"
-          onChangeText={(value) => onChangePassword(value)}
+          onChangeText={(text) => setPassword(text)}
         />
         <Ionicons
           name={"lock-closed"}
@@ -224,7 +256,7 @@ export default function Sign({ navigation }) {
           secureTextEntry={!showPass}
           placeholderTextColor={"rgba(255, 255, 255, 0.7)"}
           underlineColorAndroid="transparent"
-          onChangeText={(value) => onChangeConfirmPassword(value)}
+          onChangeText={(text) => setConfirmPassword(text)}
         />
         <Ionicons
           name={"lock-closed"}
@@ -244,7 +276,7 @@ export default function Sign({ navigation }) {
         </TouchableOpacity>
       </KeyboardAvoidingView>
       <View>
-        <TouchableOpacity style={styles.btnsignup} onPress={() => onSubmit()}>
+        <TouchableOpacity style={styles.btnsignup} onPress={handleSignup}>
           <Text style={styles.text}>Sign up</Text>
         </TouchableOpacity>
         <View style={styles.toLogInContainer}>

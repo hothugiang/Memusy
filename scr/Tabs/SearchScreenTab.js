@@ -6,6 +6,7 @@ import SearchScreen from "../Screens/SearchScreen";
 import Search from "../Screens/Search";
 import TrendingScreen from "../Screens/TrendingScreen";
 import DetailScreen from "../Screens/DetailScreen";
+import TypeScreen from "../Screens/TypeScreen";
 const Stack = createNativeStackNavigator();
 
 export default function SearchScreenTab() {
@@ -22,6 +23,10 @@ export default function SearchScreenTab() {
       <Stack.Screen
         name="SongDetail"
         component={DetailScreen}
+      />
+      <Stack.Screen
+      name = "Type"
+      component={TypeScreen}
       />
     </Stack.Navigator>
   );
