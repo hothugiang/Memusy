@@ -1,5 +1,12 @@
 import React, { useState, useEffect, useRef } from "react";
-import { View, Text, StyleSheet, Image, TouchableOpacity } from "react-native";
+import {
+  View,
+  Text,
+  StyleSheet,
+  Image,
+  TouchableOpacity,
+  Alert,
+} from "react-native";
 import Slider from "@react-native-community/slider";
 import { FontAwesome5 } from "@expo/vector-icons";
 import { FlatList, Dimensions } from "react-native";
@@ -13,35 +20,56 @@ import * as SplashScreen from "expo-splash-screen";
 // } from 'react-native-track-player';
 import { Audio, InterruptionModeAndroid, InterruptionModeIOS } from "expo-av";
 import * as Animatable from "react-native-animatable";
-import { Ionicons } from '@expo/vector-icons';
+import { Ionicons } from "@expo/vector-icons";
 
 export default function DetailScreen({ navigation, route }) {
   const { s_id } = route.params;
-  console.log(s_id);
   const [isPlaying, setIsPlaying] = useState(false);
   const [currentPosition, setCurrentPosition] = useState(0);
   const [sound, setSound] = useState();
   const [duration, setDuration] = useState(0);
+  const [information, setInformation] = useState("");
 
   useEffect(() => {
     loadAudio();
+    loadInfomation();
   }, []);
+
+  const loadInfomation = async () => {
+    try {
+      const info = await axiosInstance.get(`/musics/infosong/${s_id}`);
+      setInformation(info.data.data);
+    } catch (error) {
+      console.error("Error loading info:", error);
+    }
+  };
 
   const loadAudio = async () => {
     try {
-      const { sound } = await Audio.Sound.createAsync(
-        require('./../../assets/mp3/VungLaMeBay-DuongHongLoan-4796874.mp3')
-      );
-      setSound(sound);
+      const mp3 = await axiosInstance.get(`/musics/song/${s_id}`);
+      if (mp3.data.data.err !== -1150) {
+        const audioURI = mp3.data.data.data["128"];
+        const { sound } = await Audio.Sound.createAsync({
+          uri: audioURI,
+        });
+        setSound(sound);
 
-      const status = await sound.getStatusAsync();
-      setDuration(Math.round(status.durationMillis / 1000));
+        const status = await sound.getStatusAsync();
+        setDuration(Math.round(status.durationMillis / 1000));
 
-      sound.setOnPlaybackStatusUpdate((status) => {
-        if (status.isPlaying) {
-          setCurrentPosition(Math.round(status.positionMillis / 1000));
-        }
-      });
+        sound.setOnPlaybackStatusUpdate((status) => {
+          if (status.isPlaying) {
+            setCurrentPosition(Math.round(status.positionMillis / 1000));
+          }
+        });
+      } else {
+        Alert.alert("Bài hát bản quyền", "Bạn không nghe được bài hát này", [
+          {
+            text: "Trở về",
+            onPress: () => { navigation.goBack(); }
+          },
+        ]);
+      }
     } catch (error) {
       console.error("Error loading audio:", error);
     }
@@ -120,20 +148,20 @@ export default function DetailScreen({ navigation, route }) {
           useNativeDriver
           iterationCount={isPlaying ? "infinite" : 1}
           duration={isPlaying ? 10000 : 0}
-          source={require("./../../assets/img/vlmb.jpg")}
-          style={ styles.coverImage }
+          source={{ uri: information.thumbnailM }}
+          style={styles.coverImage}
         />
-          <Text style={styles.trackName}>Vùng lá me bay</Text>
-          <Text style={styles.artistName}>Hihi</Text>
-          <TouchableOpacity onPress={toggleHeart}>
-          <Ionicons 
-            name={isHeartFull ? 'heart' : 'heart-outline'} 
-            size={32} 
-            color={"rgba(221,114,158,1)"} 
-            style={{marginTop: 10}}
+        <Text style={styles.trackName}>{information.title}</Text>
+        <Text style={styles.artistName}>{information.artistsNames}</Text>
+        <TouchableOpacity onPress={toggleHeart}>
+          <Ionicons
+            name={isHeartFull ? "heart" : "heart-outline"}
+            size={32}
+            color={"rgba(221,114,158,1)"}
+            style={{ marginTop: 10 }}
           />
-          </TouchableOpacity>
-        </View>
+        </TouchableOpacity>
+      </View>
 
       <Slider
         style={styles.slider}
@@ -154,11 +182,7 @@ export default function DetailScreen({ navigation, route }) {
 
       <View style={styles.controls}>
         <TouchableOpacity onPress={skipToPreviousTrack}>
-          <FontAwesome5
-            name="backward"
-            size={32}
-            color="gray"
-          ></FontAwesome5>
+          <FontAwesome5 name="backward" size={32} color="gray"></FontAwesome5>
         </TouchableOpacity>
         <TouchableOpacity onPress={playSound}>
           <FontAwesome5
