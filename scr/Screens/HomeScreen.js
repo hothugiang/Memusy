@@ -347,8 +347,6 @@ const styles = {
     paddingVertical: 2,
     alignSelf: "center",
     alignItems: "center",
-    // borderBottomRightRadius: 10,
-    // borderBottomLeftRadius: 10,
     borderColor: "black",
     borderWidth: 1,
     flexWrap: "wrap",

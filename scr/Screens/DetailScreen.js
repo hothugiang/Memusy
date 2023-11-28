@@ -172,7 +172,11 @@ export default function DetailScreen({ navigation, route }) {
         </TouchableOpacity>
       </View>
 
-      <View style="lyricContainer"></View>
+      {/* <View style="lyricContainer">
+          <View>
+            
+          </View>
+      </View> */}
     </View>
   );
 }
