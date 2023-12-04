@@ -1,5 +1,5 @@
 import * as React from "react";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import {
   Dimensions,
   Image,
@@ -21,24 +21,6 @@ import UserScreenTab from "../Tabs/UserScreenTab";
 import { Ionicons } from "@expo/vector-icons";
 import { Button, Input } from "react-native-elements";
 import { axiosInstance } from "../constants/Axios";
-import electronic from "./../../assets/img/electronic.jpg";
-import remix from "./../../assets/img/remix.jpg";
-import hiphop from "./../../assets/img/hiphop.jpg";
-import rnb from "./../../assets/img/rnb.jpg";
-import movie from "./../../assets/img/movie.jpg";
-import latin from "./../../assets/img/latin.jpg";
-import rock from "./../../assets/img/rock.jpg";
-import acoustic from "./../../assets/img/acoustic.jpg";
-import indie from "./../../assets/img/indie.jpg";
-import jazz from "./../../assets/img/jazz.jpg";
-import classical from "./../../assets/img/classical.jpg";
-import pop from "./../../assets/img/pop.jpg";
-import country from "./../../assets/img/country.jpg";
-import metal from "./../../assets/img/metal.jpg";
-import instrumental from "./../../assets/img/instrumental.jpg";
-import blues from "./../../assets/img/blues.jpg";
-import disco from "./../../assets/img/disco.jpg";
-import kpop from "./../../assets/img/kpop.jpg";
 
 const { width: WIDTH } = Dimensions.get("window");
 const { height: HEIGHT } = Dimensions.get("window");
@@ -51,7 +33,6 @@ export default function SearchScreen({ navigation }) {
   const [searchResults, setSearchResults] = useState('');
 
   useEffect(() => {
-    // Hàm này sẽ được gọi mỗi khi searchText thay đổi
     const fetchData = async () => {
       try {
         const response = await axiosInstance.get(`/musics/search/${searchText}`);
@@ -62,14 +43,12 @@ export default function SearchScreen({ navigation }) {
       }
     };
 
-    // Chỉ gọi fetchData nếu searchText không rỗng
     if (searchText !== '') {
       fetchData();
     } else {
-      // Nếu searchText rỗng, đặt searchResults về mảng rỗng
       setSearchResults([]);
     }
-  }, [searchText]); // useEffect sẽ được gọi lại mỗi khi searchText thay đổi
+  }, [searchText]);
 
 
   const renderContent = () => {
