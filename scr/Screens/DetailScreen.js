@@ -22,6 +22,8 @@ import { Audio, InterruptionModeAndroid, InterruptionModeIOS } from "expo-av";
 import * as Animatable from "react-native-animatable";
 import { Ionicons } from "@expo/vector-icons";
 import AsyncStorage from "@react-native-async-storage/async-storage";
+import { Notifications } from 'expo';
+
 
 export default function DetailScreen({ navigation, route }) {
   const { s_id } = route.params;
@@ -33,6 +35,11 @@ export default function DetailScreen({ navigation, route }) {
 
   useEffect(() => {
     loadAudio();
+    // Notifications.presentLocalNotificationAsync({
+    //   title: 'Now Playing',
+    //   body: 'Your Music is playing in the background.',
+    //   ios: { _displayInForeground: true },
+    // });
     loadInfomation();
   }, []);
 
@@ -241,6 +248,7 @@ const styles = StyleSheet.create({
   },
 
   title: {
+    marginTop: 30,
     marginBottom: 20,
     fontSize: 24,
     fontWeight: "bold",
