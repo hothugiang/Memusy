@@ -9,7 +9,6 @@ const cors = require('cors');
 
 var indexRouter = require('./routes/index.js');
 var usersRouter = require('./routes/users.js');
-var musicRouter = require('./routes/music.js');
 var musicsRouter = require('./routes/musics.js');
 
 var app = express();
@@ -49,7 +48,6 @@ app.locals.db = conn;
 
 // app.use('/', indexRouter);
 app.use('/users', usersRouter);
-app.use('/music', musicRouter);
 app.use('/musics', musicsRouter);
 
 app.get('/', (req, res) => {
