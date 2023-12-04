@@ -47,20 +47,39 @@ export default function Search({ navigation }) {
       }}
     >
       <StatusBar backgroundColor="black" barStyle="light-content" />
-      <View style={{ alignItems: "center", marginTop: Platform.OS === "ios" ? 50 : 20, marginBottom: 20 }}>
+      <View
+        style={{
+          alignItems: "center",
+          marginTop: Platform.OS === "ios" ? 50 : 20,
+          marginBottom: 20,
+        }}
+      >
         <Button
           title=" Bạn muốn nghe gì...                                       "
           titleStyle={styles.buttonText}
           buttonStyle={styles.buttonBackground}
-          icon={{ name: "search", type: "font-awesome", color: "black", flexDirection: 'row', justifyContent: 'flex-start' }}
-          onPress={() => navigation.navigate('SearchScreen')}
+          icon={{
+            name: "search",
+            type: "font-awesome",
+            color: "black",
+            flexDirection: "row",
+            justifyContent: "flex-start",
+          }}
+          onPress={() => navigation.navigate("SearchScreen")}
           containerStyle={styles.buttonContainer}
           iconLeft
         />
       </View>
       <ScrollView>
         <View style={{ flexDirection: "row", flexWrap: "wrap" }}>
-          <TouchableOpacity onPress={() => navigation.navigate('Type')}>
+          <TouchableOpacity
+            onPress={() =>
+              navigation.navigate("Type", {
+                s_id: "IWZ9Z08B",
+                title: "Dance & Electronic",
+              })
+            }
+          >
             <View style={styles.imgWrapper}>
               <ImageBackground source={electronic} style={styles.img}>
                 <Text style={styles.imgText}>Dance & Electronic</Text>
@@ -68,89 +87,123 @@ export default function Search({ navigation }) {
             </View>
           </TouchableOpacity>
 
+          <TouchableOpacity
+            onPress={() =>
+              navigation.navigate("Type", { s_id: "IWZ9Z0BO", title: "Remix" })
+            }
+          >
+            <View style={styles.imgWrapper}>
+              <ImageBackground source={remix} style={styles.img}>
+                <Text style={styles.imgText}>Remix</Text>
+              </ImageBackground>
+            </View>
+          </TouchableOpacity>
 
-          <View style={styles.imgWrapper}>
-            <ImageBackground source={remix} style={styles.img}>
-              <Text style={styles.imgText}>Remix</Text>
-            </ImageBackground>
-          </View>
+          <TouchableOpacity
+            onPress={() =>
+              navigation.navigate("Type", {
+                s_id: "IWZ9Z08C",
+                title: "Hip hop",
+              })
+            }
+          >
+            <View style={styles.imgWrapper}>
+              <ImageBackground source={hiphop} style={styles.img}>
+                <Text style={styles.imgText}>Hip hop</Text>
+              </ImageBackground>
+            </View>
+          </TouchableOpacity>
+          
+          <TouchableOpacity
+            onPress={() =>
+              navigation.navigate("Type", { s_id: "IWZ9Z09W", title: "R&B" })
+            }
+          >
+            <View style={styles.imgWrapper}>
+              <ImageBackground source={rnb} style={styles.img}>
+                <Text style={styles.imgText}>R&B</Text>
+              </ImageBackground>
+            </View>
+          </TouchableOpacity>
 
-          <View style={styles.imgWrapper}>
-            <ImageBackground source={hiphop} style={styles.img}>
-              <Text style={styles.imgText}>Hip hop</Text>
-            </ImageBackground>
-          </View>
-
-          <View style={styles.imgWrapper}>
-            <ImageBackground source={rnb} style={styles.img}>
-              <Text style={styles.imgText}>R&B</Text>
-            </ImageBackground>
-          </View>
           <View style={styles.imgWrapper}>
             <ImageBackground source={movie} style={styles.img}>
               <Text style={styles.imgText}>Nhạc phim</Text>
             </ImageBackground>
           </View>
+
           <View style={styles.imgWrapper}>
             <ImageBackground source={latin} style={styles.img}>
               <Text style={styles.imgText}>Latin</Text>
             </ImageBackground>
           </View>
+
           <View style={styles.imgWrapper}>
             <ImageBackground source={rock} style={styles.img}>
               <Text style={styles.imgText}>Rock</Text>
             </ImageBackground>
           </View>
+
           <View style={styles.imgWrapper}>
             <ImageBackground source={acoustic} style={styles.img}>
               <Text style={styles.imgText}>Folk & Acoustic</Text>
             </ImageBackground>
           </View>
+
           <View style={styles.imgWrapper}>
             <ImageBackground source={indie} style={styles.img}>
               <Text style={styles.imgText}>Indie</Text>
             </ImageBackground>
           </View>
+
           <View style={styles.imgWrapper}>
             <ImageBackground source={jazz} style={styles.img}>
               <Text style={styles.imgText}>Jazz</Text>
             </ImageBackground>
           </View>
+
           <View style={styles.imgWrapper}>
             <ImageBackground source={classical} style={styles.img}>
               <Text style={styles.imgText}>Classical</Text>
             </ImageBackground>
           </View>
+
           <View style={styles.imgWrapper}>
             <ImageBackground source={pop} style={styles.img}>
               <Text style={styles.imgText}>Pop</Text>
             </ImageBackground>
           </View>
+
           <View style={styles.imgWrapper}>
             <ImageBackground source={country} style={styles.img}>
               <Text style={styles.imgText}>Country</Text>
             </ImageBackground>
           </View>
+
           <View style={styles.imgWrapper}>
             <ImageBackground source={metal} style={styles.img}>
               <Text style={styles.imgText}>Metal</Text>
             </ImageBackground>
           </View>
+
           <View style={styles.imgWrapper}>
             <ImageBackground source={instrumental} style={styles.img}>
               <Text style={styles.imgText}>Instrumental</Text>
             </ImageBackground>
           </View>
+
           <View style={styles.imgWrapper}>
             <ImageBackground source={blues} style={styles.img}>
               <Text style={styles.imgText}>Blues</Text>
             </ImageBackground>
           </View>
+
           <View style={styles.imgWrapper}>
             <ImageBackground source={disco} style={styles.img}>
               <Text style={styles.imgText}>Funk & Disco</Text>
             </ImageBackground>
           </View>
+
           <View style={styles.imgWrapper}>
             <ImageBackground source={kpop} style={styles.img}>
               <Text style={styles.imgText}>Kpop</Text>
@@ -179,8 +232,8 @@ const styles = StyleSheet.create({
   buttonBackground: {
     backgroundColor: "white",
     width: WIDTH - 20,
-    flexDirection: 'row',
-    justifyContent: 'flex-start'
+    flexDirection: "row",
+    justifyContent: "flex-start",
   },
   imgWrapper: {
     width: WIDTH / 2 - 15,
@@ -204,8 +257,8 @@ const styles = StyleSheet.create({
     height: (100 / standardHeight) * HEIGHT,
   },
   buttonContainer: {
-    flexDirection: 'row', // Hiển thị các phần tử con theo chiều ngang
-    justifyContent: 'flex-start', // Căn trái
-    alignItems: 'center', // Căn giữa theo chiều dọc
+    flexDirection: "row", // Hiển thị các phần tử con theo chiều ngang
+    justifyContent: "flex-start", // Căn trái
+    alignItems: "center", // Căn giữa theo chiều dọc
   },
 });

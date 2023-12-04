@@ -22,6 +22,7 @@
     "mysql": "^2.18.1",
     "mysql2": "^3.6.3",
     "pg": "^8.11.3",
-    "zingmp3-api-full": "^1.0.14"
+    "zingmp3-api-full": "^1.0.14",
+    "zingmp3-api-next": "^1.0.4"
   }
 }

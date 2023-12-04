@@ -24,6 +24,9 @@ router.get("/top100", MusicController.getTop100);
 // getChartHome
 router.get("/charthome", MusicController.getChartHome);
 
+// getListByGenre
+router.get("/genre/:id", MusicController.getListByGenre);
+
 // getNewReleaseChart
 router.get("/newreleasechart", MusicController.getNewReleaseChart);
 

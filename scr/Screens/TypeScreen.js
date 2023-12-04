@@ -1,27 +1,41 @@
-import { Text, View, StyleSheet, ScrollView, Image, TouchableOpacity, Animated } from 'react-native';
 import { Dimensions, ImageBackground } from 'react-native';
-import React, { useRef, useState } from 'react';
-import { FlatList } from 'react-native';
+import React, { useRef, useState, useEffect } from 'react';
 import { Ionicons } from '@expo/vector-icons';
+import { Text, View, StyleSheet, ScrollView, Image, TouchableOpacity, Animated, FlatList } from 'react-native';
+import { axiosInstance } from '../constants/Axios';
 const { width: WIDTH, height: HEIGHT } = Dimensions.get("window");
 const standardWidth = 360;
 const standardHeight = 800;
-const data = [
-  { name: "Vùng lá me bay", artist: "Hihi", src: require("./../../assets/img/vlmb.jpg"), year: 2022, type: "Single" },
-  { name: "Tấm lòng son", artist: "Hihi", src: require("./../../assets/img/kpop.jpg"), year: 2008, type: "EP" },
-  { name: "Bạn đời", artist: "g", src: require("./../../assets/img/bandoi.jpg"), year: 1989 },
-  { name: "Mang tiền về cho mẹ", artist: "Hihi", src: require("./../../assets/img/mangtien.jpg"), year: 1908, type: "Single" },
-  { name: "Đi theo bóng mặt trời", artist: "Hihi", src: require("./../../assets/img/theobong.jpg"), year: 2003, type: "Single" },
-  { name: "Đi về nhà", artist: "Hihi", src: require("./../../assets/img/divenha.jpg"), year: 2021, type: "Single" },
-  { name: "Vùng lá me bay", artist: "Hihi", src: require("./../../assets/img/vlmb.jpg"), year: 2022, type: "Single" },
-  { name: "Tấm lòng son", artist: "Hihi", src: require("./../../assets/img/kpop.jpg"), year: 2008, type: "EP" },
-];
 
-const TypeScreen = ({ navigation }) => {
+const TypeScreen = ({ navigation, route }) => {
+  const {s_id, title} = route.params;
   const scrollOfsetY = useRef(new Animated.Value(0)).current;
+  const [scrollY] = useState(new Animated.Value(0));
+  const [urlCover, setURLCover] = useState("");
+  const [dataFetched, setDataFetched] = useState(false);
+  const [listSong, setListSong] = useState([]);
+
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const response = await axiosInstance.get(`/musics/genre/${s_id}`);
+        setURLCover(response.data.data.data.cover);
+        setListSong(response.data.data.data.sections[1].items);
+        setDataFetched(true);
+        console.log(listSong);
+      } catch (error) {
+        console.error("Lỗi khi tìm kiếm:", error);
+      }
+    };
+    if (!dataFetched) {
+      fetchData();
+    }
+  });
+
+  
   return (
     <View style={{ backgroundColor: "black", flex: 1 }}>
-      <DynamicHeader value={scrollOfsetY} navigation={navigation}/>
+      <DynamicHeader value={scrollOfsetY} navigation={navigation} title={title} cover={urlCover}/>
       <ScrollView
         style={styles.container}
         horizontal={false}
@@ -37,14 +51,14 @@ const TypeScreen = ({ navigation }) => {
         >
           Bài Hát Nổi Bật{" "}
         </Text>
-        {data.map(val => {
+        {listSong.map(val => {
           return (
             <View style={styles.songsWrapper}>
-              <TouchableOpacity style={styles.songs} onPress={() => navigation.navigate("SongDetail")}>
-                <Image source={val.src} style={styles.songImage} resizeMode="cover" />
+              <TouchableOpacity style={styles.songs} onPress={() => navigation.navigate("SongDetail", { s_id: val.encodeId })}>
+                <Image source={{uri: val.thumbnailM}} style={styles.songImage} resizeMode="cover" />
                 <View>
-                  <Text style={styles.songTitle}>{val.name}</Text>
-                  <Text style={styles.songType}>{val.artist}</Text>
+                  <Text style={styles.songTitle}>{val.title}</Text>
+                  <Text style={styles.songType}>{val.artistsNames}</Text>
                 </View>
               </TouchableOpacity>
               <TouchableOpacity>
@@ -199,7 +213,7 @@ export default TypeScreen;
 const Header_Max_Height = 240;
 const Header_Min_Height = 50;
 const Scroll_Distance = 140;
-const DynamicHeader = ({ value, navigation} ) => {
+const DynamicHeader = ({ value, navigation, title, cover } ) => {
   const animatedHeaderHeight = value.interpolate({
     inputRange: [0, Scroll_Distance],
     outputRange: [Header_Max_Height, Header_Min_Height],
@@ -230,7 +244,7 @@ const DynamicHeader = ({ value, navigation} ) => {
 
   return (
     <ImageBackground
-      source={require('./../../assets/img/divenha.jpg')}
+      source={{ uri: cover }}
       resizeMode="cover"
     >
       <Animated.View style={[styles.header, { height: animatedHeaderHeight, backgroundColor: animatedHeaderColor }]}>
@@ -248,7 +262,7 @@ const DynamicHeader = ({ value, navigation} ) => {
             }
           ]}
         >
-          <Animated.Text style={[styles.headerText, { fontSize: textSize }]}>HeaderText</Animated.Text>
+          <Animated.Text style={[styles.headerText, { fontSize: textSize }]}>{ title }</Animated.Text>
         </Animated.View>
       </Animated.View>
     </ImageBackground>
