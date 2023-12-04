@@ -84,7 +84,7 @@ export default function SearchScreen({ navigation }) {
                 <View style={styles.songsWrapper}>
                   <TouchableOpacity
                     style={styles.songs}
-                    onPress={() => navigation.navigate("SongDetail")}
+                    onPress={() => navigation.navigate("SongDetail", { s_id: item.encodeId })}
                   >
                     <Image
                       source={{ uri: item.thumbnailM }}
