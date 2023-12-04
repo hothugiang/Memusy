@@ -17,19 +17,18 @@ import remix from "./../../assets/img/remix.jpg";
 import hiphop from "./../../assets/img/hiphop.jpg";
 import rnb from "./../../assets/img/rnb.jpg";
 import movie from "./../../assets/img/movie.jpg";
-import latin from "./../../assets/img/latin.jpg";
+import kid from "./../../assets/img/kid.jpg";
+import trinh from "./../../assets/img/trinh.jpg";
 import rock from "./../../assets/img/rock.jpg";
+import codien from "./../../assets/img/codien.jpg";
 import acoustic from "./../../assets/img/acoustic.jpg";
 import indie from "./../../assets/img/indie.jpg";
 import jazz from "./../../assets/img/jazz.jpg";
+import latin from "./../../assets/img/latin.jpg";
 import classical from "./../../assets/img/classical.jpg";
-import pop from "./../../assets/img/pop.jpg";
+import viet from "./../../assets/img/viet.jpg";
 import country from "./../../assets/img/country.jpg";
-import metal from "./../../assets/img/metal.jpg";
-import instrumental from "./../../assets/img/instrumental.jpg";
-import blues from "./../../assets/img/blues.jpg";
-import disco from "./../../assets/img/disco.jpg";
-import kpop from "./../../assets/img/kpop.jpg";
+
 import { Platform } from "react-native";
 
 const { width: WIDTH } = Dimensions.get("window");
@@ -71,6 +70,7 @@ export default function Search({ navigation }) {
         />
       </View>
       <ScrollView>
+
         <View style={{ flexDirection: "row", flexWrap: "wrap" }}>
           <TouchableOpacity
             onPress={() =>
@@ -113,7 +113,7 @@ export default function Search({ navigation }) {
               </ImageBackground>
             </View>
           </TouchableOpacity>
-          
+
           <TouchableOpacity
             onPress={() =>
               navigation.navigate("Type", { s_id: "IWZ9Z09W", title: "R&B" })
@@ -126,92 +126,151 @@ export default function Search({ navigation }) {
             </View>
           </TouchableOpacity>
 
-          <View style={styles.imgWrapper}>
-            <ImageBackground source={movie} style={styles.img}>
-              <Text style={styles.imgText}>Nhạc phim</Text>
-            </ImageBackground>
-          </View>
+          <TouchableOpacity
+            onPress={() =>
+              navigation.navigate("Type", { s_id: "IWZ9Z0B7", title: "Nhạc Phim" })
+            }
+          >
+            <View style={styles.imgWrapper}>
+              <ImageBackground source={movie} style={styles.img}>
+                <Text style={styles.imgText}>Nhạc Phim</Text>
+              </ImageBackground>
+            </View>
+          </TouchableOpacity>
 
-          <View style={styles.imgWrapper}>
-            <ImageBackground source={latin} style={styles.img}>
-              <Text style={styles.imgText}>Latin</Text>
-            </ImageBackground>
-          </View>
+          <TouchableOpacity
+            onPress={() =>
+              navigation.navigate("Type", { s_id: "IWZ9Z090", title: "Nhạc Thiếu Nhi" })
+            }
+          >
+            <View style={styles.imgWrapper}>
+              <ImageBackground source={kid} style={styles.img}>
+                <Text style={styles.imgText}>Nhạc Thiếu Nhi</Text>
+              </ImageBackground>
+            </View>
+          </TouchableOpacity>
 
-          <View style={styles.imgWrapper}>
-            <ImageBackground source={rock} style={styles.img}>
-              <Text style={styles.imgText}>Rock</Text>
-            </ImageBackground>
-          </View>
+          <TouchableOpacity
+            onPress={() =>
+              navigation.navigate("Type", { s_id: "IWZ9Z08D", title: "Nhạc Không lời" })
+            }
+          >
+            <View style={styles.imgWrapper}>
+              <ImageBackground source={classical} style={styles.img}>
+                <Text style={styles.imgText}>Nhạc Không Lời</Text>
+              </ImageBackground>
+            </View>
+          </TouchableOpacity>
 
-          <View style={styles.imgWrapper}>
-            <ImageBackground source={acoustic} style={styles.img}>
-              <Text style={styles.imgText}>Folk & Acoustic</Text>
-            </ImageBackground>
-          </View>
+          <TouchableOpacity
+            onPress={() =>
+              navigation.navigate("Type", { s_id: "IWZ9Z08E", title: "Indie" })
+            }
+          >
+            <View style={styles.imgWrapper}>
+              <ImageBackground source={indie} style={styles.img}>
+                <Text style={styles.imgText}>Indie</Text>
+              </ImageBackground>
+            </View>
+          </TouchableOpacity>
 
-          <View style={styles.imgWrapper}>
-            <ImageBackground source={indie} style={styles.img}>
-              <Text style={styles.imgText}>Indie</Text>
-            </ImageBackground>
-          </View>
+          <TouchableOpacity
+            onPress={() =>
+              navigation.navigate("Type", { s_id: "IWZ9Z089", title: "Acoustic" })
+            }
+          >
+            <View style={styles.imgWrapper}>
+              <ImageBackground source={acoustic} style={styles.img}>
+                <Text style={styles.imgText}>Acoustic</Text>
+              </ImageBackground>
+            </View>
+          </TouchableOpacity>
 
-          <View style={styles.imgWrapper}>
-            <ImageBackground source={jazz} style={styles.img}>
-              <Text style={styles.imgText}>Jazz</Text>
-            </ImageBackground>
-          </View>
+          <TouchableOpacity
+            onPress={() =>
+              navigation.navigate("Type", { s_id: "IWZ9Z0AB", title: "Jazz" })
+            }
+          >
+            <View style={styles.imgWrapper}>
+              <ImageBackground source={jazz} style={styles.img}>
+                <Text style={styles.imgText}>Jazz</Text>
+              </ImageBackground>
+            </View>
+          </TouchableOpacity>
 
-          <View style={styles.imgWrapper}>
-            <ImageBackground source={classical} style={styles.img}>
-              <Text style={styles.imgText}>Classical</Text>
-            </ImageBackground>
-          </View>
+          <TouchableOpacity
+            onPress={() =>
+              navigation.navigate("Type", { s_id: "IWZ9Z0C9", title: "Nhạc cổ điển" })
+            }
+          >
+            <View style={styles.imgWrapper}>
+              <ImageBackground source={codien} style={styles.img}>
+                <Text style={styles.imgText}>Nhạc cổ điển</Text>
+              </ImageBackground>
+            </View>
+          </TouchableOpacity>
 
-          <View style={styles.imgWrapper}>
-            <ImageBackground source={pop} style={styles.img}>
-              <Text style={styles.imgText}>Pop</Text>
-            </ImageBackground>
-          </View>
+          <TouchableOpacity
+            onPress={() =>
+              navigation.navigate("Type", { s_id: "IWZ9Z08F", title: "Latin" })
+            }
+          >
+            <View style={styles.imgWrapper}>
+              <ImageBackground source={latin} style={styles.img}>
+                <Text style={styles.imgText}>Latin</Text>
+              </ImageBackground>
+            </View>
+          </TouchableOpacity>
 
-          <View style={styles.imgWrapper}>
-            <ImageBackground source={country} style={styles.img}>
-              <Text style={styles.imgText}>Country</Text>
-            </ImageBackground>
-          </View>
+          <TouchableOpacity
+            onPress={() =>
+              navigation.navigate("Type", { s_id: "IWZ9Z09O", title: "Rock" })
+            }
+          >
+            <View style={styles.imgWrapper}>
+              <ImageBackground source={rock} style={styles.img}>
+                <Text style={styles.imgText}>Rock</Text>
+              </ImageBackground>
+            </View>
+          </TouchableOpacity>
 
-          <View style={styles.imgWrapper}>
-            <ImageBackground source={metal} style={styles.img}>
-              <Text style={styles.imgText}>Metal</Text>
-            </ImageBackground>
-          </View>
+          <TouchableOpacity
+            onPress={() =>
+              navigation.navigate("Type", { s_id: "IWZ9Z0B0", title: "Nhạc Âu Mỹ Bất Hủ" })
+            }
+          >
+            <View style={styles.imgWrapper}>
+              <ImageBackground source={country} style={styles.img}>
+                <Text style={styles.imgText}>Nhạc Âu Mỹ Bất Hủ</Text>
+              </ImageBackground>
+            </View>
+          </TouchableOpacity>
 
-          <View style={styles.imgWrapper}>
-            <ImageBackground source={instrumental} style={styles.img}>
-              <Text style={styles.imgText}>Instrumental</Text>
-            </ImageBackground>
-          </View>
-
-          <View style={styles.imgWrapper}>
-            <ImageBackground source={blues} style={styles.img}>
-              <Text style={styles.imgText}>Blues</Text>
-            </ImageBackground>
-          </View>
-
-          <View style={styles.imgWrapper}>
-            <ImageBackground source={disco} style={styles.img}>
-              <Text style={styles.imgText}>Funk & Disco</Text>
-            </ImageBackground>
-          </View>
-
-          <View style={styles.imgWrapper}>
-            <ImageBackground source={kpop} style={styles.img}>
-              <Text style={styles.imgText}>Kpop</Text>
-            </ImageBackground>
-          </View>
-
+          <TouchableOpacity
+            onPress={() =>
+              navigation.navigate("Type", { s_id: "IWZ9Z0CW", title: "Nhạc Việt Bất Hủ" })
+            }
+          >
+            <View style={styles.imgWrapper}>
+              <ImageBackground source={viet} style={styles.img}>
+                <Text style={styles.imgText}>Nhạc Việt Bất Hủ</Text>
+              </ImageBackground>
+            </View>
+          </TouchableOpacity>
+          <TouchableOpacity
+            onPress={() =>
+              navigation.navigate("Type", { s_id: "IWZ9Z09I", title: "Nhạc Trịnh" })
+            }
+          >
+            <View style={styles.imgWrapper}>
+              <ImageBackground source={trinh} style={styles.img}>
+                <Text style={styles.imgText}>Nhạc Trịnh</Text>
+              </ImageBackground>
+            </View>
+          </TouchableOpacity>
           {/* Add more items here */}
         </View>
+        
         <View style={{ height: 100 }}></View>
       </ScrollView>
     </View>
