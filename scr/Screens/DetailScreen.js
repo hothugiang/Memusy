@@ -21,7 +21,9 @@ import * as SplashScreen from "expo-splash-screen";
 import { Audio, InterruptionModeAndroid, InterruptionModeIOS } from "expo-av";
 import * as Animatable from "react-native-animatable";
 import { Ionicons } from "@expo/vector-icons";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 import { Notifications } from 'expo';
+
 
 export default function DetailScreen({ navigation, route }) {
   const { s_id } = route.params;
@@ -43,10 +45,22 @@ export default function DetailScreen({ navigation, route }) {
 
   const loadInfomation = async () => {
     try {
-      const info = await axiosInstance.get(`/musics/infosong/${s_id}`);
+      const token = await AsyncStorage.getItem("token");
+      if (!token) {
+        navigation.navigate("Login");
+      }
+      const info = await axiosInstance.get(`/musics/infosong/${s_id}`, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
       setInformation(info.data.data);
     } catch (error) {
-      console.error("Error loading info:", error);
+      if (error.response && error.response.status === 401) {
+        navigation.navigate("Login");
+      } else {
+        console.error("Error loading info:", error);
+      }
     }
   };
 
@@ -72,7 +86,9 @@ export default function DetailScreen({ navigation, route }) {
         Alert.alert("Bài hát bản quyền", "Bạn không nghe được bài hát này", [
           {
             text: "Trở về",
-            onPress: () => { navigation.goBack(); }
+            onPress: () => {
+              navigation.goBack();
+            },
           },
         ]);
       }

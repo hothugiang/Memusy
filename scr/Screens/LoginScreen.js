@@ -81,11 +81,9 @@ export default function LoginScreen({ navigation }) {
           navigation.navigate("Home");
         }
       } else {
-        // Xử lý khi đăng nhập thất bại
         console.error("Login failed");
       }
     } catch (error) {
-      // Xử lý khi có lỗi
       console.error("Error during login:", error);
     }
   };
