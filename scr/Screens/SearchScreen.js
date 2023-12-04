@@ -1,6 +1,6 @@
 import * as React from "react";
 import { useState } from "react";
-
+import { Platform } from "react-native";
 import {
   Dimensions,
   Image,
@@ -352,7 +352,7 @@ export default function SearchScreen({ navigation }) {
 
   return (
     <View style={styles.background}>
-      <View style={{ flexDirection: 'row', marginTop: 50 }}>
+      <View style={{ flexDirection: 'row', marginTop: Platform.OS === "ios" ? 50 : 20 }}>
         <View style = {{width: WIDTH - 60}}>
           <Input
             placeholder="Bạn muốn nghe gì..."
@@ -565,6 +565,7 @@ const styles = StyleSheet.create({
 
   inputStyle: {
     paddingLeft: 10,
+    color:"white"
   },
 
   leftIconStyle: {

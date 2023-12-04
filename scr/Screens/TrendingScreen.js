@@ -1,6 +1,6 @@
 import * as React from "react";
 import { useState } from "react";
-
+import { createMaterialTopTabNavigator } from '@react-navigation/material-top-tabs';
 import {
   Dimensions,
   Image,
@@ -17,96 +17,126 @@ import {
   FlatList,
   VirtualizedList,
 } from "react-native";
+import { Platform } from 'react-native';
 import kpop from "./../../assets/img/kpop.jpg";
 import { BackgroundImage } from "react-native-elements/dist/config";
+import { Ionicons } from "@expo/vector-icons";
+import { ScreenHeight } from "react-native-elements/dist/helpers";
 
+const Tab = createMaterialTopTabNavigator();
 const { width: WIDTH } = Dimensions.get("window");
 const { height: HEIGHT } = Dimensions.get("window");
 const standardWidth = 360;
 const standardHeight = 800;
-export default function TrendingScreen({ navigation }) {
+
+const BottomTab = () => {
   const data = [
     {
-      name: "BOLERO",
+      imgNumber:1,
+      name: "Nhạc Việt",
       src: require("./../../assets/img/vlmb.jpg"),
       rank1: "Vùng Lá Me Bay",
       rank2: "Tấm Lòng Son",
       rank3: "Bạn Đời",
     },
     {
-      name: "KPOP",
+      imgNumber:1,
+      name: "Nhạc USUK",
       src: require("./../../assets/img/kpop.jpg"),
       rank1: "Seven",
       rank2: "Baddie",
       rank3: "Love Lee",
     },
     {
-      name: "LOVE",
+      imgNumber:1,
+      name: "Nhạc Hàn",
       artist: "g",
       src: require("./../../assets/img/bandoi.jpg"),
       rank1: "Love Story",
       rank2: "You Broke Me First",
       rank3: "Hard To Let Go",
     },
-    {
-      name: "US-UK",
-      artist: "Hihi",
-      src: require("./../../assets/img/pop.jpg"),
-      rank1: "Is It Over Now?",
-      rank2: "Paint The Town Red",
-      rank3: "Snooze",
-    },
-    {
-      name: "VPOP",
-      artist: "Hihi",
-      src: require("./../../assets/img/divenha.jpg"),
-      rank1: "Cắt đôi nỗi sầu",
-      rank2: "Từng quen",
-      rank3: "Tất cả hoặc không là gì cả",
-    },
   ];
+  const VietNam = () => {
+    return (
+      <View style={{ backgroundColor: "#000000" }}>
+        <FlatList
+          data={data}
+          showsVerticalScrollIndicator={false}
+          renderItem={({ item }) => (
+            <View style={styles.chartContainer}>
+              <TouchableOpacity style={styles.chartContainer}>
+                <ImageBackground source={item.src} blurRadius={40}>
+                  <View style={{ flexDirection: "row", marginTop:10}}>
+                    <Image source={require(`../../assets/img/1.png`)} style={styles.img1} resizeMode="cover" />
+                    <Image source={item.src} style={styles.img} resizeMode="cover" />
+                    <View style={styles.songContainer}>
+                      <Text style={styles.chartName}>{item.name}</Text>
+                      <Text
+                        style={styles.song}
+                        numberOfLines={1}
+                        ellipsizeMode="tail"
+                      >
+                        {item.rank1}
+                      </Text>
+                    </View>
+                  </View>
+                </ImageBackground>
+
+              </TouchableOpacity>
+            </View>
+
+          )}
+        ></FlatList>
+        <View height={ScreenHeight} style={{ backgroundColor: "#000000" }}></View>
+      </View>
+    )
+  }
+  const USUK = () => {
+    return (
+      <View style={{ backgroundColor: "#000000" }}>
+
+      </View>
+    )
+  }
+  const Korea = () => {
+    return (
+      <View style={{ backgroundColor: "#000000" }}>
+
+      </View>
+    )
+  }
+  return (
+    <Tab.Navigator
+      tabBarOptions={{
+        activeTintColor: 'white', // Màu chữ của tab đang được chọn
+        inactiveTintColor: 'gray', // Màu chữ của các tab không được chọn
+        style: { backgroundColor: 'black' }, // Màu nền của thanh bottom tab
+      }}
+      screenOptions={({ route }) => ({
+        tabBarIndicatorStyle: {
+          backgroundColor: 'white', // Màu của thanh hoạt động
+          height: 1.5,
+        },
+        tabBarLabelStyle: {
+          fontWeight: 'bold', // Chữ in đậm
+          fontSize: 14, // Kích thước font chữ
+        },
+      })}
+    >
+      <Tab.Screen name="Việt Nam" component={VietNam} />
+      <Tab.Screen name="Nhạc USUK" component={USUK} />
+      <Tab.Screen name="Nhạc Hàn" component={Korea} />
+    </Tab.Navigator>
+  )
+}
+export default function TrendingScreen({ navigation }) {
   return (
     <View style={styles.background}>
       <View style={styles.container}>
         <Text style={styles.text}>Trending Now</Text>
       </View>
-
-      <FlatList
-        data={data}
-        showsVerticalScrollIndicator={false}
-        renderItem={({ item }) => (
-          <TouchableOpacity style={styles.chartContainer}>
-            <ImageBackground source={item.src} blurRadius={40}>
-              <Image source={item.src} style={styles.img} resizeMode="cover" />
-              <View style={styles.songContainer}>
-                <Text style={styles.chartName}>{item.name}</Text>
-                <Text
-                  style={styles.song}
-                  numberOfLines={1}
-                  ellipsizeMode="tail"
-                >
-                  1. {item.rank1}
-                </Text>
-                <Text
-                  style={styles.song}
-                  numberOfLines={1}
-                  ellipsizeMode="tail"
-                >
-                  2. {item.rank2}
-                </Text>
-                <Text
-                  style={styles.song}
-                  numberOfLines={1}
-                  ellipsizeMode="tail"
-                >
-                  3. {item.rank3}
-                </Text>
-              </View>
-            </ImageBackground>
-          </TouchableOpacity>
-        )}
-      ></FlatList>
-      <View height={90}></View>
+      <BottomTab style={{ backgroundColor: "black" }} />
     </View>
   );
 }
@@ -120,45 +150,52 @@ const styles = {
   container: {
     marginHorizontal: 30,
     borderRadius: 20,
-    marginTop: 80,
-    alignItems: "flex-start",
-
-    marginBottom: 20,
+    marginTop: Platform.OS === "ios" ? 80 : 30,
+    // alignItems: "flex-start",
+    marginBottom: 30,
   },
   text: {
     color: "white",
     fontWeight: "bold",
-    justifyContent: "flex-start",
-    fontSize: 30,
+    // justifyContent: "flex-start",
+    fontSize: 25,
   },
   chartContainer: {
-    marginTop: 20,
-    height: HEIGHT / 6,
+    marginTop: 5,
+    height: 95,
     width: WIDTH - 50,
     borderRadius: 20,
     overflow: "hidden",
     alignSelf: "center",
   },
-
+  img1: {
+    width:70,
+    height:70,
+    marginLeft:-5,
+    alignItems: "center",
+    justifyContent:"center"
+  },
   img: {
-    width: (100 / standardWidth) * WIDTH,
-    height: (100 / standardWidth) * WIDTH,
-    margin: 18,
-    borderRadius: 20,
+    width: 70,
+    height: 70,
+    marginRight:20,
+    marginLeft:-10,
+    marginBottom: 10,
+    borderRadius: 10,
+    alignItems: "center",
   },
   songContainer: {
-    position: "absolute",
-    marginTop: 20,
-    marginLeft: 150,
+    justifyContent:"center",
+    alignSelf:"center",
+    flexDirection:"column",
+    top:-10
   },
   chartName: {
     color: "white",
-    marginBottom: 5,
     fontWeight: "bold",
     fontSize: 18,
   },
   song: {
     color: "white",
-    marginTop: 5,
   },
 };

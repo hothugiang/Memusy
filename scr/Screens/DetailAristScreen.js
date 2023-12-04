@@ -64,40 +64,7 @@ export default function UserScreen({ navigation }) {
           <Text style={styles.follow}>Followers 5 | Following 20</Text>
         </View>
       </View>
-      <View style={{ flexDirection: 'row' }}>
-        <TouchableOpacity style={styles.edit1} onPress={() => navigation.navigate("EditProfile")}>
-          <Text style={styles.edit2}>Edit</Text>
-        </TouchableOpacity>
-        <TouchableOpacity style={styles.edit3} onPress={() => navigation.navigate("Login")}>
-          <Text style={styles.edit2} onPress={logOut}>Logout</Text>
-        </TouchableOpacity>
-      </View>
-      <Text style={{ marginLeft: 20, color: "white", fontFamily: "Open-san", fontSize: 20, marginBottom: 10 }}>Thư viện</Text>
-      <View style={{ flexDirection: "row", flexWrap: "wrap" }}>
-        <View style={styles.imgWrapper}>
-          <View style={styles.img}>
-            <Text style={styles.imgText}>PlayList</Text>
-          </View>
-        </View>
-
-        <View style={styles.imgWrapper}>
-          <View style={styles.img}>
-            <Text style={styles.imgText}>Upload</Text>
-          </View>
-        </View>
-
-        <View style={styles.imgWrapper}>
-          <View style={styles.img}>
-            <Text style={styles.imgText}>Album</Text>
-          </View>
-        </View>
-
-        <View style={styles.imgWrapper}>
-          <View style={styles.img}>
-            <Text style={styles.imgText}>Nghệ sĩ</Text>
-          </View>
-        </View>
-      </View>
+      
       <View style={{ height: 60 }}></View>
     </View>
   );
