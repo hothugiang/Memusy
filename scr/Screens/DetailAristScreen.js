@@ -1,156 +1,316 @@
-import React, { useContext } from 'react';
-import { View, Text, StyleSheet ,Dimensions,TouchableOpacity} from 'react-native';
-import { Button } from 'react-native-elements';
-import TokenContext from '../contexts/TokenContext';
+import { Text, View, StyleSheet, ScrollView, Image, TouchableOpacity, Animated } from 'react-native';
+import { Dimensions, ImageBackground } from 'react-native';
+import SearchScreen from './SearchScreen';
+import React, { useRef, useState } from 'react';
+import { FlatList } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
-import { Image } from 'react-native';
-import { useFonts } from 'expo-font';
-import * as SplashScreen from 'expo-splash-screen';
-import { useEffect } from 'react';
-import { createMaterialTopTabNavigator } from "@react-navigation/material-top-tabs";
-import { axiosInstance } from '../constants/Axios';
-import { Platform } from 'react-native';
-const { width: WIDTH } = Dimensions.get("window");
-const { height: HEIGHT } = Dimensions.get("window");
+const { width: WIDTH, height: HEIGHT } = Dimensions.get("window");
 const standardWidth = 360;
 const standardHeight = 800;
-export default function UserScreen({ navigation }) {
-  
-  const [fontsLoaded] = useFonts({
-    'GentiumBookBasic-Italic': require('./../../assets/fonts/GentiumBookBasic-Italic.ttf'),
-    'Open-san': require('./../../assets/fonts/Montserrat-Bold.ttf')
-  });
-  useEffect(() => {
-    async function prepare() {
-      await SplashScreen.preventAutoHideAsync();
-    }
-    prepare();
-  })
-  if (!fontsLoaded) {
-    return undefined;
-  } else {
-    SplashScreen.hideAsync();
-  }
+const data = [
+  { name: "Vùng lá me bay", artist: "Hihi", src: require("./../../assets/img/vlmb.jpg"), year: 2022, type: "Single" },
+  { name: "Tấm lòng son", artist: "Hihi", src: require("./../../assets/img/kpop.jpg"), year: 2008, type: "EP" },
+  { name: "Bạn đời", artist: "g", src: require("./../../assets/img/bandoi.jpg"), year: 1989 },
+  { name: "Mang tiền về cho mẹ", artist: "Hihi", src: require("./../../assets/img/mangtien.jpg"), year: 1908, type: "Single" },
+  { name: "Đi theo bóng mặt trời", artist: "Hihi", src: require("./../../assets/img/theobong.jpg"), year: 2003, type: "Single" },
+  { name: "Đi về nhà", artist: "Hihi", src: require("./../../assets/img/divenha.jpg"), year: 2021, type: "Single" },
+  { name: "Vùng lá me bay", artist: "Hihi", src: require("./../../assets/img/vlmb.jpg"), year: 2022, type: "Single" },
+  { name: "Tấm lòng son", artist: "Hihi", src: require("./../../assets/img/kpop.jpg"), year: 2008, type: "EP" },
+];
 
-  const logOut = async () => {
-    navigation.navigate('Login');
-    // try {
-    //   // Gọi API logout từ phía backend
-    //   const response = await axiosInstance.post('/users/logout');
-
-    //   // Kiểm tra xem yêu cầu có thành công hay không
-    //   if (response.status === 200) {
-    //     // Xử lý khi logout thành công, ví dụ: chuyển hướng đến màn hình đăng nhập
-    //     navigation.navigate('Login');
-    //   } else {
-    //     console.error('Logout failed');
-    //   }
-    // } catch (error) {
-    //   console.error('Error during logout:', error);
-    // }
-  };
+const DetailArtistScreen = ({ navigation }) => {
+  const scrollOfsetY = useRef(new Animated.Value(0)).current;
   return (
-    <View style={{ flex: 1, backgroundColor: 'black' }}>
-      <View style={{ marginTop: Platform.OS === "ios" ? 24 : 0 }}>
-        <Ionicons name='ios-arrow-back' size={24} color='#5257D'></Ionicons>
-      </View>
+    <View style={{ backgroundColor: "black", flex: 1 }}>
+      <DynamicHeader value={scrollOfsetY} navigation={navigation} />
+      <ScrollView
+        style={styles.container}
+        horizontal={false}
+        showsVerticalScrollIndicator={false}
+        onScroll={Animated.event([{
+          nativeEvent: { contentOffset: { y: scrollOfsetY } }
+        }], {
+          useNativeDriver: false,
+        })}
+      >
+        <Text
+          style={styles.title}
+        >
+          Bài Hát Nổi Bật{" "}
+        </Text>
+        {data.map(val => {
+          return (
+            <View style={styles.songsWrapper}>
+              <TouchableOpacity style={styles.songs} onPress={() => navigation.navigate("SongDetail")}>
+                <Image source={val.src} style={styles.songImage} resizeMode="cover" />
+                <View>
+                  <Text style={styles.songTitle}>{val.name}</Text>
+                  <Text style={styles.songType}>{val.artist}</Text>
+                </View>
+              </TouchableOpacity>
+              <TouchableOpacity>
+                <Text style={styles.songOption}>...</Text>
+              </TouchableOpacity>
+            </View>
+          )
+        })}
 
-      <View style={{ flexDirection: 'row' }}>
-        <View style={styles.profileImage}>
-          <Image source={require("../../assets/img/cho.jpg")} style={styles.image} resizeMode="center"></Image>
+        <Text style={styles.title}>
+          Single
+        </Text>
+        <ScrollView horizontal={true}>
+          <FlatList
+            horizontal={true}
+            scrollEnabled={false}
+            nestedScrollEnabled={true}
+            scrollToOverflowEnabled={false}
+            data={data}
+            renderItem={({ item }) => (
+              <View style={{ flexDirection: "row" }}>
+                <View style={styles.content}>
+                  <Image
+                    source={item.src}
+                    style={styles.img2}
+                    resizeMode="cover"
+                  ></Image>
+                  <View style={styles.name2}>
+                    <Text
+                      style={{
+                        fontSize: 16,
+                        flexWrap: "wrap",
+                        textAlign: "left",
+                        color: "gray",
+                      }}
+                    >
+                      {item.name}
+                    </Text>
+                  </View>
+                </View>
+              </View>
+            )}
+          ></FlatList>
+        </ScrollView>
+
+    
+        <View style={{flexDirection:"column",marginLeft:20}}>
+          <Text style = {{color:"white",fontSize:20,fontWeight:"bold"}}>Thông tin</Text>
+          <Text style = {{color:"gray",fontSize:16,textAlign:"justify",maxWidth:width-40}}>sjcjdsfedfdddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddđ</Text>
+          <View style= {{flexDirection:"row"}}>
+            <View style = {{flexDirection:"column",marginLeft:10}}>
+              <Text style = {{fontSize:16,color:"gray"}}>{'\n'}Tên thật</Text>
+              <Text style = {{fontSize:16,color:"gray"}}>{'\n'}Quốc gia</Text>
+              <Text style = {{fontSize:16,color:"gray"}}>{'\n'}Thể loại</Text>
+            </View>
+            <View style = {{flexDirection:"column",marginLeft:40}}>
+                <Text style = {{fontSize:16,color:"white",fontWeight:"bold",}}>{'\n'}BTS</Text>
+                <Text style = {{fontSize:16,color:"white",fontWeight:"bold",}}>{'\n'}South Korea</Text>
+                <Text style = {{fontSize:16,color:"white",fontWeight:"bold",}}>{'\n'}Hàn quốc,Rap/Hiphop</Text>
+            </View>
+          </View>
         </View>
-        <View style={{ flexDirection: 'column' }}>
-          <Text style={styles.name}>Ming Ming</Text>
-          <Text style={styles.follow}>Followers 5 | Following 20</Text>
-        </View>
-      </View>
-      
-      <View style={{ height: 60 }}></View>
+
+        <View style={{ height: 400 }}></View>
+      </ScrollView>
+
     </View>
-  );
+
+  )
 }
+const width = Dimensions.get("window").width;
+const height = Dimensions.get("window").height;
 
 const styles = StyleSheet.create({
-  profileImage: {
-    width: 100,
-    height: 100,
-    borderRadius: 100,
-    overflow: 'hidden',
-    marginLeft: 20
+  header: {
+    left: 0,
+    right: 0,
   },
-  image: {
-    flex: 1,
-    borderRadius: 100,
-    width: undefined,
-    height: undefined
-  },
-  name: {
-    color: 'white',
-    marginLeft: 30,
-    marginTop: 15,
-    fontSize: 20
-  },
-  follow: {
-    color: 'gray',
-    fontSize: 17,
-    marginTop: 5,
-    marginLeft: 30,
-  },
-  edit1: {
-    marginLeft: 25,
-    marginTop: 15,
-    marginBottom: 15,
-    height: 40,
-    width: 80,
-    backgroundColor: 'black',
-    borderWidth: 1,
-    borderColor: 'white',
-    justifyContent: 'center',
-    alignItems: 'center',
-    borderRadius: 50,
-  },
-  edit2: {
-    color: 'white',
-    fontWeight: 'bold',
-    fontSize: 15
-  },
-  edit3: {
-    marginLeft: 10,
-    marginTop: 15,
-    height: 40,
-    width: 80,
-    backgroundColor: 'black',
-    borderWidth: 1,
-    borderColor: 'white',
-    justifyContent: 'center',
-    alignItems: 'center',
-    borderRadius: 50,
-  },
-  buttonBackground: {
-    backgroundColor: "black",
-    borderColor: 'white',
-    borderColor: 'white'
-  },
-  imgWrapper: {
-    width: WIDTH / 2 - 15,
-    height: 80,
-    borderRadius: 10,
-    borderColor: "black",
-    marginLeft: 10,
-    marginTop: 10,
-    overflow: "hidden", // Hide any overflow content
-    backgroundColor:'#2F2D38'
-  },
-  imgText: {
-    marginLeft:10,
-    marginTop:10,
-    fontWeight:"bold",
-    flex: 1,
+  title: {
+    marginTop: 25,
+    marginLeft: 15,
+    color: "white",
+    fontFamily: "Open-san",
     fontSize: 20,
+    backgroundColor: "black"
+  },
+  content: {
+    marginTop: 20,
+    marginLeft: 10,
+    left: 10,
+    borderRadius: 12,
+    justifyContent: "center",
+    // alignSelf: "center",
+    alignItems: "center",
+  },
+  container: {
+    flex: 1,
+  },
+  songsWrapper: {
+    backgroundColor: "black",
+    flexDirection: "row",
+  },
+  songs: {
+    height: (70 / standardHeight) * HEIGHT,
+    flexDirection: "row",
+    width: WIDTH - 40,
+  },
+  songOption: {
+    color: "#616161",
+    fontSize: 30,
+    marginTop: 20,
+  },
+  songImage: {
+    height: (50 / standardHeight) * HEIGHT,
+    width: (50 / standardWidth) * WIDTH,
+    margin: 20,
+  },
+  songTitle: {
+    marginTop: 25,
+    fontSize: 18,
     color: "white",
   },
-  img: {
-    width: WIDTH / 2 - 15,
-    height: (100 / standardHeight) * HEIGHT,
+  songType: {
+    marginTop: 0,
+    color: "#616161",
   },
-})
+
+  img2: {
+    width: Dimensions.get("window").width / 3,
+    height: Dimensions.get("window").height / 6 - 2,
+    backgroundColor: "#1A0938",
+    borderRadius: 10,
+    justifyContent: "center",
+    alignSelf: "center",
+    alignItems: "center",
+    marginTop: 2,
+    borderColor: "black",
+    borderWidth: 1,
+  },
+  name2: {
+    width: Dimensions.get("window").width / 3 - 10,
+    height: 46,
+    paddingHorizontal: 2,
+    paddingVertical: 2,
+    alignSelf: "center",
+    alignItems: "center",
+    borderBottomRightRadius: 10,
+    borderBottomLeftRadius: 10,
+    borderColor: "black",
+    borderWidth: 1,
+    flexWrap: "wrap",
+    flexDirection: "row",
+    justifyContent: "center",
+  },
+  img3: {
+    width: Dimensions.get("window").width / 3,
+    height: Dimensions.get("window").height / 6 - 2,
+    backgroundColor: "#1A0938",
+    borderRadius: 10,
+    justifyContent: "center",
+    alignSelf: "center",
+    alignItems: "center",
+    marginTop: 2,
+    borderColor: "black",
+    borderWidth: 1,
+  },
+  name3: {
+    width: Dimensions.get("window").width / 3 - 10,
+    height: 46,
+    paddingHorizontal: 2,
+    paddingVertical: 2,
+    alignSelf: "center",
+    alignItems: "center",
+    borderBottomRightRadius: 10,
+    borderBottomLeftRadius: 10,
+    borderColor: "black",
+    borderWidth: 1,
+    flexWrap: "wrap",
+    flexDirection: "row",
+    justifyContent: "center",
+  },
+  Rectangle: {
+    width: Dimensions.get("window").width,
+    height: 1,
+    backgroundColor: "#AEB5BC",
+    marginTop: 20,
+    marginBottom: 20,
+  },
+  headerText: {
+    color: "white",
+    fontSize: 18,
+    fontWeight: "bold",
+    fontFamily: 'Open-san'
+  },
+  minHeaderContainer: {
+    flexDirection: 'row',
+    alignItems: 'center',
+  },
+  backIcon: {
+    color: "white",
+    fontSize:30,
+    marginLeft:10
+  },
+
+});
+
+
+// phần xử lý header
+const Header_Max_Height = 240;
+const Header_Min_Height = 50;
+const Scroll_Distance = 140;
+const DynamicHeader = ({ value, navigation} ) => {
+  const animatedHeaderHeight = value.interpolate({
+    inputRange: [0, Scroll_Distance],
+    outputRange: [Header_Max_Height, Header_Min_Height],
+    extrapolate: 'clamp'
+  });
+  const animatedHeaderColor = value.interpolate({
+    inputRange: [0, Scroll_Distance],
+    outputRange: ['rgba(0, 0, 0, 0)', 'rgba(0, 0, 0, 1)'],
+    extrapolate: 'clamp'
+  });
+
+  const textSize = value.interpolate({
+    inputRange: [Header_Min_Height, Header_Max_Height],
+    outputRange: [30, 20],
+    extrapolate: 'clamp'
+  });
+
+  const textTop = value.interpolate({
+    inputRange: [Header_Min_Height, Header_Max_Height],
+    outputRange: [180, 5],
+    extrapolate: 'clamp'
+  });
+  const textLeft = value.interpolate({
+    inputRange: [Header_Min_Height, Header_Max_Height],
+    outputRange: [20, Dimensions.get("window").width / 2 - 60],
+    extrapolate: 'clamp'
+  });
+
+  return (
+    <ImageBackground
+      source={require('./../../assets/img/divenha.jpg')}
+      resizeMode="cover"
+    >
+      <Animated.View style={[styles.header, { height: animatedHeaderHeight, backgroundColor: animatedHeaderColor }]}>
+        <TouchableOpacity onPress={() => navigation.navigate("Search")}>
+          <Ionicons name="chevron-back" style={styles.backIcon} />
+        </TouchableOpacity>
+        <Animated.View
+          style={[
+            {
+              backgroundColor: animatedHeaderColor,
+              position: 'absolute',
+              bottom: 20,
+              left: textLeft,
+              top: textTop,
+            }
+          ]}
+        >
+          <Animated.Text style={[styles.headerText, { fontSize: textSize }]}>HeaderText</Animated.Text>
+        </Animated.View>
+      </Animated.View>
+    </ImageBackground>
+  );
+};
+
+export default DetailArtistScreen;

@@ -22,6 +22,25 @@ import { Ionicons } from "@expo/vector-icons";
 import { Button, Input } from "react-native-elements";
 import { axiosInstance } from "../constants/Axios";
 
+import electronic from "./../../assets/img/electronic.jpg";
+import remix from "./../../assets/img/remix.jpg";
+import hiphop from "./../../assets/img/hiphop.jpg";
+import rnb from "./../../assets/img/rnb.jpg";
+import movie from "./../../assets/img/movie.jpg";
+import latin from "./../../assets/img/latin.jpg";
+import rock from "./../../assets/img/rock.jpg";
+import acoustic from "./../../assets/img/acoustic.jpg";
+import indie from "./../../assets/img/indie.jpg";
+import jazz from "./../../assets/img/jazz.jpg";
+import classical from "./../../assets/img/classical.jpg";
+import pop from "./../../assets/img/pop.jpg";
+import country from "./../../assets/img/country.jpg";
+import metal from "./../../assets/img/metal.jpg";
+import instrumental from "./../../assets/img/instrumental.jpg";
+import blues from "./../../assets/img/blues.jpg";
+import disco from "./../../assets/img/disco.jpg";
+import kpop from "./../../assets/img/kpop.jpg";
+import DetailArtistScreen from "./DetailAristScreen";
 const { width: WIDTH } = Dimensions.get("window");
 const { height: HEIGHT } = Dimensions.get("window");
 const standardWidth = 360;
@@ -94,7 +113,7 @@ export default function SearchScreen({ navigation }) {
                 <View style={styles.songsWrapper}>
                   <TouchableOpacity
                     style={styles.songs}
-                    onPress={() => navigation.navigate("SongDetail")}
+                    onPress={() => navigation.navigate("DetailArtistScreen")}
                   >
                     <Image
                       source={{ uri: item.thumbnailM }}
@@ -185,7 +204,7 @@ export default function SearchScreen({ navigation }) {
 
   return (
     <View style={styles.background}>
-      <View style={{ flexDirection: 'row', marginTop: Platform.OS === "ios" ? 50 : 20 }}>
+      <View style={{ flexDirection: 'row', marginTop: Platform.OS === "ios" ? 50 : 20}}>
         <View style = {{width: WIDTH - 60}}>
           <Input
             placeholder="Bạn muốn nghe gì..."
@@ -379,6 +398,7 @@ const styles = StyleSheet.create({
 
   inputStyle: {
     paddingLeft: 10,
+    color:"white"
   },
 
   leftIconStyle: {
