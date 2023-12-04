@@ -1,5 +1,5 @@
 import * as React from "react";
-import { useState } from "react";
+import { useState,useEffect } from "react";
 import {
   Dimensions,
   Image,
@@ -21,6 +21,7 @@ import UserScreenTab from "../Tabs/UserScreenTab";
 import { Ionicons } from "@expo/vector-icons";
 import { Button, Input } from "react-native-elements";
 import { axiosInstance } from "../constants/Axios";
+
 import electronic from "./../../assets/img/electronic.jpg";
 import remix from "./../../assets/img/remix.jpg";
 import hiphop from "./../../assets/img/hiphop.jpg";
@@ -39,7 +40,7 @@ import instrumental from "./../../assets/img/instrumental.jpg";
 import blues from "./../../assets/img/blues.jpg";
 import disco from "./../../assets/img/disco.jpg";
 import kpop from "./../../assets/img/kpop.jpg";
-
+import DetailArtistScreen from "./DetailAristScreen";
 const { width: WIDTH } = Dimensions.get("window");
 const { height: HEIGHT } = Dimensions.get("window");
 const standardWidth = 360;
@@ -115,7 +116,7 @@ export default function SearchScreen({ navigation }) {
                 <View style={styles.songsWrapper}>
                   <TouchableOpacity
                     style={styles.songs}
-                    onPress={() => navigation.navigate("SongDetail")}
+                    onPress={() => navigation.navigate("DetailArtistScreen")}
                   >
                     <Image
                       source={{ uri: item.thumbnailM }}
