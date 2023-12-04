@@ -1,5 +1,5 @@
 import * as React from "react";
-import { useState,useEffect } from "react";
+import { useState, useEffect } from "react";
 import {
   Dimensions,
   Image,
@@ -52,7 +52,6 @@ export default function SearchScreen({ navigation }) {
   const [searchResults, setSearchResults] = useState('');
 
   useEffect(() => {
-    // Hàm này sẽ được gọi mỗi khi searchText thay đổi
     const fetchData = async () => {
       try {
         const response = await axiosInstance.get(`/musics/search/${searchText}`);
@@ -63,14 +62,12 @@ export default function SearchScreen({ navigation }) {
       }
     };
 
-    // Chỉ gọi fetchData nếu searchText không rỗng
     if (searchText !== '') {
       fetchData();
     } else {
-      // Nếu searchText rỗng, đặt searchResults về mảng rỗng
       setSearchResults([]);
     }
-  }, [searchText]); // useEffect sẽ được gọi lại mỗi khi searchText thay đổi
+  }, [searchText]);
 
 
   const renderContent = () => {
@@ -207,7 +204,7 @@ export default function SearchScreen({ navigation }) {
 
   return (
     <View style={styles.background}>
-      <View style={{ flexDirection: 'row', marginTop: Platform.OS === "ios" ? 50 : 20 }}>
+      <View style={{ flexDirection: 'row', marginTop: Platform.OS === "ios" ? 50 : 20}}>
         <View style = {{width: WIDTH - 60}}>
           <Input
             placeholder="Bạn muốn nghe gì..."
@@ -401,6 +398,7 @@ const styles = StyleSheet.create({
 
   inputStyle: {
     paddingLeft: 10,
+    color:"white"
   },
 
   leftIconStyle: {

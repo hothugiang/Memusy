@@ -1,5 +1,6 @@
 import { Text, View, StyleSheet, ScrollView, Image, TouchableOpacity, Animated } from 'react-native';
 import { Dimensions, ImageBackground } from 'react-native';
+import SearchScreen from './SearchScreen';
 import React, { useRef, useState } from 'react';
 import { FlatList } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
@@ -17,11 +18,11 @@ const data = [
   { name: "Tấm lòng son", artist: "Hihi", src: require("./../../assets/img/kpop.jpg"), year: 2008, type: "EP" },
 ];
 
-const DetailArtistScreen = ({ navigate }) => {
+const DetailArtistScreen = ({ navigation }) => {
   const scrollOfsetY = useRef(new Animated.Value(0)).current;
   return (
     <View style={{ backgroundColor: "black", flex: 1 }}>
-      <DynamicHeader value={scrollOfsetY} />
+      <DynamicHeader value={scrollOfsetY} navigation={navigation} />
       <ScrollView
         style={styles.container}
         horizontal={false}
@@ -256,7 +257,7 @@ const styles = StyleSheet.create({
 const Header_Max_Height = 240;
 const Header_Min_Height = 50;
 const Scroll_Distance = 140;
-const DynamicHeader = ({ value }: any) => {
+const DynamicHeader = ({ value, navigation} ) => {
   const animatedHeaderHeight = value.interpolate({
     inputRange: [0, Scroll_Distance],
     outputRange: [Header_Max_Height, Header_Min_Height],
@@ -291,7 +292,7 @@ const DynamicHeader = ({ value }: any) => {
       resizeMode="cover"
     >
       <Animated.View style={[styles.header, { height: animatedHeaderHeight, backgroundColor: animatedHeaderColor }]}>
-        <TouchableOpacity >
+        <TouchableOpacity onPress={() => navigation.navigate("Search")}>
           <Ionicons name="chevron-back" style={styles.backIcon} />
         </TouchableOpacity>
         <Animated.View
