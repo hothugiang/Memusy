@@ -113,7 +113,7 @@ export default function SearchScreen({ navigation }) {
                 <View style={styles.songsWrapper}>
                   <TouchableOpacity
                     style={styles.songs}
-                    onPress={() => navigation.navigate("DetailArtistScreen")}
+                    onPress={() => navigation.navigate("DetailArtistScreen", { s_id: item.alias, title: item.name })}
                   >
                     <Image
                       source={{ uri: item.thumbnailM }}
@@ -153,7 +153,7 @@ export default function SearchScreen({ navigation }) {
                     <View style={[styles.songsWrapper, { marginLeft: 20 }]}>
                       <TouchableOpacity
                         style={{ flexDirection: "row", flexWrap: "wrap" }}
-                        onPress={() => navigation.navigate("SongDetail")}
+                        onPress={() => navigation.navigate("DetailPlaylist", { s_id: item.encodeId, title: item.title })}
                       >
                         <View>
                           <Image

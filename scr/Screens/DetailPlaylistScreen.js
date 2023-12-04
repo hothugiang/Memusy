@@ -14,19 +14,17 @@ const DetailArtistScreen = ({ navigation, route }) => {
   const [urlCover, setURLCover] = useState("");
   const [dataFetched, setDataFetched] = useState(false);
   const [listSong, setListSong] = useState([]);
-  const [listSingle, setListSingle] = useState([]);
-  const [infomation, setInfomation] = useState('');
+  const [infomation, setInfomation] = useState("");
 
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await axiosInstance.get(`/musics/artist/${s_id}`);
-        setInfomation(response.data.data.data);
-        setURLCover(response.data.data.data.cover);
-        setListSong(response.data.data.data.sections[0].items);
-        setListSingle(response.data.data.data.sections[2].items);
+        const response = await axiosInstance.get(`/musics/detailplaylist/${s_id}`);
+        setInfomation(response.data.data);
+        setURLCover(response.data.data.thumbnailM);
+        setListSong(response.data.data.song.items);
+        
         setDataFetched(true);
-        console.log(listSong);
       } catch (error) {
         console.error("Lỗi khi tìm kiếm:", error);
       }
@@ -39,6 +37,20 @@ const DetailArtistScreen = ({ navigation, route }) => {
   return (
     <View style={{ backgroundColor: "black", flex: 1 }}>
       <DynamicHeader value={scrollOfsetY} navigation={navigation} title={title} cover={urlCover}/>
+      <View style={{flexDirection:"column", marginLeft:20}}>
+          <Text style = {{color:"white",fontSize:20,fontWeight:"bold"}}>Thông tin</Text>
+          <Text style = {{color:"gray",fontSize:16,textAlign:"justify",maxWidth:width-40}}>{infomation.biography}</Text>
+          <View style= {{flexDirection:"row"}}>
+            <View style = {{flexDirection:"column",marginLeft:10}}>
+              <Text style = {{fontSize:16,color:"gray"}}>{'\n'}Nghệ sĩ</Text>
+              <Text style = {{fontSize:16,color:"gray"}}>{'\n'}Phát hành</Text>
+            </View>
+            <View style = {{flexDirection:"column",marginLeft:40}}>
+                <Text style = {{fontSize:16,color:"white",fontWeight:"bold",}}>{'\n'}{infomation.artistsNames}</Text>
+                <Text style = {{fontSize:16,color:"white",fontWeight:"bold",}}>{'\n'}{infomation.releaseDate}</Text>
+            </View>
+          </View>
+        </View>
       <ScrollView
         style={styles.container}
         horizontal={false}
@@ -52,7 +64,7 @@ const DetailArtistScreen = ({ navigation, route }) => {
         <Text
           style={styles.title}
         >
-          Bài Hát Nổi Bật{" "}
+          Danh sách bài hát{" "}
         </Text>
         {listSong.map(val => {
           return (
@@ -70,60 +82,6 @@ const DetailArtistScreen = ({ navigation, route }) => {
             </View>
           )
         })}
-
-        <Text style={styles.title}>
-          Single
-        </Text>
-        <ScrollView horizontal={true}>
-          <FlatList
-            horizontal={true}
-            scrollEnabled={false}
-            nestedScrollEnabled={true}
-            scrollToOverflowEnabled={false}
-            data={listSingle}
-            renderItem={({ item }) => (
-              <View style={{ flexDirection: "row" }}>
-                <View style={styles.content}>
-                  <Image
-                    source={{uri: item.thumbnailM}}
-                    style={styles.img2}
-                    resizeMode="cover"
-                  ></Image>
-                  <View style={styles.name2}>
-                    <Text
-                      style={{
-                        fontSize: 16,
-                        flexWrap: "wrap",
-                        textAlign: "left",
-                        color: "gray",
-                      }}
-                    >
-                      {item.title}
-                    </Text>
-                  </View>
-                </View>
-              </View>
-            )}
-          ></FlatList>
-        </ScrollView>
-
-    
-        <View style={{flexDirection:"column",marginLeft:20}}>
-          <Text style = {{color:"white",fontSize:20,fontWeight:"bold"}}>Thông tin</Text>
-          <Text style = {{color:"gray",fontSize:16,textAlign:"justify",maxWidth:width-40}}>{infomation.biography}</Text>
-          <View style= {{flexDirection:"row"}}>
-            <View style = {{flexDirection:"column",marginLeft:10}}>
-              <Text style = {{fontSize:16,color:"gray"}}>{'\n'}Tên thật</Text>
-              <Text style = {{fontSize:16,color:"gray"}}>{'\n'}Quốc gia</Text>
-            </View>
-            <View style = {{flexDirection:"column",marginLeft:40}}>
-                <Text style = {{fontSize:16,color:"white",fontWeight:"bold",}}>{'\n'}{infomation.realname}</Text>
-                <Text style = {{fontSize:16,color:"white",fontWeight:"bold",}}>{'\n'}{infomation.national}</Text>
-            </View>
-          </View>
-        </View>
-
-        <View style={{ height: 400 }}></View>
       </ScrollView>
 
     </View>
