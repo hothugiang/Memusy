@@ -1,28 +1,44 @@
 import { Text, View, StyleSheet, ScrollView, Image, TouchableOpacity, Animated } from 'react-native';
 import { Dimensions, ImageBackground } from 'react-native';
-import SearchScreen from './SearchScreen';
-import React, { useRef, useState } from 'react';
+import React, { useRef, useState, useEffect } from 'react';
+import { axiosInstance } from '../constants/Axios';
 import { FlatList } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
 const { width: WIDTH, height: HEIGHT } = Dimensions.get("window");
 const standardWidth = 360;
 const standardHeight = 800;
-const data = [
-  { name: "Vùng lá me bay", artist: "Hihi", src: require("./../../assets/img/vlmb.jpg"), year: 2022, type: "Single" },
-  { name: "Tấm lòng son", artist: "Hihi", src: require("./../../assets/img/kpop.jpg"), year: 2008, type: "EP" },
-  { name: "Bạn đời", artist: "g", src: require("./../../assets/img/bandoi.jpg"), year: 1989 },
-  { name: "Mang tiền về cho mẹ", artist: "Hihi", src: require("./../../assets/img/mangtien.jpg"), year: 1908, type: "Single" },
-  { name: "Đi theo bóng mặt trời", artist: "Hihi", src: require("./../../assets/img/theobong.jpg"), year: 2003, type: "Single" },
-  { name: "Đi về nhà", artist: "Hihi", src: require("./../../assets/img/divenha.jpg"), year: 2021, type: "Single" },
-  { name: "Vùng lá me bay", artist: "Hihi", src: require("./../../assets/img/vlmb.jpg"), year: 2022, type: "Single" },
-  { name: "Tấm lòng son", artist: "Hihi", src: require("./../../assets/img/kpop.jpg"), year: 2008, type: "EP" },
-];
 
-const DetailArtistScreen = ({ navigation }) => {
+const DetailArtistScreen = ({ navigation, route }) => {
+  const {s_id, title} = route.params;
   const scrollOfsetY = useRef(new Animated.Value(0)).current;
+  const [urlCover, setURLCover] = useState("");
+  const [dataFetched, setDataFetched] = useState(false);
+  const [listSong, setListSong] = useState([]);
+  const [listSingle, setListSingle] = useState([]);
+  const [infomation, setInfomation] = useState('');
+
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const response = await axiosInstance.get(`/musics/artist/${s_id}`);
+        setInfomation(response.data.data.data);
+        setURLCover(response.data.data.data.cover);
+        setListSong(response.data.data.data.sections[0].items);
+        setListSingle(response.data.data.data.sections[2].items);
+        setDataFetched(true);
+        console.log(listSong);
+      } catch (error) {
+        console.error("Lỗi khi tìm kiếm:", error);
+      }
+    };
+    if (!dataFetched) {
+      fetchData();
+    }
+  });
+
   return (
     <View style={{ backgroundColor: "black", flex: 1 }}>
-      <DynamicHeader value={scrollOfsetY} navigation={navigation} />
+      <DynamicHeader value={scrollOfsetY} navigation={navigation} title={title} cover={urlCover}/>
       <ScrollView
         style={styles.container}
         horizontal={false}
@@ -38,14 +54,14 @@ const DetailArtistScreen = ({ navigation }) => {
         >
           Bài Hát Nổi Bật{" "}
         </Text>
-        {data.map(val => {
+        {listSong.map(val => {
           return (
             <View style={styles.songsWrapper}>
-              <TouchableOpacity style={styles.songs} onPress={() => navigation.navigate("SongDetail")}>
-                <Image source={val.src} style={styles.songImage} resizeMode="cover" />
+              <TouchableOpacity style={styles.songs} onPress={() => navigation.navigate("SongDetail", { s_id: val.encodeId })}>
+                <Image source={{uri: val.thumbnail}} style={styles.songImage} resizeMode="cover" />
                 <View>
-                  <Text style={styles.songTitle}>{val.name}</Text>
-                  <Text style={styles.songType}>{val.artist}</Text>
+                  <Text style={styles.songTitle}>{val.title}</Text>
+                  <Text style={styles.songType}>{val.artistsNames}</Text>
                 </View>
               </TouchableOpacity>
               <TouchableOpacity>
@@ -64,12 +80,12 @@ const DetailArtistScreen = ({ navigation }) => {
             scrollEnabled={false}
             nestedScrollEnabled={true}
             scrollToOverflowEnabled={false}
-            data={data}
+            data={listSingle}
             renderItem={({ item }) => (
               <View style={{ flexDirection: "row" }}>
                 <View style={styles.content}>
                   <Image
-                    source={item.src}
+                    source={{uri: item.thumbnailM}}
                     style={styles.img2}
                     resizeMode="cover"
                   ></Image>
@@ -82,7 +98,7 @@ const DetailArtistScreen = ({ navigation }) => {
                         color: "gray",
                       }}
                     >
-                      {item.name}
+                      {item.title}
                     </Text>
                   </View>
                 </View>
@@ -94,17 +110,15 @@ const DetailArtistScreen = ({ navigation }) => {
     
         <View style={{flexDirection:"column",marginLeft:20}}>
           <Text style = {{color:"white",fontSize:20,fontWeight:"bold"}}>Thông tin</Text>
-          <Text style = {{color:"gray",fontSize:16,textAlign:"justify",maxWidth:width-40}}>sjcjdsfedfdddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddđ</Text>
+          <Text style = {{color:"gray",fontSize:16,textAlign:"justify",maxWidth:width-40}}>{infomation.biography}</Text>
           <View style= {{flexDirection:"row"}}>
             <View style = {{flexDirection:"column",marginLeft:10}}>
               <Text style = {{fontSize:16,color:"gray"}}>{'\n'}Tên thật</Text>
               <Text style = {{fontSize:16,color:"gray"}}>{'\n'}Quốc gia</Text>
-              <Text style = {{fontSize:16,color:"gray"}}>{'\n'}Thể loại</Text>
             </View>
             <View style = {{flexDirection:"column",marginLeft:40}}>
-                <Text style = {{fontSize:16,color:"white",fontWeight:"bold",}}>{'\n'}BTS</Text>
-                <Text style = {{fontSize:16,color:"white",fontWeight:"bold",}}>{'\n'}South Korea</Text>
-                <Text style = {{fontSize:16,color:"white",fontWeight:"bold",}}>{'\n'}Hàn quốc,Rap/Hiphop</Text>
+                <Text style = {{fontSize:16,color:"white",fontWeight:"bold",}}>{'\n'}{infomation.realname}</Text>
+                <Text style = {{fontSize:16,color:"white",fontWeight:"bold",}}>{'\n'}{infomation.national}</Text>
             </View>
           </View>
         </View>
@@ -257,7 +271,7 @@ const styles = StyleSheet.create({
 const Header_Max_Height = 240;
 const Header_Min_Height = 50;
 const Scroll_Distance = 140;
-const DynamicHeader = ({ value, navigation} ) => {
+const DynamicHeader = ({ value, navigation, title, cover} ) => {
   const animatedHeaderHeight = value.interpolate({
     inputRange: [0, Scroll_Distance],
     outputRange: [Header_Max_Height, Header_Min_Height],
@@ -288,7 +302,7 @@ const DynamicHeader = ({ value, navigation} ) => {
 
   return (
     <ImageBackground
-      source={require('./../../assets/img/divenha.jpg')}
+      source={{ uri: cover }}
       resizeMode="cover"
     >
       <Animated.View style={[styles.header, { height: animatedHeaderHeight, backgroundColor: animatedHeaderColor }]}>
@@ -306,7 +320,7 @@ const DynamicHeader = ({ value, navigation} ) => {
             }
           ]}
         >
-          <Animated.Text style={[styles.headerText, { fontSize: textSize }]}>HeaderText</Animated.Text>
+          <Animated.Text style={[styles.headerText, { fontSize: textSize }]}>{ title }</Animated.Text>
         </Animated.View>
       </Animated.View>
     </ImageBackground>
