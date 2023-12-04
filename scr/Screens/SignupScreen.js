@@ -347,7 +347,7 @@ const styles = {
     borderRadius: 40,
     backgroundColor: "rgba(123,133,201,255)",
     marginTop: 20,
-    marginBottom: 10,
+    marginBottom: 20,
     justifyContent: "center",
     alignItems: "center",
     alignSelf: "center",
