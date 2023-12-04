@@ -185,18 +185,6 @@ export default function HomeScreen({ navigation }) {
                       {item.title}
                     </Text>
                   </View>
-                  <View style={styles.name}>
-                    <Text
-                      style={{
-                        fontSize: 14,
-                        flexWrap: "wrap",
-                        textAlign: "left",
-                        color: "gray",
-                      }}
-                    >
-                      {item.artistsNames}
-                    </Text>
-                  </View>
                 </View>
               </View>
             </TouchableOpacity>

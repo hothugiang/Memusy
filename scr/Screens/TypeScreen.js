@@ -121,7 +121,7 @@ const styles = StyleSheet.create({
   },
   songTitle: {
     marginTop: 25,
-    fontSize: 18,
+    fontSize: 16,
     color: "white",
   },
   songType: {
