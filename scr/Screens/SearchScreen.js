@@ -1,6 +1,5 @@
 import * as React from "react";
-import { useState, useEffect } from "react";
-
+import { useState } from "react";
 import {
   Dimensions,
   Image,
@@ -16,6 +15,7 @@ import {
   TouchableHighlight,
   FlatList,
   VirtualizedList,
+  Platform
 } from "react-native";
 import UserScreenTab from "../Tabs/UserScreenTab";
 import { Ionicons } from "@expo/vector-icons";
@@ -206,7 +206,7 @@ export default function SearchScreen({ navigation }) {
 
   return (
     <View style={styles.background}>
-      <View style={{ flexDirection: 'row', marginTop: 50 }}>
+      <View style={{ flexDirection: 'row', marginTop: Platform.OS === "ios" ? 50 : 20 }}>
         <View style = {{width: WIDTH - 60}}>
           <Input
             placeholder="Bạn muốn nghe gì..."
@@ -400,7 +400,6 @@ const styles = StyleSheet.create({
 
   inputStyle: {
     paddingLeft: 10,
-    color: "white"
   },
 
   leftIconStyle: {

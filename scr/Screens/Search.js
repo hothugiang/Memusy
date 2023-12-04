@@ -30,6 +30,7 @@ import instrumental from "./../../assets/img/instrumental.jpg";
 import blues from "./../../assets/img/blues.jpg";
 import disco from "./../../assets/img/disco.jpg";
 import kpop from "./../../assets/img/kpop.jpg";
+import { Platform } from "react-native";
 
 const { width: WIDTH } = Dimensions.get("window");
 const { height: HEIGHT } = Dimensions.get("window");
@@ -46,7 +47,7 @@ export default function Search({ navigation }) {
       }}
     >
       <StatusBar backgroundColor="black" barStyle="light-content" />
-      <View style={{ alignItems: "center", marginTop: 50, marginBottom: 20 }}>
+      <View style={{ alignItems: "center", marginTop: Platform.OS === "ios" ? 50 : 20, marginBottom: 20 }}>
         <Button
           title=" Bạn muốn nghe gì...                                       "
           titleStyle={styles.buttonText}

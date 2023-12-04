@@ -10,7 +10,6 @@ import { useEffect } from 'react';
 import { createMaterialTopTabNavigator } from "@react-navigation/material-top-tabs";
 import { axiosInstance } from '../constants/Axios';
 import { Platform } from 'react-native';
-import AsyncStorage from '@react-native-async-storage/async-storage';
 const { width: WIDTH } = Dimensions.get("window");
 const { height: HEIGHT } = Dimensions.get("window");
 const standardWidth = 360;
@@ -34,27 +33,21 @@ export default function UserScreen({ navigation }) {
   }
 
   const logOut = async () => {
-    try {
-      const token = await AsyncStorage.getItem("token");
-      if (!token) {
-        navigation.navigate("Login");
-      }
-      const response = await axiosInstance.get('/users/logout', {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      });
+    navigation.navigate('Login');
+    // try {
+    //   // Gọi API logout từ phía backend
+    //   const response = await axiosInstance.post('/users/logout');
 
-      if (response.status === 200) {
-        // Xử lý khi logout thành công, ví dụ: chuyển hướng đến màn hình đăng nhập
-        await AsyncStorage.removeItem("token");
-        navigation.navigate('Login');
-      } else {
-        console.error('Logout failed');
-      }
-    } catch (error) {
-      console.error('Error during logout:', error);
-    }
+    //   // Kiểm tra xem yêu cầu có thành công hay không
+    //   if (response.status === 200) {
+    //     // Xử lý khi logout thành công, ví dụ: chuyển hướng đến màn hình đăng nhập
+    //     navigation.navigate('Login');
+    //   } else {
+    //     console.error('Logout failed');
+    //   }
+    // } catch (error) {
+    //   console.error('Error during logout:', error);
+    // }
   };
   return (
     <View style={{ flex: 1, backgroundColor: 'black' }}>
@@ -71,40 +64,7 @@ export default function UserScreen({ navigation }) {
           <Text style={styles.follow}>Followers 5 | Following 20</Text>
         </View>
       </View>
-      <View style={{ flexDirection: 'row' }}>
-        <TouchableOpacity style={styles.edit1} onPress={() => navigation.navigate("EditProfile")}>
-          <Text style={styles.edit2}>Edit</Text>
-        </TouchableOpacity>
-        <TouchableOpacity style={styles.edit3} onPress={logOut}>
-          <Text style={styles.edit2}>Logout</Text>
-        </TouchableOpacity>
-      </View>
-      <Text style={{ marginLeft: 20, color: "white", fontFamily: "Open-san", fontSize: 20, marginBottom: 10 }}>Thư viện</Text>
-      <View style={{ flexDirection: "row", flexWrap: "wrap" }}>
-        <View style={styles.imgWrapper}>
-          <View style={styles.img}>
-            <Text style={styles.imgText}>PlayList</Text>
-          </View>
-        </View>
-
-        <View style={styles.imgWrapper}>
-          <View style={styles.img}>
-            <Text style={styles.imgText}>Upload</Text>
-          </View>
-        </View>
-
-        <View style={styles.imgWrapper}>
-          <View style={styles.img}>
-            <Text style={styles.imgText}>Album</Text>
-          </View>
-        </View>
-
-        <View style={styles.imgWrapper}>
-          <View style={styles.img}>
-            <Text style={styles.imgText}>Nghệ sĩ</Text>
-          </View>
-        </View>
-      </View>
+      
       <View style={{ height: 60 }}></View>
     </View>
   );
