@@ -153,7 +153,7 @@ export default function SearchScreen({ navigation }) {
                     <View style={[styles.songsWrapper, { marginLeft: 20 }]}>
                       <TouchableOpacity
                         style={{ flexDirection: "row", flexWrap: "wrap" }}
-                        onPress={() => navigation.navigate("SongDetail")}
+                        onPress={() => navigation.navigate("DetailPlaylist", { s_id: item.encodeId, title: item.title })}
                       >
                         <View>
                           <Image

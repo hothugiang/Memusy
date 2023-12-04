@@ -8,6 +8,7 @@ import TrendingScreen from "../Screens/TrendingScreen";
 import DetailScreen from "../Screens/DetailScreen";
 import TypeScreen from "../Screens/TypeScreen";
 import DetailArtistScreen from "../Screens/DetailAristScreen";
+import DetailPlaylistScreen from "../Screens/DetailPlaylistScreen";
 const Stack = createNativeStackNavigator();
 
 export default function SearchScreenTab() {
@@ -32,6 +33,10 @@ export default function SearchScreenTab() {
       <Stack.Screen
       name = "DetailArtistScreen"
       component={DetailArtistScreen}
+      />
+      <Stack.Screen
+      name = "DetailPlaylist"
+      component={DetailPlaylistScreen}
       />
     </Stack.Navigator>
   );
