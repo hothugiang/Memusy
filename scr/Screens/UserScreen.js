@@ -9,6 +9,8 @@ import * as SplashScreen from 'expo-splash-screen';
 import { useEffect } from 'react';
 import { createMaterialTopTabNavigator } from "@react-navigation/material-top-tabs";
 import { axiosInstance } from '../constants/Axios';
+import { Platform } from 'react-native';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 const { width: WIDTH } = Dimensions.get("window");
 const { height: HEIGHT } = Dimensions.get("window");
 const standardWidth = 360;
@@ -32,25 +34,31 @@ export default function UserScreen({ navigation }) {
   }
 
   const logOut = async () => {
-    navigation.navigate('Login');
-    // try {
-    //   // Gọi API logout từ phía backend
-    //   const response = await axiosInstance.post('/users/logout');
+    try {
+      const token = await AsyncStorage.getItem("token");
+      if (!token) {
+        navigation.navigate("Login");
+      }
+      const response = await axiosInstance.get('/users/logout', {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
 
-    //   // Kiểm tra xem yêu cầu có thành công hay không
-    //   if (response.status === 200) {
-    //     // Xử lý khi logout thành công, ví dụ: chuyển hướng đến màn hình đăng nhập
-    //     navigation.navigate('Login');
-    //   } else {
-    //     console.error('Logout failed');
-    //   }
-    // } catch (error) {
-    //   console.error('Error during logout:', error);
-    // }
+      if (response.status === 200) {
+        // Xử lý khi logout thành công, ví dụ: chuyển hướng đến màn hình đăng nhập
+        await AsyncStorage.removeItem("token");
+        navigation.navigate('Login');
+      } else {
+        console.error('Logout failed');
+      }
+    } catch (error) {
+      console.error('Error during logout:', error);
+    }
   };
   return (
     <View style={{ flex: 1, backgroundColor: 'black' }}>
-      <View style={{ marginTop: 24 }}>
+      <View style={{ marginTop: Platform.OS === "ios" ? 24 : 0 }}>
         <Ionicons name='ios-arrow-back' size={24} color='#5257D'></Ionicons>
       </View>
 
@@ -67,8 +75,8 @@ export default function UserScreen({ navigation }) {
         <TouchableOpacity style={styles.edit1} onPress={() => navigation.navigate("EditProfile")}>
           <Text style={styles.edit2}>Edit</Text>
         </TouchableOpacity>
-        <TouchableOpacity style={styles.edit3} onPress={() => navigation.navigate("Login")}>
-          <Text style={styles.edit2} onPress={logOut}>Logout</Text>
+        <TouchableOpacity style={styles.edit3} onPress={logOut}>
+          <Text style={styles.edit2}>Logout</Text>
         </TouchableOpacity>
       </View>
       <Text style={{ marginLeft: 20, color: "white", fontFamily: "Open-san", fontSize: 20, marginBottom: 10 }}>Thư viện</Text>

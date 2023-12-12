@@ -6,6 +6,7 @@ import { useFonts } from "expo-font";
 import * as SplashScreen from "expo-splash-screen";
 import { Ionicons } from "@expo/vector-icons";
 import { axiosInstance } from "../constants/Axios";
+import { Platform } from "react-native";
 
 export default function HomeScreen({ navigation }) {
   const [fontsLoaded] = useFonts({
@@ -111,7 +112,7 @@ export default function HomeScreen({ navigation }) {
         style={{
           flexDirection: "row",
           justifyContent: "space-between",
-          marginTop: 30,
+          marginTop:  Platform.OS === "ios" ? 30 : 0,
         }}
       >
         <View style={{ paddingTop: 20, paddingLeft: 20 }}>
@@ -182,18 +183,6 @@ export default function HomeScreen({ navigation }) {
                       }}
                     >
                       {item.title}
-                    </Text>
-                  </View>
-                  <View style={styles.name}>
-                    <Text
-                      style={{
-                        fontSize: 14,
-                        flexWrap: "wrap",
-                        textAlign: "left",
-                        color: "gray",
-                      }}
-                    >
-                      {item.artistsNames}
                     </Text>
                   </View>
                 </View>

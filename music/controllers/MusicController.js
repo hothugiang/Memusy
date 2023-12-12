@@ -1,4 +1,5 @@
 const { ZingMp3 } = require("zingmp3-api-full");
+const { zing } = require("zingmp3-api-next");
 
 class ZingController {
   async getSong(req, res) {
@@ -248,6 +249,25 @@ class ZingController {
   async search(req, res) {
     try {
       const data = await ZingMp3.search(req.params.q);
+      console.log(data);
+
+      res.status(200).json({
+        status: "success",
+        data: data,
+      });
+    } catch (error) {
+      console.error(error);
+
+      res.status(500).json({
+        status: "error",
+        message: "Internal Server Error",
+      });
+    }
+  }
+
+  async getListByGenre(req, res) {
+    try {
+      const data = await zing.get_hub_detail(req.params.id);
       console.log(data);
 
       res.status(200).json({

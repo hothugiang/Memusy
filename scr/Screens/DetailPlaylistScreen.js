@@ -1,28 +1,30 @@
+import { Text, View, StyleSheet, ScrollView, Image, TouchableOpacity, Animated } from 'react-native';
 import { Dimensions, ImageBackground } from 'react-native';
 import React, { useRef, useState, useEffect } from 'react';
-import { Ionicons } from '@expo/vector-icons';
-import { Text, View, StyleSheet, ScrollView, Image, TouchableOpacity, Animated, FlatList } from 'react-native';
 import { axiosInstance } from '../constants/Axios';
+import { FlatList } from 'react-native';
+import { Ionicons } from '@expo/vector-icons';
 const { width: WIDTH, height: HEIGHT } = Dimensions.get("window");
 const standardWidth = 360;
 const standardHeight = 800;
 
-const TypeScreen = ({ navigation, route }) => {
+const DetailArtistScreen = ({ navigation, route }) => {
   const {s_id, title} = route.params;
   const scrollOfsetY = useRef(new Animated.Value(0)).current;
-  const [scrollY] = useState(new Animated.Value(0));
   const [urlCover, setURLCover] = useState("");
   const [dataFetched, setDataFetched] = useState(false);
   const [listSong, setListSong] = useState([]);
+  const [infomation, setInfomation] = useState("");
 
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await axiosInstance.get(`/musics/genre/${s_id}`);
-        setURLCover(response.data.data.data.cover);
-        setListSong(response.data.data.data.sections[1].items);
+        const response = await axiosInstance.get(`/musics/detailplaylist/${s_id}`);
+        setInfomation(response.data.data);
+        setURLCover(response.data.data.thumbnailM);
+        setListSong(response.data.data.song.items);
+        
         setDataFetched(true);
-        console.log(listSong);
       } catch (error) {
         console.error("Lỗi khi tìm kiếm:", error);
       }
@@ -32,10 +34,23 @@ const TypeScreen = ({ navigation, route }) => {
     }
   });
 
-  
   return (
     <View style={{ backgroundColor: "black", flex: 1 }}>
       <DynamicHeader value={scrollOfsetY} navigation={navigation} title={title} cover={urlCover}/>
+      <View style={{flexDirection:"column", marginLeft:20}}>
+          <Text style = {{color:"white",fontSize:20,fontWeight:"bold"}}>Thông tin</Text>
+          <Text style = {{color:"gray",fontSize:16,textAlign:"justify",maxWidth:width-40}}>{infomation.biography}</Text>
+          <View style= {{flexDirection:"row"}}>
+            <View style = {{flexDirection:"column",marginLeft:10}}>
+              <Text style = {{fontSize:16,color:"gray"}}>{'\n'}Nghệ sĩ</Text>
+              <Text style = {{fontSize:16,color:"gray"}}>{'\n'}Phát hành</Text>
+            </View>
+            <View style = {{flexDirection:"column",marginLeft:40}}>
+                <Text style = {{fontSize:16,color:"white",fontWeight:"bold",}}>{'\n'}{infomation.artistsNames}</Text>
+                <Text style = {{fontSize:16,color:"white",fontWeight:"bold",}}>{'\n'}{infomation.releaseDate}</Text>
+            </View>
+          </View>
+        </View>
       <ScrollView
         style={styles.container}
         horizontal={false}
@@ -49,13 +64,13 @@ const TypeScreen = ({ navigation, route }) => {
         <Text
           style={styles.title}
         >
-          Bài Hát Nổi Bật{" "}
+          Danh sách bài hát{" "}
         </Text>
         {listSong.map(val => {
           return (
             <View style={styles.songsWrapper}>
               <TouchableOpacity style={styles.songs} onPress={() => navigation.navigate("SongDetail", { s_id: val.encodeId })}>
-                <Image source={{uri: val.thumbnailM}} style={styles.songImage} resizeMode="cover" />
+                <Image source={{uri: val.thumbnail}} style={styles.songImage} resizeMode="cover" />
                 <View>
                   <Text style={styles.songTitle}>{val.title}</Text>
                   <Text style={styles.songType}>{val.artistsNames}</Text>
@@ -67,13 +82,14 @@ const TypeScreen = ({ navigation, route }) => {
             </View>
           )
         })}
-        <View style={{ height: 400 }}></View>
       </ScrollView>
 
     </View>
 
   )
 }
+const width = Dimensions.get("window").width;
+const height = Dimensions.get("window").height;
 
 const styles = StyleSheet.create({
   header: {
@@ -121,7 +137,7 @@ const styles = StyleSheet.create({
   },
   songTitle: {
     marginTop: 25,
-    fontSize: 16,
+    fontSize: 18,
     color: "white",
   },
   songType: {
@@ -208,12 +224,12 @@ const styles = StyleSheet.create({
 
 });
 
-export default TypeScreen;
+
 // phần xử lý header
 const Header_Max_Height = 240;
 const Header_Min_Height = 50;
 const Scroll_Distance = 140;
-const DynamicHeader = ({ value, navigation, title, cover } ) => {
+const DynamicHeader = ({ value, navigation, title, cover} ) => {
   const animatedHeaderHeight = value.interpolate({
     inputRange: [0, Scroll_Distance],
     outputRange: [Header_Max_Height, Header_Min_Height],
@@ -269,3 +285,4 @@ const DynamicHeader = ({ value, navigation, title, cover } ) => {
   );
 };
 
+export default DetailArtistScreen;

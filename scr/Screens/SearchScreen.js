@@ -1,6 +1,5 @@
 import * as React from "react";
-import { useState } from "react";
-
+import { useState, useEffect } from "react";
 import {
   Dimensions,
   Image,
@@ -16,10 +15,13 @@ import {
   TouchableHighlight,
   FlatList,
   VirtualizedList,
+  Platform
 } from "react-native";
 import UserScreenTab from "../Tabs/UserScreenTab";
 import { Ionicons } from "@expo/vector-icons";
 import { Button, Input } from "react-native-elements";
+import { axiosInstance } from "../constants/Axios";
+
 import electronic from "./../../assets/img/electronic.jpg";
 import remix from "./../../assets/img/remix.jpg";
 import hiphop from "./../../assets/img/hiphop.jpg";
@@ -38,7 +40,7 @@ import instrumental from "./../../assets/img/instrumental.jpg";
 import blues from "./../../assets/img/blues.jpg";
 import disco from "./../../assets/img/disco.jpg";
 import kpop from "./../../assets/img/kpop.jpg";
-
+import DetailArtistScreen from "./DetailAristScreen";
 const { width: WIDTH } = Dimensions.get("window");
 const { height: HEIGHT } = Dimensions.get("window");
 const standardWidth = 360;
@@ -46,117 +48,28 @@ const standardHeight = 800;
 
 export default function SearchScreen({ navigation }) {
   const [selectedCategory, setSelectedCategory] = useState("Songs");
-  const data = [
-    {
-      name: "Vùng lá me bay",
-      artist: "Hihi",
-      src: require("./../../assets/img/vlmb.jpg"),
-      year: 2022,
-      type: "Single",
-    },
-    {
-      name: "Tấm lòng son",
-      artist: "Hihi",
-      src: require("./../../assets/img/kpop.jpg"),
-      year: 2008,
-      type: "EP",
-    },
-    {
-      name: "Bạn đời",
-      artist: "g",
-      src: require("./../../assets/img/bandoi.jpg"),
-      year: 1989,
-    },
-    {
-      name: "Mang tiền về cho mẹ",
-      artist: "Hihi",
-      src: require("./../../assets/img/mangtien.jpg"),
-      year: 1908,
-      type: "Single",
-    },
-    {
-      name: "Đi theo bóng mặt trời",
-      artist: "Hihi",
-      src: require("./../../assets/img/theobong.jpg"),
-      year: 2003,
-      type: "Single",
-    },
-    {
-      name: "Đi về nhà",
-      artist: "Hihi",
-      src: require("./../../assets/img/divenha.jpg"),
-      year: 2021,
-      type: "Single",
-    },
-    {
-      name: "Vùng lá me bay",
-      artist: "Hihi",
-      src: require("./../../assets/img/vlmb.jpg"),
-      year: 2022,
-      type: "Single",
-    },
-    {
-      name: "Tấm lòng son",
-      artist: "Hihi",
-      src: require("./../../assets/img/kpop.jpg"),
-      year: 2008,
-      type: "EP",
-    },
-    {
-      name: "Bạn đời",
-      artist: "g",
-      src: require("./../../assets/img/bandoi.jpg"),
-      year: 1989,
-    },
-    {
-      name: "Mang tiền về cho mẹ",
-      artist: "Hihi",
-      src: require("./../../assets/img/mangtien.jpg"),
-      year: 1908,
-      type: "Single",
-    },
-    {
-      name: "Đi theo bóng mặt trời",
-      artist: "Hihi",
-      src: require("./../../assets/img/theobong.jpg"),
-      year: 2003,
-      type: "Single",
-    },
-    {
-      name: "Đi về nhà",
-      artist: "Hihi",
-      src: require("./../../assets/img/divenha.jpg"),
-      year: 2021,
-      type: "Single",
-    },
-  ];
-  const data2 = [
-    {
-      artist: "Nhạc lofy",
-      src: require("./../../assets/img/lofy.jpg"),
-    },
-    {
-      artist: "Chill Music",
-      src: require("./../../assets/img/chill.jpg"),
-    },
-    {
-      artist: "Nhớ về em",
-      src: require("./../../assets/img/nho.jpg"),
-    },
-    {
-      artist: "Lạc vào trong mơ",
-      src: require("./../../assets/img/lac.jpg"),
-    },
-    {
-      artist: "Audio",
-      src: require("./../../assets/img/audio.jpg"),
-    },
-    {
-      artist: "Hơn cả mây trôi",
-      src: require("./../../assets/img/hon.jpg"),
-    },
+  const [searchText, setSearchText] = useState('');
+  const [searchResults, setSearchResults] = useState('');
 
-  ];
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const response = await axiosInstance.get(`/musics/search/${searchText}`);
+        setSearchResults(response.data.data.data);
+        console.log(searchResults);
+      } catch (error) {
+        console.error('Lỗi khi tìm kiếm:', error);
+      }
+    };
+
+    if (searchText !== '') {
+      fetchData();
+    } else {
+      setSearchResults([]);
+    }
+  }, [searchText]);
+
+
   const renderContent = () => {
     switch (selectedCategory) {
       case "Songs":
@@ -164,21 +77,21 @@ export default function SearchScreen({ navigation }) {
           <View style={[styles.songsContainer, { flex: 1 }]}>
             <FlatList
               showsVerticalScrollIndicator={false}
-              data={data}
+              data={searchResults.songs}
               renderItem={({ item }) => (
                 <View style={styles.songsWrapper}>
                   <TouchableOpacity
                     style={styles.songs}
-                    onPress={() => navigation.navigate("SongDetail")}
+                    onPress={() => navigation.navigate("SongDetail", { s_id: item.encodeId })}
                   >
                     <Image
-                      source={item.src}
+                      source={{ uri: item.thumbnailM }}
                       style={styles.songImage}
                       resizeMode="cover"
                     />
                     <View>
-                      <Text style={styles.songTitle}>{item.name}</Text>
-                      <Text style={styles.songType}>{item.artist}</Text>
+                      <Text style={styles.songTitle}>{item.title}</Text>
+                      <Text style={styles.songType}>{item.artistsNames}</Text>
                     </View>
                   </TouchableOpacity>
                   <TouchableOpacity>
@@ -195,15 +108,15 @@ export default function SearchScreen({ navigation }) {
           <View style={styles.songsContainer}>
             <FlatList
               showsVerticalScrollIndicator={false}
-              data={data2}
+              data={searchResults.artists}
               renderItem={({ item }) => (
                 <View style={styles.songsWrapper}>
                   <TouchableOpacity
                     style={styles.songs}
-                    onPress={() => navigation.navigate("SongDetail")}
+                    onPress={() => navigation.navigate("DetailArtistScreen", { s_id: item.alias, title: item.name })}
                   >
                     <Image
-                      source={item.src}
+                      source={{ uri: item.thumbnailM }}
                       style={[styles.songImage, { borderRadius: 30 }]}
                       resizeMode="cover"
                     />
@@ -211,7 +124,7 @@ export default function SearchScreen({ navigation }) {
                       <Text
                         style={{ marginTop: 35, color: "white", fontSize: 18 }}
                       >
-                        {item.artist}{" "}
+                        {item.name}{" "}
                       </Text>
                     </View>
                   </TouchableOpacity>
@@ -233,18 +146,18 @@ export default function SearchScreen({ navigation }) {
           <View style={{ flexDirection: "column", flex: 1 }}>
             <FlatList
               showsVerticalScrollIndicator={false}
-              data={data}
+              data={searchResults.playlists}
               renderItem={({ item }) => (
                 <View style={styles.songsContainer}>
                   <View>
                     <View style={[styles.songsWrapper, { marginLeft: 20 }]}>
                       <TouchableOpacity
                         style={{ flexDirection: "row", flexWrap: "wrap" }}
-                        onPress={() => navigation.navigate("SongDetail")}
+                        onPress={() => navigation.navigate("DetailPlaylist", { s_id: item.encodeId, title: item.title })}
                       >
                         <View>
                           <Image
-                            source={item.src}
+                            source={{ uri: item.thumbnailM }}
                             style={styles.img}
                             resizeMode="cover"
                           />
@@ -258,7 +171,7 @@ export default function SearchScreen({ navigation }) {
                                 width: (WIDTH - 60) / 2,
                               }}
                             >
-                              {item.name}
+                              {item.title}
                             </Text>
                             <Text
                               style={{
@@ -268,17 +181,7 @@ export default function SearchScreen({ navigation }) {
                                 width: (WIDTH - 60) / 2,
                               }}
                             >
-                              {item.artist}
-                            </Text>
-                            <Text
-                              style={{
-                                marginTop: 5,
-                                color: "#909090",
-                                fontSize: 12,
-                                width: (WIDTH - 60) / 2,
-                              }}
-                            >
-                              {item.type} ~ {item.year}
+                              {item.artistsNames}
                             </Text>
                           </View>
                         </View>
@@ -294,57 +197,6 @@ export default function SearchScreen({ navigation }) {
             <View style={{ height: 30 }}></View>
           </View>
         );
-      case "Playlists":
-        return (
-          <View style={{ flexDirection: "column", flex: 1 }}>
-            <FlatList
-              showsVerticalScrollIndicator={false}
-              data={data}
-              renderItem={({ item }) => (
-                <View style={styles.songsContainer}>
-                  <View>
-                    <View
-                      style={[
-                        styles.songsWrapper,
-                        { marginLeft: 20, marginVertical: 5 },
-                      ]}
-                    >
-                      <TouchableOpacity
-                        style={{ flexDirection: "row", flexWrap: "wrap" }}
-                        onPress={() => navigation.navigate("SongDetail")}
-                      >
-                        <View>
-                          <Image
-                            source={item.src}
-                            style={styles.img}
-                            resizeMode="cover"
-                          />
-
-                          <View>
-                            <Text
-                              style={{
-                                marginTop: 5,
-                                color: "white",
-                                fontSize: 15,
-                                width: (WIDTH - 60) / 2,
-                              }}
-                            >
-                              {item.name}
-                            </Text>
-                          </View>
-                        </View>
-                      </TouchableOpacity>
-                    </View>
-                  </View>
-                </View>
-              )}
-              horizontal={false}
-              numColumns={2}
-              key={2}
-            ></FlatList>
-            <View style={{ height: 50 }}></View>
-          </View>
-        );
       default:
         return null;
     }
@@ -352,7 +204,7 @@ export default function SearchScreen({ navigation }) {
 
   return (
     <View style={styles.background}>
-      <View style={{ flexDirection: 'row', marginTop: 50 }}>
+      <View style={{ flexDirection: 'row', marginTop: Platform.OS === "ios" ? 50 : 20}}>
         <View style = {{width: WIDTH - 60}}>
           <Input
             placeholder="Bạn muốn nghe gì..."
@@ -365,7 +217,6 @@ export default function SearchScreen({ navigation }) {
               type: "backspace",
               name: "backspace",
               color: "rgb(255,255,255)",
-
             }}
             inputContainerStyle={styles.inputContainerStyle}
             inputStyle={styles.inputStyle}
@@ -373,6 +224,7 @@ export default function SearchScreen({ navigation }) {
             rightIconContainerStyle={styles.rightIconStyle}
             placeholderTextColor={"rgba(255, 255, 255, 0.7)"}
             underlineColorAndroid="transparent"
+            onChangeText={(text) => setSearchText(text)}
           />
         </View>
         <View style = {{marginTop:10}}>
@@ -431,26 +283,7 @@ export default function SearchScreen({ navigation }) {
                 selectedCategory === "Albums" && styles.selectedCategory,
               ]}
             >
-              Albums
-            </Text>
-          </TouchableOpacity>
-
-          <TouchableOpacity
-            style={[
-              styles.scrollContainer,
-              selectedCategory === "Playlists" && styles.selectedCategory,
-              { marginRight: 15 },
-            ]}
-            onPress={() => setSelectedCategory("Playlists")}
-          >
-            <Text
-              style={[
-                styles.note,
-                selectedCategory === "Playlists" && styles.selectedCategory,
-              ]}
-              onPress={() => setSelectedCategory("Playlists")}
-            >
-              Playlists
+              Albums/Playlists
             </Text>
           </TouchableOpacity>
         </ScrollView>
@@ -565,6 +398,7 @@ const styles = StyleSheet.create({
 
   inputStyle: {
     paddingLeft: 10,
+    color:"white"
   },
 
   leftIconStyle: {
