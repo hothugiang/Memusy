@@ -17,6 +17,7 @@ import * as Animatable from "react-native-animatable";
 import { Ionicons } from "@expo/vector-icons";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import * as Notifications from "expo-notifications";
+import Lyric from "../component/Lyric";
 
 const SKIP_INTERVAL = 10;
 
@@ -27,16 +28,47 @@ export default function DetailScreen({ navigation, route }) {
   const [sound, setSound] = useState();
   const [duration, setDuration] = useState(0);
   const [information, setInformation] = useState("");
+  const [link, setLink] = useState("");
+  const [lyrics, setLyrics] = useState("");
 
   useEffect(() => {
     loadAudio();
     loadInfomation();
+    loadLyric();
     setupNotifications();
   }, []);
 
   useEffect(() => {
     sendNotification();
   }, [isPlaying]);
+
+  useEffect(() => {
+    if (link) {
+      fetchLyrics();
+    }
+  }, [link]);
+  
+  const loadLyric = async () => {
+    try {
+      const lyricsData = await axiosInstance.get(`/musics/lyric/${s_id}`);
+      setLink(lyricsData.data.data.data.file); 
+      console.log(lyricsData.data.data.data.file);
+    } catch (error) {
+      console.error("Error loading lyrics:", error);
+    }
+  };
+  
+  const fetchLyrics = async () => {
+    try {
+      const response = await axiosInstance.get(link);
+      if (response.status === 200) {
+        const lyricsData = response.data;
+        setLyrics(lyricsData);
+      }
+    } catch (error) {
+      console.error('Error fetching lyrics:', error.message);
+    }
+  };
 
   const setupNotifications = async () => {
     await Notifications.requestPermissionsAsync();
@@ -73,7 +105,7 @@ export default function DetailScreen({ navigation, route }) {
     const content = {
       title: "Memusy",
       body: isPlaying ? "Đang phát nhạc" : "Dừng phát nhạc",
-      sound: true, // Bật tiếng thông báo
+      sound: true,
     };
 
     await Notifications.scheduleNotificationAsync({
@@ -210,7 +242,6 @@ export default function DetailScreen({ navigation, route }) {
           if (sound) {
             await sound.stopAsync();
           }
-          await loadAudio();
           await playSound();
         };
 
@@ -294,11 +325,7 @@ export default function DetailScreen({ navigation, route }) {
         </TouchableOpacity>
       </View>
 
-      {/* <View style="lyricContainer">
-          <View>
-            
-          </View>
-      </View> */}
+      <Lyric lrc={lyrics} currentTime={currentPosition} />
     </View>
   );
 }
