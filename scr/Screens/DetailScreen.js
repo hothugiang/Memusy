@@ -12,18 +12,13 @@ import { FontAwesome5 } from "@expo/vector-icons";
 import { FlatList, Dimensions } from "react-native";
 import { baseURL, axiosInstance } from "../constants/Axios";
 import * as SplashScreen from "expo-splash-screen";
-// import TrackPlayer, {
-//   AppKilledPlaybackBehavior,
-//   Capability,
-//   RepeatMode,
-//   Event
-// } from 'react-native-track-player';
 import { Audio, InterruptionModeAndroid, InterruptionModeIOS } from "expo-av";
 import * as Animatable from "react-native-animatable";
 import { Ionicons } from "@expo/vector-icons";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { Notifications } from 'expo';
 
+const SKIP_INTERVAL = 10;
 
 export default function DetailScreen({ navigation, route }) {
   const { s_id } = route.params;
@@ -35,12 +30,8 @@ export default function DetailScreen({ navigation, route }) {
 
   useEffect(() => {
     loadAudio();
-    // Notifications.presentLocalNotificationAsync({
-    //   title: 'Now Playing',
-    //   body: 'Your Music is playing in the background.',
-    //   ios: { _displayInForeground: true },
-    // });
     loadInfomation();
+    
   }, []);
 
   const loadInfomation = async () => {
@@ -97,26 +88,6 @@ export default function DetailScreen({ navigation, route }) {
     }
   };
 
-  if (Platform.OS === "ios") {
-    const enableAudio = async () => {
-      await Audio.requestPermissionsAsync();
-      await Audio.setAudioModeAsync({
-        staysActiveInBackground: true,
-        interruptionModeAndroid: InterruptionModeAndroid.DoNotMix,
-        shouldDuckAndroid: false,
-        playThroughEarpieceAndroid: false,
-        allowsRecordingIOS: false,
-        interruptionModeIOS: InterruptionModeIOS.DoNotMix,
-        playsInSilentModeIOS: true,
-      });
-    };
-    enableAudio();
-  } else {
-    Audio.setAudioModeAsync({
-      playsInSilentModeIOS: true,
-    });
-  }
-
   const playSound = async () => {
     if (!isPlaying) {
       await sound.playAsync();
@@ -131,12 +102,20 @@ export default function DetailScreen({ navigation, route }) {
     sound.setPositionAsync(seconds * 1000);
   };
 
-  const skipToNextTrack = () => {
-    // Logic để chuyển bài tiếp theo
+  const skipForward = () => {
+    if (sound) {
+      const newPosition = Math.min(duration, currentPosition + SKIP_INTERVAL);
+      sound.setPositionAsync(newPosition * 1000);
+      setCurrentPosition(newPosition);
+    }
   };
-
-  const skipToPreviousTrack = () => {
-    // Logic để chuyển bài trước đó
+  
+  const skipBackward = () => {
+    if (sound) {
+      const newPosition = Math.max(0, currentPosition - SKIP_INTERVAL);
+      sound.setPositionAsync(newPosition * 1000);
+      setCurrentPosition(newPosition);
+    }
   };
 
   const formatTime = (seconds) => {
@@ -147,10 +126,10 @@ export default function DetailScreen({ navigation, route }) {
     }${remainingSeconds}`;
   };
 
-  const [isHeartFull, setIsHeartFull] = useState(false);
+  const [isReplay, setIsReplay] = useState(false);
 
-  const toggleHeart = () => {
-    setIsHeartFull(!isHeartFull);
+  const replayMusic = () => {
+    setIsReplay(!isReplay)
   };
 
   return (
@@ -175,14 +154,6 @@ export default function DetailScreen({ navigation, route }) {
         />
         <Text style={styles.trackName}>{information.title}</Text>
         <Text style={styles.artistName}>{information.artistsNames}</Text>
-        <TouchableOpacity onPress={toggleHeart}>
-          <Ionicons
-            name={isHeartFull ? "heart" : "heart-outline"}
-            size={32}
-            color={"rgba(221,114,158,1)"}
-            style={{ marginTop: 10 }}
-          />
-        </TouchableOpacity>
       </View>
 
       <Slider
@@ -203,8 +174,16 @@ export default function DetailScreen({ navigation, route }) {
       </View>
 
       <View style={styles.controls}>
-        <TouchableOpacity onPress={skipToPreviousTrack}>
-          <FontAwesome5 name="backward" size={32} color="gray"></FontAwesome5>
+        <TouchableOpacity onPress={replayMusic}>
+          <Ionicons
+            name={"repeat"}
+            size={32}
+            color={isReplay ? "rgba(221,114,158,1)" : "gray"}
+          />
+        </TouchableOpacity>
+
+        <TouchableOpacity onPress={skipBackward}>
+          <FontAwesome5 name="undo" size={32} color="gray"></FontAwesome5>
         </TouchableOpacity>
         <TouchableOpacity onPress={playSound}>
           <FontAwesome5
@@ -213,8 +192,16 @@ export default function DetailScreen({ navigation, route }) {
             color="gray"
           />
         </TouchableOpacity>
-        <TouchableOpacity onPress={skipToNextTrack}>
-          <FontAwesome5 name="forward" size={32} color="gray"></FontAwesome5>
+        <TouchableOpacity onPress={skipForward}>
+          <FontAwesome5 name="redo" size={32} color="gray"></FontAwesome5>
+        </TouchableOpacity>
+
+        <TouchableOpacity>
+          <Ionicons
+            name={"add-circle-outline"}
+            size={32}
+            color={"rgba(221,114,158,1)"}
+          />
         </TouchableOpacity>
       </View>
 
@@ -292,8 +279,8 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     justifyContent: "space-between",
     marginTop: 20,
-    marginLeft: 50,
-    marginRight: 50,
+    marginLeft: 15,
+    marginRight: 15,
   },
   controlText: {
     fontSize: 18,
