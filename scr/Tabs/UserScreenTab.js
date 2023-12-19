@@ -27,7 +27,7 @@ export default function UserScreenTab() {
 
   return (
     <Stack.Navigator
-      initialRouteName={isAuthenticated ? "User" : "Login"}
+      // initialRouteName={isAuthenticated ? "User" : "Login"}
       screenOptions={{ headerShown: false }}
     >
       <Stack.Screen name="User" component={UserScreen} />

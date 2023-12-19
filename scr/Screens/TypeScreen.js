@@ -67,7 +67,7 @@ const TypeScreen = ({ navigation, route }) => {
             </View>
           )
         })}
-        <View style={{ height: 400 }}></View>
+        <View style={{ height: height * 0.1 }}></View>
       </ScrollView>
 
     </View>

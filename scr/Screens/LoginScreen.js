@@ -78,7 +78,7 @@ export default function LoginScreen({ navigation }) {
           },
         });
         if (response2.status === 200) {
-          navigation.navigate("Home");
+          navigation.navigate("User");
         }
       } else {
         console.error("Login failed");

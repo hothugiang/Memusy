@@ -19,7 +19,7 @@ export default function MainContainer() {
   return (
     <NavigationContainer>
       <Tab.Navigator
-        initialRouteName={homeName}
+        initialRouteName={UserName}
         screenOptions={({ route }) => ({
           headerShown: false,
           tabBarStyle: {

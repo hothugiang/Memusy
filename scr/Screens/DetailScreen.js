@@ -16,7 +16,7 @@ import { Audio, InterruptionModeAndroid, InterruptionModeIOS } from "expo-av";
 import * as Animatable from "react-native-animatable";
 import { Ionicons } from "@expo/vector-icons";
 import AsyncStorage from "@react-native-async-storage/async-storage";
-import { Notifications } from 'expo';
+import * as Notifications from "expo-notifications";
 
 const SKIP_INTERVAL = 10;
 
@@ -31,8 +31,57 @@ export default function DetailScreen({ navigation, route }) {
   useEffect(() => {
     loadAudio();
     loadInfomation();
-    
+    setupNotifications();
   }, []);
+
+  useEffect(() => {
+    sendNotification();
+  }, [isPlaying]);
+
+  const setupNotifications = async () => {
+    await Notifications.requestPermissionsAsync();
+
+    Notifications.addNotificationReceivedListener(handleNotification);
+
+    const actionButton = [
+      {
+        text: "Dừng",
+        onPress: playSound,
+      },
+      {
+        text: "Phát",
+        onPress: playSound,
+      },
+    ];
+
+    Notifications.setNotificationHandler({
+      handleNotification: async () => ({
+        shouldShowAlert: true,
+        shouldPlaySound: false,
+        shouldSetBadge: false,
+        priority: Notifications.AndroidNotificationPriority.MAX,
+        actions: actionButton,
+      }),
+    });
+  };
+
+  const handleNotification = (notification) => {
+    console.log("Notification received:", notification);
+  };
+
+  const sendNotification = async () => {
+    const content = {
+      title: "Memusy",
+      body: isPlaying ? "Đang phát nhạc" : "Dừng phát nhạc",
+      sound: true, // Bật tiếng thông báo
+    };
+
+    await Notifications.scheduleNotificationAsync({
+      content,
+      trigger: null,
+    });
+  };
+  
 
   const loadInfomation = async () => {
     try {
@@ -63,6 +112,17 @@ export default function DetailScreen({ navigation, route }) {
         const { sound } = await Audio.Sound.createAsync({
           uri: audioURI,
         });
+
+        await Audio.setAudioModeAsync({
+          allowsRecordingIOS: false,
+          staysActiveInBackground: true,
+          interruptionModeIOS: InterruptionModeIOS.DuckOthers,
+          playsInSilentModeIOS: true,
+          shouldDuckAndroid: true,
+          interruptionModeAndroid: InterruptionModeAndroid.DuckOthers,
+          playThroughEarpieceAndroid: false
+        });
+
         setSound(sound);
 
         const status = await sound.getStatusAsync();
@@ -128,9 +188,38 @@ export default function DetailScreen({ navigation, route }) {
 
   const [isReplay, setIsReplay] = useState(false);
 
-  const replayMusic = () => {
+  const replayMusic = async () => {
     setIsReplay(!isReplay)
   };
+
+  useEffect(() => {
+    if (currentPosition === duration) {
+      if (isReplay) {
+        const replayAsync = async () => {
+          if (sound) {
+            await sound.stopAsync();
+          }
+          await loadAudio();
+          await playSound();
+          setCurrentPosition(0);
+        };
+    
+        replayAsync();
+      } else {
+        const stopPlayAsync = async () => {
+          if (sound) {
+            await sound.stopAsync();
+          }
+          await loadAudio();
+          await playSound();
+        };
+
+        stopPlayAsync();
+      }
+      
+    }
+    
+  }, [isReplay, currentPosition, duration])
 
   return (
     <View style={styles.container}>
@@ -235,7 +324,7 @@ const styles = StyleSheet.create({
   },
 
   title: {
-    marginTop: 30,
+    marginTop: 5,
     marginBottom: 20,
     fontSize: 24,
     fontWeight: "bold",
