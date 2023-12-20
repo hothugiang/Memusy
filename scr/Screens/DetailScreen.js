@@ -25,6 +25,7 @@ export default function DetailScreen({ navigation, route }) {
   const { s_id } = route.params;
   const [isPlaying, setIsPlaying] = useState(false);
   const [currentPosition, setCurrentPosition] = useState(0);
+  const [currentTime, setCurrentTime] = useState(0);
   const [sound, setSound] = useState();
   const [duration, setDuration] = useState(0);
   const [information, setInformation] = useState("");
@@ -163,6 +164,7 @@ export default function DetailScreen({ navigation, route }) {
         sound.setOnPlaybackStatusUpdate((status) => {
           if (status.isPlaying) {
             setCurrentPosition(Math.round(status.positionMillis / 1000));
+            setCurrentTime(status.positionMillis);
           }
         });
       } else {
@@ -191,6 +193,7 @@ export default function DetailScreen({ navigation, route }) {
 
   const changeTime = (seconds) => {
     setCurrentPosition(seconds);
+    setCurrentTime(seconds * 1000);
     sound.setPositionAsync(seconds * 1000);
   };
 
@@ -198,6 +201,7 @@ export default function DetailScreen({ navigation, route }) {
     if (sound) {
       const newPosition = Math.min(duration, currentPosition + SKIP_INTERVAL);
       sound.setPositionAsync(newPosition * 1000);
+      setCurrentTime(newPosition*1000);
       setCurrentPosition(newPosition);
     }
   };
@@ -206,6 +210,7 @@ export default function DetailScreen({ navigation, route }) {
     if (sound) {
       const newPosition = Math.max(0, currentPosition - SKIP_INTERVAL);
       sound.setPositionAsync(newPosition * 1000);
+      setCurrentTime(newPosition*1000);
       setCurrentPosition(newPosition);
     }
   };
@@ -234,6 +239,7 @@ export default function DetailScreen({ navigation, route }) {
           await loadAudio();
           await playSound();
           setCurrentPosition(0);
+          setCurrentTime(0);
         };
     
         replayAsync();
@@ -324,8 +330,7 @@ export default function DetailScreen({ navigation, route }) {
           />
         </TouchableOpacity>
       </View>
-
-      <Lyric lrc={lyrics} currentTime={currentPosition} />
+      <Lyric lrc={lyrics} currentTime={currentTime}/>
     </View>
   );
 }
