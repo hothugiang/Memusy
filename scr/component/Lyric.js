@@ -1,4 +1,4 @@
-import React, { useCallback } from 'react';
+import React, { useCallback, useEffect } from 'react';
 import { Text, Dimensions } from 'react-native';
 import { Lyric } from 'react-native-lyric';
 

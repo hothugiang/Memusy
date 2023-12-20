@@ -30,7 +30,7 @@ const { height: HEIGHT } = Dimensions.get("window");
 const standardWidth = 360;
 const standardHeight = 800;
 
-const BottomTab = ({navigation}) => {
+const BottomTab = ({ navigation }) => {
   const [trendingVNData, setTrendingVNData] = useState("");
   const [trendingUSUKData, setTrendingUSUKData] = useState("");
   const [trendingKPopData, setTrendingKpopData] = useState("");
@@ -63,19 +63,29 @@ const BottomTab = ({navigation}) => {
         <FlatList
           data={trendingVNData}
           showsVerticalScrollIndicator={false}
-          renderItem={({ item }) => (
+          renderItem={({ item, index }) => (
             <View style={styles.chartContainer}>
               <TouchableOpacity style={styles.chartContainer} onPress={() => navigation.navigate("SongDetail", { s_id: item.encodeId })}>
                 <ImageBackground
                   source={{ uri: item.thumbnailM }}
                   blurRadius={40}
                 >
-                  <View style={{ flexDirection: "row", marginTop: 10 }}>
-                    <Image
+                  <View style={{ flexDirection: "row", marginTop: 10, padding: "40px" }}>
+                    {/* <Image
                       source={require(`../../assets/img/1.png`)}
                       style={styles.img1}
                       resizeMode="cover"
-                    />
+                    /> */}
+                    <Text style={{
+                      color: "white",
+                      fontSize: 30,
+                      fontWeight: "bold",
+                      lineHeight: 40, // Adjust the lineHeight as needed
+                      alignItems: "center",
+                      justifyContent: "center",
+                      marginTop: 10, 
+                      marginLeft:10
+                    }}>{index + 1}</Text>
                     <Image
                       source={{ uri: item.thumbnailM }}
                       style={styles.img}
@@ -110,7 +120,7 @@ const BottomTab = ({navigation}) => {
         <FlatList
           data={trendingUSUKData}
           showsVerticalScrollIndicator={false}
-          renderItem={({ item }) => (
+          renderItem={({ item,index }) => (
             <View style={styles.chartContainer}>
               <TouchableOpacity style={styles.chartContainer} onPress={() => navigation.navigate("SongDetail", { s_id: item.encodeId })}>
                 <ImageBackground
@@ -118,11 +128,21 @@ const BottomTab = ({navigation}) => {
                   blurRadius={40}
                 >
                   <View style={{ flexDirection: "row", marginTop: 10 }}>
-                    <Image
+                    {/* <Image
                       source={require(`../../assets/img/1.png`)}
                       style={styles.img1}
                       resizeMode="cover"
-                    />
+                    /> */}
+                    <Text style={{
+                      color: "white",
+                      fontSize: 30,
+                      fontWeight: "bold",
+                      lineHeight: 40, // Adjust the lineHeight as needed
+                      alignItems: "center",
+                      justifyContent: "center",
+                      marginTop: 10, 
+                      marginLeft:10
+                    }}>{index + 1}</Text>
                     <Image
                       source={{ uri: item.thumbnailM }}
                       style={styles.img}
@@ -157,7 +177,7 @@ const BottomTab = ({navigation}) => {
         <FlatList
           data={trendingKPopData}
           showsVerticalScrollIndicator={false}
-          renderItem={({ item }) => (
+          renderItem={({ item ,index}) => (
             <View style={styles.chartContainer}>
               <TouchableOpacity style={styles.chartContainer} onPress={() => navigation.navigate("SongDetail", { s_id: item.encodeId })}>
                 <ImageBackground
@@ -165,11 +185,21 @@ const BottomTab = ({navigation}) => {
                   blurRadius={40}
                 >
                   <View style={{ flexDirection: "row", marginTop: 10 }}>
-                    <Image
+                    {/* <Image
                       source={require(`../../assets/img/1.png`)}
                       style={styles.img1}
                       resizeMode="cover"
-                    />
+                    /> */}
+                    <Text style={{
+                      color: "white",
+                      fontSize: 30,
+                      fontWeight: "bold",
+                      lineHeight: 40, // Adjust the lineHeight as needed
+                      alignItems: "center",
+                      justifyContent: "center",
+                      marginTop: 10, 
+                      marginLeft:10
+                    }}>{index + 1}</Text>
                     <Image
                       source={{ uri: item.thumbnailM }}
                       style={styles.img}
@@ -226,7 +256,8 @@ export default function TrendingScreen({ navigation }) {
       <View style={styles.container}>
         <Text style={styles.text}>Trending Now</Text>
       </View>
-      <BottomTab style={{ backgroundColor: "black" }} navigation={navigation}/>
+      <BottomTab style={{ backgroundColor: "black" }} navigation={navigation} />
+    <View style={{height: HEIGHT * 0.06}}></View>
     </View>
   );
 }
@@ -270,7 +301,7 @@ const styles = {
     width: 70,
     height: 70,
     marginRight: 20,
-    marginLeft: -10,
+    marginLeft: 20,
     marginBottom: 10,
     borderRadius: 10,
     alignItems: "center",

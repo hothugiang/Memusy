@@ -271,7 +271,7 @@ export default function Search({ navigation }) {
           {/* Add more items here */}
         </View>
         
-        <View style={{ height: 100 }}></View>
+        <View style={{height: HEIGHT * 0.06}}></View>
       </ScrollView>
     </View>
   );
