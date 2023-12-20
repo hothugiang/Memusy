@@ -15,6 +15,12 @@ export default function HomeScreen({ navigation }) {
   });
 
   const [songData, setSongData] = useState("");
+  const [suyData, setSuyData] = useState("");
+  const [suyTitle, setSuyTitle] = useState("");
+  const [data2, setData2] = useState("");
+  const [dataFetch, setDataFetch] = useState(false);
+  const [data2Title, setData2Title] = useState("");
+
   useEffect(() => {
     async function prepare() {
       await SplashScreen.preventAutoHideAsync();
@@ -31,48 +37,40 @@ export default function HomeScreen({ navigation }) {
       }
     }
 
+    async function fetchData2() {
+      try {
+        const response = await axiosInstance.get("/musics/home");
+        setSuyTitle(response.data.data.data.items[4].title);
+        setSuyData(response.data.data.data.items[4].items);
+      } catch (error) {
+        console.error("Error:", error);
+      }
+    }
+
+    async function fetchData3() {
+      try {
+        const response = await axiosInstance.get("/musics/home");
+        setData2Title(response.data.data.data.items[3].title);
+        setData2(response.data.data.data.items[3].items);
+      } catch (error) {
+        console.error("Error:", error);
+      }
+    }
+
     prepare();
-    if (!songData) fetchData();
-  });
+    if (!dataFetch) {
+      fetchData();
+      fetchData2();
+      fetchData3();
+      setDataFetch(true);
+    }
+  }, []);
 
   if (!fontsLoaded) {
     return undefined;
   } else {
     SplashScreen.hideAsync();
   }
-
-  const data2 = [
-    {
-      name: "Nhạc lofy",
-      src: require("./../../assets/img/lofy.jpg"),
-      // image:'https://png.pngtree.com/png-clipart/20230825/original/pngtree-bored-character-man-working-with-laptop-vector-picture-image_8492047.png'
-    },
-    {
-      name: "Chill Music",
-      src: require("./../../assets/img/chill.jpg"),
-      // image:'https://png.pngtree.com/png-clipart/20230825/original/pngtree-bored-character-man-working-with-laptop-vector-picture-image_8492047.png'
-    },
-    {
-      name: "Nhớ về em",
-      src: require("./../../assets/img/nho.jpg"),
-      // image:'https://png.pngtree.com/png-clipart/20230825/original/pngtree-bored-character-man-working-with-laptop-vector-picture-image_8492047.png'
-    },
-    {
-      name: "Lạc vào trong mơ",
-      src: require("./../../assets/img/lac.jpg"),
-      // image:'https://png.pngtree.com/png-clipart/20230825/original/pngtree-bored-character-man-working-with-laptop-vector-picture-image_8492047.png'
-    },
-    {
-      name: "Audio",
-      src: require("./../../assets/img/audio.jpg"),
-      // image:'https://png.pngtree.com/png-clipart/20230825/original/pngtree-bored-character-man-working-with-laptop-vector-picture-image_8492047.png'
-    },
-    {
-      name: "Hơn cả mây trôi",
-      src: require("./../../assets/img/hon.jpg"),
-      // image:'https://png.pngtree.com/png-clipart/20230825/original/pngtree-bored-character-man-working-with-laptop-vector-picture-image_8492047.png'
-    },
-  ];
 
   const data3 = [
     {
@@ -112,7 +110,7 @@ export default function HomeScreen({ navigation }) {
         style={{
           flexDirection: "row",
           justifyContent: "space-between",
-          marginTop:  Platform.OS === "ios" ? 30 : 0,
+          marginTop: Platform.OS === "ios" ? 30 : 0,
         }}
       >
         <View style={{ paddingTop: 20, paddingLeft: 20 }}>
@@ -200,7 +198,7 @@ export default function HomeScreen({ navigation }) {
           marginBottom: 10,
         }}
       >
-        Chill-Lofy
+        {suyTitle}
       </Text>
       <ScrollView horizontal={true}>
         <FlatList
@@ -208,12 +206,12 @@ export default function HomeScreen({ navigation }) {
           scrollEnabled={false}
           nestedScrollEnabled={true}
           scrollToOverflowEnabled={false}
-          data={data2}
+          data={suyData}
           renderItem={({ item }) => (
-            <View style={{ flexDirection: "row" }}>
+            <TouchableOpacity style={{ flexDirection: "row" }} onPress={() => navigation.navigate("DetailPlaylist", {s_id: item.encodeId })}>
               <View style={styles.content}>
                 <Image
-                  source={item.src}
+                  source={{ uri: item.thumbnailM }}
                   style={styles.img2}
                   resizeMode="cover"
                 ></Image>
@@ -226,11 +224,11 @@ export default function HomeScreen({ navigation }) {
                       color: "gray",
                     }}
                   >
-                    {item.name}
+                    {item.title}
                   </Text>
                 </View>
               </View>
-            </View>
+            </TouchableOpacity>
           )}
         ></FlatList>
       </ScrollView>
@@ -242,7 +240,7 @@ export default function HomeScreen({ navigation }) {
           marginBottom: 10,
         }}
       >
-        Một chút chữa lành
+        {data2Title}
       </Text>
       <ScrollView horizontal={true}>
         <FlatList
@@ -250,12 +248,12 @@ export default function HomeScreen({ navigation }) {
           scrollEnabled={false}
           nestedScrollEnabled={true}
           scrollToOverflowEnabled={false}
-          data={data3}
+          data={data2}
           renderItem={({ item }) => (
-            <View style={{ flexDirection: "row" }}>
+            <TouchableOpacity style={{ flexDirection: "row" }} onPress={() => navigation.navigate("DetailPlaylist", {s_id: item.encodeId })}>
               <View style={styles.content}>
                 <Image
-                  source={item.src}
+                  source={{ uri: item.thumbnailM }}
                   style={styles.img3}
                   resizeMode="cover"
                 ></Image>
@@ -268,11 +266,11 @@ export default function HomeScreen({ navigation }) {
                       color: "gray",
                     }}
                   >
-                    {item.name}
+                    {item.title}
                   </Text>
                 </View>
               </View>
-            </View>
+            </TouchableOpacity>
           )}
         ></FlatList>
       </ScrollView>

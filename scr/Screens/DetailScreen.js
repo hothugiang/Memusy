@@ -16,8 +16,7 @@ import { Audio, InterruptionModeAndroid, InterruptionModeIOS } from "expo-av";
 import * as Animatable from "react-native-animatable";
 import { Ionicons } from "@expo/vector-icons";
 import AsyncStorage from "@react-native-async-storage/async-storage";
-import { Notifications } from 'expo';
-import axios from "axios";
+import * as Notifications from "expo-notifications";
 import Lyric from "../component/Lyric";
 
 const SKIP_INTERVAL = 10;
@@ -26,6 +25,7 @@ export default function DetailScreen({ navigation, route }) {
   const { s_id } = route.params;
   const [isPlaying, setIsPlaying] = useState(false);
   const [currentPosition, setCurrentPosition] = useState(0);
+  const [currentTime, setCurrentTime] = useState(0);
   const [sound, setSound] = useState();
   const [duration, setDuration] = useState(0);
   const [information, setInformation] = useState("");
@@ -36,33 +36,86 @@ export default function DetailScreen({ navigation, route }) {
     loadAudio();
     loadInfomation();
     loadLyric();
+    setupNotifications();
   }, []);
 
+  useEffect(() => {
+    sendNotification();
+  }, [isPlaying]);
+
+  useEffect(() => {
+    if (link) {
+      fetchLyrics();
+    }
+  }, [link]);
+  
   const loadLyric = async () => {
     try {
       const lyricsData = await axiosInstance.get(`/musics/lyric/${s_id}`);
-      setLink(lyricsData.data.data.data.file);  // Set lời bài hát vào state
+      setLink(lyricsData.data.data.data.file); 
       console.log(lyricsData.data.data.data.file);
-      if(lyricsData.status==200) {
-        fetchLyrics();
-      }
     } catch (error) {
       console.error("Error loading lyrics:", error);
     }
   };
-
+  
   const fetchLyrics = async () => {
     try {
-      const response = await axiosInstance.get(link); // Thay thế bằng đường link API của bạn
-      if (response.status == 200) {
+      const response = await axiosInstance.get(link);
+      if (response.status === 200) {
         const lyricsData = response.data;
         setLyrics(lyricsData);
-        console.log("hi", response.data);
       }
     } catch (error) {
       console.error('Error fetching lyrics:', error.message);
     }
   };
+
+  const setupNotifications = async () => {
+    await Notifications.requestPermissionsAsync();
+
+    Notifications.addNotificationReceivedListener(handleNotification);
+
+    const actionButton = [
+      {
+        text: "Dừng",
+        onPress: playSound,
+      },
+      {
+        text: "Phát",
+        onPress: playSound,
+      },
+    ];
+
+    Notifications.setNotificationHandler({
+      handleNotification: async () => ({
+        shouldShowAlert: true,
+        shouldPlaySound: false,
+        shouldSetBadge: false,
+        priority: Notifications.AndroidNotificationPriority.MAX,
+        actions: actionButton,
+      }),
+    });
+  };
+
+  const handleNotification = (notification) => {
+    console.log("Notification received:", notification);
+  };
+
+  const sendNotification = async () => {
+    const content = {
+      title: "Memusy",
+      body: isPlaying ? "Đang phát nhạc" : "Dừng phát nhạc",
+      sound: true,
+    };
+
+    await Notifications.scheduleNotificationAsync({
+      content,
+      trigger: null,
+    });
+  };
+  
+
   const loadInfomation = async () => {
     try {
       const token = await AsyncStorage.getItem("token");
@@ -92,6 +145,17 @@ export default function DetailScreen({ navigation, route }) {
         const { sound } = await Audio.Sound.createAsync({
           uri: audioURI,
         });
+
+        await Audio.setAudioModeAsync({
+          allowsRecordingIOS: false,
+          staysActiveInBackground: true,
+          interruptionModeIOS: InterruptionModeIOS.DuckOthers,
+          playsInSilentModeIOS: true,
+          shouldDuckAndroid: true,
+          interruptionModeAndroid: InterruptionModeAndroid.DuckOthers,
+          playThroughEarpieceAndroid: false
+        });
+
         setSound(sound);
 
         const status = await sound.getStatusAsync();
@@ -100,6 +164,7 @@ export default function DetailScreen({ navigation, route }) {
         sound.setOnPlaybackStatusUpdate((status) => {
           if (status.isPlaying) {
             setCurrentPosition(Math.round(status.positionMillis / 1000));
+            setCurrentTime(status.positionMillis);
           }
         });
       } else {
@@ -128,6 +193,7 @@ export default function DetailScreen({ navigation, route }) {
 
   const changeTime = (seconds) => {
     setCurrentPosition(seconds);
+    setCurrentTime(seconds * 1000);
     sound.setPositionAsync(seconds * 1000);
   };
 
@@ -135,14 +201,16 @@ export default function DetailScreen({ navigation, route }) {
     if (sound) {
       const newPosition = Math.min(duration, currentPosition + SKIP_INTERVAL);
       sound.setPositionAsync(newPosition * 1000);
+      setCurrentTime(newPosition*1000);
       setCurrentPosition(newPosition);
     }
   };
-
+  
   const skipBackward = () => {
     if (sound) {
       const newPosition = Math.max(0, currentPosition - SKIP_INTERVAL);
       sound.setPositionAsync(newPosition * 1000);
+      setCurrentTime(newPosition*1000);
       setCurrentPosition(newPosition);
     }
   };
@@ -150,17 +218,45 @@ export default function DetailScreen({ navigation, route }) {
   const formatTime = (seconds) => {
     const minutes = Math.floor(seconds / 60);
     const remainingSeconds = Math.round(seconds % 60);
-    return `${minutes < 10 ? "0" : ""}${minutes}:${remainingSeconds < 10 ? "0" : ""
-      }${remainingSeconds}`;
+    return `${minutes < 10 ? "0" : ""}${minutes}:${
+      remainingSeconds < 10 ? "0" : ""
+    }${remainingSeconds}`;
   };
 
   const [isReplay, setIsReplay] = useState(false);
 
-  const replayMusic = () => {
+  const replayMusic = async () => {
     setIsReplay(!isReplay)
   };
 
+  useEffect(() => {
+    if (currentPosition === duration) {
+      if (isReplay) {
+        const replayAsync = async () => {
+          if (sound) {
+            await sound.stopAsync();
+          }
+          await loadAudio();
+          await playSound();
+          setCurrentPosition(0);
+          setCurrentTime(0);
+        };
+    
+        replayAsync();
+      } else {
+        const stopPlayAsync = async () => {
+          if (sound) {
+            await sound.stopAsync();
+          }
+          await playSound();
+        };
 
+        stopPlayAsync();
+      }
+      
+    }
+    
+  }, [isReplay, currentPosition, duration])
 
   return (
     <View style={styles.container}>
@@ -170,9 +266,9 @@ export default function DetailScreen({ navigation, route }) {
           animation={
             isPlaying
               ? {
-                from: { rotate: "0deg" },
-                to: { rotate: "360deg" },
-              }
+                  from: { rotate: "0deg" },
+                  to: { rotate: "360deg" },
+                }
               : undefined
           }
           easing="linear"
@@ -234,7 +330,7 @@ export default function DetailScreen({ navigation, route }) {
           />
         </TouchableOpacity>
       </View>
-      <Lyric lrc={lyrics} currentTime={currentPosition} />
+      <Lyric lrc={lyrics} currentTime={currentTime}/>
     </View>
   );
 }
@@ -260,7 +356,7 @@ const styles = StyleSheet.create({
   },
 
   title: {
-    marginTop: 30,
+    marginTop: 5,
     marginBottom: 20,
     fontSize: 24,
     fontWeight: "bold",

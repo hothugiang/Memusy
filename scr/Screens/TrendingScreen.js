@@ -257,6 +257,7 @@ export default function TrendingScreen({ navigation }) {
         <Text style={styles.text}>Trending Now</Text>
       </View>
       <BottomTab style={{ backgroundColor: "black" }} navigation={navigation} />
+    <View style={{height: HEIGHT * 0.06}}></View>
     </View>
   );
 }

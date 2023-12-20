@@ -83,7 +83,7 @@ const DetailArtistScreen = ({ navigation, route }) => {
           )
         })}
       </ScrollView>
-
+      <View style={{height: HEIGHT * 0.06}}></View>
     </View>
 
   )
