@@ -17,6 +17,8 @@ import * as Animatable from "react-native-animatable";
 import { Ionicons } from "@expo/vector-icons";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { Notifications } from 'expo';
+import axios from "axios";
+import Lyric from "../component/Lyric";
 
 const SKIP_INTERVAL = 10;
 
@@ -27,13 +29,40 @@ export default function DetailScreen({ navigation, route }) {
   const [sound, setSound] = useState();
   const [duration, setDuration] = useState(0);
   const [information, setInformation] = useState("");
+  const [link, setLink] = useState("");
+  const [lyrics, setLyrics] = useState("");
 
   useEffect(() => {
     loadAudio();
     loadInfomation();
-    
+    loadLyric();
   }, []);
 
+  const loadLyric = async () => {
+    try {
+      const lyricsData = await axiosInstance.get(`/musics/lyric/${s_id}`);
+      setLink(lyricsData.data.data.data.file);  // Set lời bài hát vào state
+      console.log(lyricsData.data.data.data.file);
+      if(lyricsData.status==200) {
+        fetchLyrics();
+      }
+    } catch (error) {
+      console.error("Error loading lyrics:", error);
+    }
+  };
+
+  const fetchLyrics = async () => {
+    try {
+      const response = await axiosInstance.get(link); // Thay thế bằng đường link API của bạn
+      if (response.status == 200) {
+        const lyricsData = response.data;
+        setLyrics(lyricsData);
+        console.log("hi", response.data);
+      }
+    } catch (error) {
+      console.error('Error fetching lyrics:', error.message);
+    }
+  };
   const loadInfomation = async () => {
     try {
       const token = await AsyncStorage.getItem("token");
@@ -109,7 +138,7 @@ export default function DetailScreen({ navigation, route }) {
       setCurrentPosition(newPosition);
     }
   };
-  
+
   const skipBackward = () => {
     if (sound) {
       const newPosition = Math.max(0, currentPosition - SKIP_INTERVAL);
@@ -121,9 +150,8 @@ export default function DetailScreen({ navigation, route }) {
   const formatTime = (seconds) => {
     const minutes = Math.floor(seconds / 60);
     const remainingSeconds = Math.round(seconds % 60);
-    return `${minutes < 10 ? "0" : ""}${minutes}:${
-      remainingSeconds < 10 ? "0" : ""
-    }${remainingSeconds}`;
+    return `${minutes < 10 ? "0" : ""}${minutes}:${remainingSeconds < 10 ? "0" : ""
+      }${remainingSeconds}`;
   };
 
   const [isReplay, setIsReplay] = useState(false);
@@ -131,6 +159,8 @@ export default function DetailScreen({ navigation, route }) {
   const replayMusic = () => {
     setIsReplay(!isReplay)
   };
+
+
 
   return (
     <View style={styles.container}>
@@ -140,9 +170,9 @@ export default function DetailScreen({ navigation, route }) {
           animation={
             isPlaying
               ? {
-                  from: { rotate: "0deg" },
-                  to: { rotate: "360deg" },
-                }
+                from: { rotate: "0deg" },
+                to: { rotate: "360deg" },
+              }
               : undefined
           }
           easing="linear"
@@ -204,12 +234,7 @@ export default function DetailScreen({ navigation, route }) {
           />
         </TouchableOpacity>
       </View>
-
-      {/* <View style="lyricContainer">
-          <View>
-            
-          </View>
-      </View> */}
+      <Lyric lrc={lyrics} currentTime={currentPosition} />
     </View>
   );
 }
