@@ -7,7 +7,7 @@ import LoginScreen from "../Screens/LoginScreen";
 import SignupScreen from "../Screens/SignupScreen";
 import EditProfileScreen from "../Screens/EditProfile";
 import AsyncStorage from "@react-native-async-storage/async-storage";
-
+import Favorite from "../Screens/Favorite";
 const Stack = createNativeStackNavigator();
 
 export default function UserScreenTab() {
@@ -34,6 +34,7 @@ export default function UserScreenTab() {
       <Stack.Screen name="Login" component={LoginScreen} />
       <Stack.Screen name="Signup" component={SignupScreen} />
       <Stack.Screen name="EditProfile" component={EditProfileScreen} />
+      <Stack.Screen name="Favorite" component={Favorite}/>
     </Stack.Navigator>
   );
 }

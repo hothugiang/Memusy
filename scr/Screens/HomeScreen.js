@@ -7,6 +7,7 @@ import * as SplashScreen from "expo-splash-screen";
 import { Ionicons } from "@expo/vector-icons";
 import { axiosInstance } from "../constants/Axios";
 import { Platform } from "react-native";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
 export default function HomeScreen({ navigation }) {
   const [fontsLoaded] = useFonts({
@@ -15,6 +16,7 @@ export default function HomeScreen({ navigation }) {
   });
 
   const [songData, setSongData] = useState("");
+  const [username, setUsername] = useState("");
   const [suyData, setSuyData] = useState("");
   const [suyTitle, setSuyTitle] = useState("");
   const [data2, setData2] = useState("");
@@ -24,6 +26,11 @@ export default function HomeScreen({ navigation }) {
   useEffect(() => {
     async function prepare() {
       await SplashScreen.preventAutoHideAsync();
+    }
+
+    async function loadDataUser() {
+      const username = await AsyncStorage.getItem("username");
+      setUsername(username);
     }
 
     async function fetchData() {
@@ -39,9 +46,9 @@ export default function HomeScreen({ navigation }) {
 
     async function fetchData2() {
       try {
-        const response = await axiosInstance.get("/musics/home");
-        setSuyTitle(response.data.data.data.items[4].title);
-        setSuyData(response.data.data.data.items[4].items);
+        const response = await axiosInstance.get("/musics/detailplaylist/SBEED799");
+        setSuyTitle(response.data.data.title);
+        setSuyData(response.data.data.song.items);
       } catch (error) {
         console.error("Error:", error);
       }
@@ -49,15 +56,16 @@ export default function HomeScreen({ navigation }) {
 
     async function fetchData3() {
       try {
-        const response = await axiosInstance.get("/musics/home");
-        setData2Title(response.data.data.data.items[3].title);
-        setData2(response.data.data.data.items[3].items);
+        const response = await axiosInstance.get("/musics/detailplaylist/6707CZ08");
+        setData2Title(response.data.data.title);
+        setData2(response.data.data.song.items);
       } catch (error) {
         console.error("Error:", error);
       }
     }
 
     prepare();
+    loadDataUser();
     if (!dataFetch) {
       fetchData();
       fetchData2();
@@ -71,39 +79,7 @@ export default function HomeScreen({ navigation }) {
   } else {
     SplashScreen.hideAsync();
   }
-
-  const data3 = [
-    {
-      name: "Những gì anh nói",
-      src: require("./../../assets/img/nhung.jpg"),
-      // image:'https://png.pngtree.com/png-clipart/20230825/original/pngtree-bored-character-man-working-with-laptop-vector-picture-image_8492047.png'
-    },
-    {
-      name: "4 mùa thương em",
-      src: require("./../../assets/img/4mua.jpg"),
-      // image:'https://png.pngtree.com/png-clipart/20230825/original/pngtree-bored-character-man-working-with-laptop-vector-picture-image_8492047.png'
-    },
-    {
-      name: "Như anh đã thấy em",
-      src: require("./../../assets/img/nhu.jpg"),
-      // image:'https://png.pngtree.com/png-clipart/20230825/original/pngtree-bored-character-man-working-with-laptop-vector-picture-image_8492047.png'
-    },
-    {
-      name: "Nhất trên đời",
-      src: require("./../../assets/img/nhat.jpg"),
-      // image:'https://png.pngtree.com/png-clipart/20230825/original/pngtree-bored-character-man-working-with-laptop-vector-picture-image_8492047.png'
-    },
-    {
-      name: "Hẹn em ở lần yêu thứ hai",
-      src: require("./../../assets/img/hen.jpg"),
-      // image:'https://png.pngtree.com/png-clipart/20230825/original/pngtree-bored-character-man-working-with-laptop-vector-picture-image_8492047.png'
-    },
-    {
-      name: "Tiếng pháo tiễn người đi",
-      src: require("./../../assets/img/tieng.jpg"),
-      // image:'https://png.pngtree.com/png-clipart/20230825/original/pngtree-bored-character-man-working-with-laptop-vector-picture-image_8492047.png'
-    },
-  ];
+  
   return (
     <ScrollView style={styles.container} horizontal={false}>
       <View
@@ -121,7 +97,7 @@ export default function HomeScreen({ navigation }) {
               color: "white",
             }}
           >
-            Hello MingMing,
+            Hello, {username}
           </Text>
           <Text
             style={{
@@ -208,7 +184,7 @@ export default function HomeScreen({ navigation }) {
           scrollToOverflowEnabled={false}
           data={suyData}
           renderItem={({ item }) => (
-            <TouchableOpacity style={{ flexDirection: "row" }} onPress={() => navigation.navigate("DetailPlaylist", {s_id: item.encodeId })}>
+            <TouchableOpacity style={{ flexDirection: "row" }} onPress={() => navigation.navigate("SongDetail", {s_id: item.encodeId })}>
               <View style={styles.content}>
                 <Image
                   source={{ uri: item.thumbnailM }}
@@ -250,7 +226,7 @@ export default function HomeScreen({ navigation }) {
           scrollToOverflowEnabled={false}
           data={data2}
           renderItem={({ item }) => (
-            <TouchableOpacity style={{ flexDirection: "row" }} onPress={() => navigation.navigate("DetailPlaylist", {s_id: item.encodeId })}>
+            <TouchableOpacity style={{ flexDirection: "row" }} onPress={() => navigation.navigate("SongDetail", {s_id: item.encodeId })}>
               <View style={styles.content}>
                 <Image
                   source={{ uri: item.thumbnailM }}

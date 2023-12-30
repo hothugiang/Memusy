@@ -10,7 +10,7 @@ router.get("/song/:id", MusicController.getSong);
 router.get("/detailplaylist/:id", MusicController.getDetailPlaylist);
 
 // getSongFromPlaylist
-router.get("/songsplaylist/:id", MusicController.getSongsPlaylist)
+router.get("/songsplaylist/:id", MusicController.getSongsPlaylist);
 
 // getHome
 router.get("/home", MusicController.getHome);

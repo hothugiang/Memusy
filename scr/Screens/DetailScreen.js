@@ -119,7 +119,6 @@ export default function DetailScreen({ navigation, route }) {
     });
   };
   
-
   const loadInfomation = async () => {
     try {
       const token = await AsyncStorage.getItem("token");
@@ -188,6 +187,10 @@ export default function DetailScreen({ navigation, route }) {
 
   const playSound = async () => {
     if (!isPlaying) {
+      if (!sound) {
+        console.log("Error: Sound is not defined");
+        return;
+      }
       await sound.playAsync();
     } else {
       await sound.pauseAsync();
@@ -490,7 +493,15 @@ export default function DetailScreen({ navigation, route }) {
                 setPlaylistModalVisible(false);
                 setCreateModalVisible(true);
               }}>
-              <Text style={{color: "white"}}>Create new playlist</Text>
+              <View style={{ flexDirection: 'row', alignItems: 'center' }}>
+                <Ionicons
+                  name="add-circle-outline"
+                  size={22}
+                  color="white"  
+                  style={{ marginRight: 5 }}  
+                />
+                <Text style={{color: "white", fontSize: 18}}>Create new playlist</Text>
+              </View>
             </TouchableOpacity>
           </View>
 

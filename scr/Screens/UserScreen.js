@@ -1,5 +1,5 @@
-import React, { useContext } from 'react';
-import { View, Text, StyleSheet ,Dimensions,TouchableOpacity} from 'react-native';
+import React, { useContext, useState } from 'react';
+import { View, Text, StyleSheet, Dimensions,TouchableOpacity} from 'react-native';
 import { Button } from 'react-native-elements';
 import TokenContext from '../contexts/TokenContext';
 import { Ionicons } from '@expo/vector-icons';
@@ -7,7 +7,6 @@ import { Image } from 'react-native';
 import { useFonts } from 'expo-font';
 import * as SplashScreen from 'expo-splash-screen';
 import { useEffect } from 'react';
-import { createMaterialTopTabNavigator } from "@react-navigation/material-top-tabs";
 import { axiosInstance } from '../constants/Axios';
 import { Platform } from 'react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
@@ -16,6 +15,8 @@ const { height: HEIGHT } = Dimensions.get("window");
 const standardWidth = 360;
 const standardHeight = 800;
 export default function UserScreen({ navigation }) {
+
+  const [username , setUsername] = useState("");
   
   const [fontsLoaded] = useFonts({
     'GentiumBookBasic-Italic': require('./../../assets/fonts/GentiumBookBasic-Italic.ttf'),
@@ -26,6 +27,14 @@ export default function UserScreen({ navigation }) {
       await SplashScreen.preventAutoHideAsync();
     }
     prepare();
+    async function loadData() {
+      const username = await AsyncStorage.getItem('username');
+      if (!username) {
+        navigation.navigate("Login");
+      }
+      setUsername(username);
+    }
+    loadData();
   })
   if (!fontsLoaded) {
     return undefined;
@@ -48,6 +57,8 @@ export default function UserScreen({ navigation }) {
       if (response.status === 200) {
         // Xử lý khi logout thành công, ví dụ: chuyển hướng đến màn hình đăng nhập
         await AsyncStorage.removeItem("token");
+        await AsyncStorage.removeItem("username");
+        await AsyncStorage.removeItem("email");
         navigation.navigate('Login');
       } else {
         console.error('Logout failed');
@@ -59,7 +70,7 @@ export default function UserScreen({ navigation }) {
   return (
     <View style={{ flex: 1, backgroundColor: 'black' }}>
       <View style={{ marginTop: Platform.OS === "ios" ? 24 : 0 }}>
-        <Ionicons name='ios-arrow-back' size={24} color='#5257D'></Ionicons>
+        <Ionicons name='ios-arrow-back' size={24} color='#5257DF'></Ionicons>
       </View>
 
       <View style={{ flexDirection: 'row' }}>
@@ -67,7 +78,7 @@ export default function UserScreen({ navigation }) {
           <Image source={require("../../assets/img/cho.jpg")} style={styles.image} resizeMode="center"></Image>
         </View>
         <View style={{ flexDirection: 'column' }}>
-          <Text style={styles.name}>Ming Ming</Text>
+          <Text style={styles.name}>{username}</Text>
           <Text style={styles.follow}>Followers 5 | Following 20</Text>
         </View>
       </View>
@@ -87,11 +98,14 @@ export default function UserScreen({ navigation }) {
           </View>
         </View>
 
-        <View style={styles.imgWrapper}>
-          <View style={styles.img}>
-            <Text style={styles.imgText}>Upload</Text>
+        <TouchableOpacity onPress={() => navigation.navigate("Favorite")}> 
+          <View style={styles.imgWrapper}>
+            <View style={styles.img}>
+              <Text style={styles.imgText}>Favorite</Text>
+            </View>
           </View>
-        </View>
+        </TouchableOpacity>
+
 
         <View style={styles.imgWrapper}>
           <View style={styles.img}>
@@ -179,12 +193,12 @@ const styles = StyleSheet.create({
     marginLeft: 10,
     marginTop: 10,
     overflow: "hidden", // Hide any overflow content
-    backgroundColor:'#2F2D38'
+    backgroundColor: '#2F2D38'
   },
   imgText: {
-    marginLeft:10,
-    marginTop:10,
-    fontWeight:"bold",
+    marginLeft: 10,
+    marginTop: 10,
+    fontWeight: "bold",
     flex: 1,
     fontSize: 20,
     color: "white",

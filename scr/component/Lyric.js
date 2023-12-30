@@ -4,18 +4,21 @@ import { View } from 'react-native-animatable';
 import { Lyric } from 'react-native-lyric';
 
 const Lyrics = ({ lrc, currentTime }) => {
-
     const lineRenderer = useCallback(
-        ({ lrcLine, index, active,millisecond }) => {
-            console.log("milliseconds",millisecond);
+        ({ lrcLine: { millisecond, content }, index, active }) => {
             return (
                 <Text
-                    style={{ textAlign: 'center', fontSize: 16, color: active ? 'white' : 'gray', lineHeight: 20}}>
-                    {lrcLine.content}
+                    style={{
+                        textAlign: 'center',
+                        color: active ? 'white' : 'gray',
+                        fontSize:20
+                    }}
+                >
+                    {content}
                 </Text>
             );
         },
-        [],
+        [currentTime]
     );
 
     return (
@@ -23,7 +26,7 @@ const Lyrics = ({ lrc, currentTime }) => {
             <Lyric
                 lrc={lrc}
                 currentTime={currentTime}
-                lineHeight={20}
+                lineHeight={30}
                 lineRenderer={lineRenderer}
             />
         </View>
