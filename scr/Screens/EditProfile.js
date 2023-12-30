@@ -3,7 +3,6 @@ import { View, Text, TextInput, Button, TouchableOpacity, Image } from "react-na
 import { Ionicons } from "@expo/vector-icons";
 import { Dimensions } from "react-native";
 import { SafeAreaView } from "react-native";
-import UserScreenTab from "../Tabs/UserScreenTab";
 const { width: WIDTH } = Dimensions.get("window");
 const { height: HEIGHT } = Dimensions.get("window");
 const standardWidth = 360;

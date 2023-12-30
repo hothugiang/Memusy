@@ -1,5 +1,7 @@
-import React, { useContext } from 'react';
-import { View, Text, StyleSheet, Dimensions, TouchableOpacity } from 'react-native';
+import React, { useContext, useState } from 'react';
+import { View, Text, StyleSheet, Dimensions,TouchableOpacity} from 'react-native';
+import { Button } from 'react-native-elements';
+import TokenContext from '../contexts/TokenContext';
 import { Ionicons } from '@expo/vector-icons';
 import { Image } from 'react-native';
 import { useFonts } from 'expo-font';
@@ -14,6 +16,8 @@ const standardWidth = 360;
 const standardHeight = 800;
 export default function UserScreen({ navigation }) {
 
+  const [username , setUsername] = useState("");
+  
   const [fontsLoaded] = useFonts({
     'GentiumBookBasic-Italic': require('./../../assets/fonts/GentiumBookBasic-Italic.ttf'),
     'Open-san': require('./../../assets/fonts/Montserrat-Bold.ttf')
@@ -23,6 +27,14 @@ export default function UserScreen({ navigation }) {
       await SplashScreen.preventAutoHideAsync();
     }
     prepare();
+    async function loadData() {
+      const username = await AsyncStorage.getItem('username');
+      if (!username) {
+        navigation.navigate("Login");
+      }
+      setUsername(username);
+    }
+    loadData();
   })
   if (!fontsLoaded) {
     return undefined;
@@ -45,6 +57,8 @@ export default function UserScreen({ navigation }) {
       if (response.status === 200) {
         // Xử lý khi logout thành công, ví dụ: chuyển hướng đến màn hình đăng nhập
         await AsyncStorage.removeItem("token");
+        await AsyncStorage.removeItem("username");
+        await AsyncStorage.removeItem("email");
         navigation.navigate('Login');
       } else {
         console.error('Logout failed');
@@ -56,7 +70,7 @@ export default function UserScreen({ navigation }) {
   return (
     <View style={{ flex: 1, backgroundColor: 'black' }}>
       <View style={{ marginTop: Platform.OS === "ios" ? 24 : 0 }}>
-        <Ionicons name='ios-arrow-back' size={24} color='#5257D'></Ionicons>
+        <Ionicons name='ios-arrow-back' size={24} color='#5257DF'></Ionicons>
       </View>
 
       <View style={{ flexDirection: 'row' }}>
@@ -64,7 +78,7 @@ export default function UserScreen({ navigation }) {
           <Image source={require("../../assets/img/cho.jpg")} style={styles.image} resizeMode="center"></Image>
         </View>
         <View style={{ flexDirection: 'column' }}>
-          <Text style={styles.name}>Ming Ming</Text>
+          <Text style={styles.name}>{username}</Text>
           <Text style={styles.follow}>Followers 5 | Following 20</Text>
         </View>
       </View>

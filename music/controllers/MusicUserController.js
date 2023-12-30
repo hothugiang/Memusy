@@ -176,6 +176,75 @@ class MusicUserController {
             });
         }
     }
+
+    async getPlaylists(req, res) {
+        try {
+            const { userId } = req.query;
+            const db = req.app.locals.db;
+
+            const getPlaylistsQuery = "SELECT * FROM playlists WHERE user_id = ?;";
+            db.query(getPlaylistsQuery, [userId], (err, result) => {
+                if (err) {
+                    console.error("Lỗi lấy danh sách playlist: " + err.message);
+                    return res.status(500).json({ message: "Lỗi lấy danh sách playlist." });
+                }
+                return res.status(200).json(result);
+            });
+        } catch (error) {
+            console.error(error);
+
+            res.status(500).json({
+                status: "error",
+                message: "Internal Server Error",
+            });
+        }
+    }
+
+    async getSongs(req, res) {
+        try {
+            const { playlistId } = req.query;
+            const db = req.app.locals.db;
+
+            const getSongsQuery = "SELECT * FROM playlistsongs WHERE playlist_id = ?;";
+            db.query(getSongsQuery, [playlistId], (err, result) => {
+                if (err) {
+                    console.error("Lỗi lấy danh sách bài hát trong playlist: " + err.message);
+                    return res.status(500).json({ message: "Lỗi lấy danh sách bài hát trong playlist." });
+                }
+                return res.status(200).json(result);
+            });
+        } catch (error) {
+            console.error(error);
+
+            res.status(500).json({
+                status: "error",
+                message: "Internal Server Error",
+            });
+        }
+    }
+
+    async getFavorites(req, res) {
+        try {
+            const { userId } = req.query;
+            const db = req.app.locals.db;
+
+            const getFavoritesQuery = "SELECT * FROM favorites WHERE user_id = ?;";
+            db.query(getFavoritesQuery, [userId], (err, result) => {
+                if (err) {
+                    console.error("Lỗi lấy danh sách bài hát yêu thích: " + err.message);
+                    return res.status(500).json({ message: "Lỗi lấy danh sách bài hát yêu thích." });
+                }
+                return res.status(200).json(result);
+            });
+        } catch (error) {
+            console.error(error);
+
+            res.status(500).json({
+                status: "error",
+                message: "Internal Server Error",
+            });
+        }
+    }
 }
 
 module.exports = new MusicUserController();
