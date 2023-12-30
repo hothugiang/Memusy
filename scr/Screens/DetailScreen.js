@@ -365,7 +365,7 @@ export default function DetailScreen({ navigation, route }) {
         <TouchableOpacity onPress={() => {
           replayMusic();
           if (!isReplay) {
-            Alert.alert("Thông báo", "Đã thêm vào yêu thích!");
+            Alert.alert("Thông báo", "Đã bật chế độ tự động phát lại!");
           }
         }}>
           <Ionicons
