@@ -51,6 +51,943 @@ const Favorite = ({ navigation, route }) => {
                         }}></Ionicons>
                     </TouchableOpacity>
                 </View>
+                <View style={styles.songsWrapper}>
+                    <TouchableOpacity style={styles.songs} onPress={() => navigation.navigate("SongDetail")}>
+                        <Image source={require("../../assets/img/cho.jpg")} style={styles.songImage} resizeMode="cover" />
+                        <View>
+                            <Text style={styles.songTitle}>Hi</Text>
+                            <Text style={styles.songType}>ai biết</Text>
+                        </View>
+                    </TouchableOpacity>
+                    <TouchableOpacity>
+                        <Ionicons name="heart" style={{
+                            color: "pink",
+                            marginTop: 35,
+                            marginLeft: -40,
+                            fontSize: 18,
+                            marginRight:10
+                        }}></Ionicons>
+                    </TouchableOpacity>
+                    <TouchableOpacity>
+                        <Ionicons name="ellipsis-vertical" style={{
+                            color: "gray",
+                            marginTop: 35,
+                            marginLeft: -30,
+                            fontSize: 20,
+                            marginRight:10
+                        }}></Ionicons>
+                    </TouchableOpacity>
+                </View><View style={styles.songsWrapper}>
+                    <TouchableOpacity style={styles.songs} onPress={() => navigation.navigate("SongDetail")}>
+                        <Image source={require("../../assets/img/cho.jpg")} style={styles.songImage} resizeMode="cover" />
+                        <View>
+                            <Text style={styles.songTitle}>Hi</Text>
+                            <Text style={styles.songType}>ai biết</Text>
+                        </View>
+                    </TouchableOpacity>
+                    <TouchableOpacity>
+                        <Ionicons name="heart" style={{
+                            color: "pink",
+                            marginTop: 35,
+                            marginLeft: -40,
+                            fontSize: 18,
+                            marginRight:10
+                        }}></Ionicons>
+                    </TouchableOpacity>
+                    <TouchableOpacity>
+                        <Ionicons name="ellipsis-vertical" style={{
+                            color: "gray",
+                            marginTop: 35,
+                            marginLeft: -30,
+                            fontSize: 20,
+                            marginRight:10
+                        }}></Ionicons>
+                    </TouchableOpacity>
+                </View><View style={styles.songsWrapper}>
+                    <TouchableOpacity style={styles.songs} onPress={() => navigation.navigate("SongDetail")}>
+                        <Image source={require("../../assets/img/cho.jpg")} style={styles.songImage} resizeMode="cover" />
+                        <View>
+                            <Text style={styles.songTitle}>Hi</Text>
+                            <Text style={styles.songType}>ai biết</Text>
+                        </View>
+                    </TouchableOpacity>
+                    <TouchableOpacity>
+                        <Ionicons name="heart" style={{
+                            color: "pink",
+                            marginTop: 35,
+                            marginLeft: -40,
+                            fontSize: 18,
+                            marginRight:10
+                        }}></Ionicons>
+                    </TouchableOpacity>
+                    <TouchableOpacity>
+                        <Ionicons name="ellipsis-vertical" style={{
+                            color: "gray",
+                            marginTop: 35,
+                            marginLeft: -30,
+                            fontSize: 20,
+                            marginRight:10
+                        }}></Ionicons>
+                    </TouchableOpacity>
+                </View><View style={styles.songsWrapper}>
+                    <TouchableOpacity style={styles.songs} onPress={() => navigation.navigate("SongDetail")}>
+                        <Image source={require("../../assets/img/cho.jpg")} style={styles.songImage} resizeMode="cover" />
+                        <View>
+                            <Text style={styles.songTitle}>Hi</Text>
+                            <Text style={styles.songType}>ai biết</Text>
+                        </View>
+                    </TouchableOpacity>
+                    <TouchableOpacity>
+                        <Ionicons name="heart" style={{
+                            color: "pink",
+                            marginTop: 35,
+                            marginLeft: -40,
+                            fontSize: 18,
+                            marginRight:10
+                        }}></Ionicons>
+                    </TouchableOpacity>
+                    <TouchableOpacity>
+                        <Ionicons name="ellipsis-vertical" style={{
+                            color: "gray",
+                            marginTop: 35,
+                            marginLeft: -30,
+                            fontSize: 20,
+                            marginRight:10
+                        }}></Ionicons>
+                    </TouchableOpacity>
+                </View><View style={styles.songsWrapper}>
+                    <TouchableOpacity style={styles.songs} onPress={() => navigation.navigate("SongDetail")}>
+                        <Image source={require("../../assets/img/cho.jpg")} style={styles.songImage} resizeMode="cover" />
+                        <View>
+                            <Text style={styles.songTitle}>Hi</Text>
+                            <Text style={styles.songType}>ai biết</Text>
+                        </View>
+                    </TouchableOpacity>
+                    <TouchableOpacity>
+                        <Ionicons name="heart" style={{
+                            color: "pink",
+                            marginTop: 35,
+                            marginLeft: -40,
+                            fontSize: 18,
+                            marginRight:10
+                        }}></Ionicons>
+                    </TouchableOpacity>
+                    <TouchableOpacity>
+                        <Ionicons name="ellipsis-vertical" style={{
+                            color: "gray",
+                            marginTop: 35,
+                            marginLeft: -30,
+                            fontSize: 20,
+                            marginRight:10
+                        }}></Ionicons>
+                    </TouchableOpacity>
+                </View><View style={styles.songsWrapper}>
+                    <TouchableOpacity style={styles.songs} onPress={() => navigation.navigate("SongDetail")}>
+                        <Image source={require("../../assets/img/cho.jpg")} style={styles.songImage} resizeMode="cover" />
+                        <View>
+                            <Text style={styles.songTitle}>Hi</Text>
+                            <Text style={styles.songType}>ai biết</Text>
+                        </View>
+                    </TouchableOpacity>
+                    <TouchableOpacity>
+                        <Ionicons name="heart" style={{
+                            color: "pink",
+                            marginTop: 35,
+                            marginLeft: -40,
+                            fontSize: 18,
+                            marginRight:10
+                        }}></Ionicons>
+                    </TouchableOpacity>
+                    <TouchableOpacity>
+                        <Ionicons name="ellipsis-vertical" style={{
+                            color: "gray",
+                            marginTop: 35,
+                            marginLeft: -30,
+                            fontSize: 20,
+                            marginRight:10
+                        }}></Ionicons>
+                    </TouchableOpacity>
+                </View><View style={styles.songsWrapper}>
+                    <TouchableOpacity style={styles.songs} onPress={() => navigation.navigate("SongDetail")}>
+                        <Image source={require("../../assets/img/cho.jpg")} style={styles.songImage} resizeMode="cover" />
+                        <View>
+                            <Text style={styles.songTitle}>Hi</Text>
+                            <Text style={styles.songType}>ai biết</Text>
+                        </View>
+                    </TouchableOpacity>
+                    <TouchableOpacity>
+                        <Ionicons name="heart" style={{
+                            color: "pink",
+                            marginTop: 35,
+                            marginLeft: -40,
+                            fontSize: 18,
+                            marginRight:10
+                        }}></Ionicons>
+                    </TouchableOpacity>
+                    <TouchableOpacity>
+                        <Ionicons name="ellipsis-vertical" style={{
+                            color: "gray",
+                            marginTop: 35,
+                            marginLeft: -30,
+                            fontSize: 20,
+                            marginRight:10
+                        }}></Ionicons>
+                    </TouchableOpacity>
+                </View><View style={styles.songsWrapper}>
+                    <TouchableOpacity style={styles.songs} onPress={() => navigation.navigate("SongDetail")}>
+                        <Image source={require("../../assets/img/cho.jpg")} style={styles.songImage} resizeMode="cover" />
+                        <View>
+                            <Text style={styles.songTitle}>Hi</Text>
+                            <Text style={styles.songType}>ai biết</Text>
+                        </View>
+                    </TouchableOpacity>
+                    <TouchableOpacity>
+                        <Ionicons name="heart" style={{
+                            color: "pink",
+                            marginTop: 35,
+                            marginLeft: -40,
+                            fontSize: 18,
+                            marginRight:10
+                        }}></Ionicons>
+                    </TouchableOpacity>
+                    <TouchableOpacity>
+                        <Ionicons name="ellipsis-vertical" style={{
+                            color: "gray",
+                            marginTop: 35,
+                            marginLeft: -30,
+                            fontSize: 20,
+                            marginRight:10
+                        }}></Ionicons>
+                    </TouchableOpacity>
+                </View><View style={styles.songsWrapper}>
+                    <TouchableOpacity style={styles.songs} onPress={() => navigation.navigate("SongDetail")}>
+                        <Image source={require("../../assets/img/cho.jpg")} style={styles.songImage} resizeMode="cover" />
+                        <View>
+                            <Text style={styles.songTitle}>Hi</Text>
+                            <Text style={styles.songType}>ai biết</Text>
+                        </View>
+                    </TouchableOpacity>
+                    <TouchableOpacity>
+                        <Ionicons name="heart" style={{
+                            color: "pink",
+                            marginTop: 35,
+                            marginLeft: -40,
+                            fontSize: 18,
+                            marginRight:10
+                        }}></Ionicons>
+                    </TouchableOpacity>
+                    <TouchableOpacity>
+                        <Ionicons name="ellipsis-vertical" style={{
+                            color: "gray",
+                            marginTop: 35,
+                            marginLeft: -30,
+                            fontSize: 20,
+                            marginRight:10
+                        }}></Ionicons>
+                    </TouchableOpacity>
+                </View><View style={styles.songsWrapper}>
+                    <TouchableOpacity style={styles.songs} onPress={() => navigation.navigate("SongDetail")}>
+                        <Image source={require("../../assets/img/cho.jpg")} style={styles.songImage} resizeMode="cover" />
+                        <View>
+                            <Text style={styles.songTitle}>Hi</Text>
+                            <Text style={styles.songType}>ai biết</Text>
+                        </View>
+                    </TouchableOpacity>
+                    <TouchableOpacity>
+                        <Ionicons name="heart" style={{
+                            color: "pink",
+                            marginTop: 35,
+                            marginLeft: -40,
+                            fontSize: 18,
+                            marginRight:10
+                        }}></Ionicons>
+                    </TouchableOpacity>
+                    <TouchableOpacity>
+                        <Ionicons name="ellipsis-vertical" style={{
+                            color: "gray",
+                            marginTop: 35,
+                            marginLeft: -30,
+                            fontSize: 20,
+                            marginRight:10
+                        }}></Ionicons>
+                    </TouchableOpacity>
+                </View><View style={styles.songsWrapper}>
+                    <TouchableOpacity style={styles.songs} onPress={() => navigation.navigate("SongDetail")}>
+                        <Image source={require("../../assets/img/cho.jpg")} style={styles.songImage} resizeMode="cover" />
+                        <View>
+                            <Text style={styles.songTitle}>Hi</Text>
+                            <Text style={styles.songType}>ai biết</Text>
+                        </View>
+                    </TouchableOpacity>
+                    <TouchableOpacity>
+                        <Ionicons name="heart" style={{
+                            color: "pink",
+                            marginTop: 35,
+                            marginLeft: -40,
+                            fontSize: 18,
+                            marginRight:10
+                        }}></Ionicons>
+                    </TouchableOpacity>
+                    <TouchableOpacity>
+                        <Ionicons name="ellipsis-vertical" style={{
+                            color: "gray",
+                            marginTop: 35,
+                            marginLeft: -30,
+                            fontSize: 20,
+                            marginRight:10
+                        }}></Ionicons>
+                    </TouchableOpacity>
+                </View><View style={styles.songsWrapper}>
+                    <TouchableOpacity style={styles.songs} onPress={() => navigation.navigate("SongDetail")}>
+                        <Image source={require("../../assets/img/cho.jpg")} style={styles.songImage} resizeMode="cover" />
+                        <View>
+                            <Text style={styles.songTitle}>Hi</Text>
+                            <Text style={styles.songType}>ai biết</Text>
+                        </View>
+                    </TouchableOpacity>
+                    <TouchableOpacity>
+                        <Ionicons name="heart" style={{
+                            color: "pink",
+                            marginTop: 35,
+                            marginLeft: -40,
+                            fontSize: 18,
+                            marginRight:10
+                        }}></Ionicons>
+                    </TouchableOpacity>
+                    <TouchableOpacity>
+                        <Ionicons name="ellipsis-vertical" style={{
+                            color: "gray",
+                            marginTop: 35,
+                            marginLeft: -30,
+                            fontSize: 20,
+                            marginRight:10
+                        }}></Ionicons>
+                    </TouchableOpacity>
+                </View><View style={styles.songsWrapper}>
+                    <TouchableOpacity style={styles.songs} onPress={() => navigation.navigate("SongDetail")}>
+                        <Image source={require("../../assets/img/cho.jpg")} style={styles.songImage} resizeMode="cover" />
+                        <View>
+                            <Text style={styles.songTitle}>Hi</Text>
+                            <Text style={styles.songType}>ai biết</Text>
+                        </View>
+                    </TouchableOpacity>
+                    <TouchableOpacity>
+                        <Ionicons name="heart" style={{
+                            color: "pink",
+                            marginTop: 35,
+                            marginLeft: -40,
+                            fontSize: 18,
+                            marginRight:10
+                        }}></Ionicons>
+                    </TouchableOpacity>
+                    <TouchableOpacity>
+                        <Ionicons name="ellipsis-vertical" style={{
+                            color: "gray",
+                            marginTop: 35,
+                            marginLeft: -30,
+                            fontSize: 20,
+                            marginRight:10
+                        }}></Ionicons>
+                    </TouchableOpacity>
+                </View><View style={styles.songsWrapper}>
+                    <TouchableOpacity style={styles.songs} onPress={() => navigation.navigate("SongDetail")}>
+                        <Image source={require("../../assets/img/cho.jpg")} style={styles.songImage} resizeMode="cover" />
+                        <View>
+                            <Text style={styles.songTitle}>Hi</Text>
+                            <Text style={styles.songType}>ai biết</Text>
+                        </View>
+                    </TouchableOpacity>
+                    <TouchableOpacity>
+                        <Ionicons name="heart" style={{
+                            color: "pink",
+                            marginTop: 35,
+                            marginLeft: -40,
+                            fontSize: 18,
+                            marginRight:10
+                        }}></Ionicons>
+                    </TouchableOpacity>
+                    <TouchableOpacity>
+                        <Ionicons name="ellipsis-vertical" style={{
+                            color: "gray",
+                            marginTop: 35,
+                            marginLeft: -30,
+                            fontSize: 20,
+                            marginRight:10
+                        }}></Ionicons>
+                    </TouchableOpacity>
+                </View><View style={styles.songsWrapper}>
+                    <TouchableOpacity style={styles.songs} onPress={() => navigation.navigate("SongDetail")}>
+                        <Image source={require("../../assets/img/cho.jpg")} style={styles.songImage} resizeMode="cover" />
+                        <View>
+                            <Text style={styles.songTitle}>Hi</Text>
+                            <Text style={styles.songType}>ai biết</Text>
+                        </View>
+                    </TouchableOpacity>
+                    <TouchableOpacity>
+                        <Ionicons name="heart" style={{
+                            color: "pink",
+                            marginTop: 35,
+                            marginLeft: -40,
+                            fontSize: 18,
+                            marginRight:10
+                        }}></Ionicons>
+                    </TouchableOpacity>
+                    <TouchableOpacity>
+                        <Ionicons name="ellipsis-vertical" style={{
+                            color: "gray",
+                            marginTop: 35,
+                            marginLeft: -30,
+                            fontSize: 20,
+                            marginRight:10
+                        }}></Ionicons>
+                    </TouchableOpacity>
+                </View><View style={styles.songsWrapper}>
+                    <TouchableOpacity style={styles.songs} onPress={() => navigation.navigate("SongDetail")}>
+                        <Image source={require("../../assets/img/cho.jpg")} style={styles.songImage} resizeMode="cover" />
+                        <View>
+                            <Text style={styles.songTitle}>Hi</Text>
+                            <Text style={styles.songType}>ai biết</Text>
+                        </View>
+                    </TouchableOpacity>
+                    <TouchableOpacity>
+                        <Ionicons name="heart" style={{
+                            color: "pink",
+                            marginTop: 35,
+                            marginLeft: -40,
+                            fontSize: 18,
+                            marginRight:10
+                        }}></Ionicons>
+                    </TouchableOpacity>
+                    <TouchableOpacity>
+                        <Ionicons name="ellipsis-vertical" style={{
+                            color: "gray",
+                            marginTop: 35,
+                            marginLeft: -30,
+                            fontSize: 20,
+                            marginRight:10
+                        }}></Ionicons>
+                    </TouchableOpacity>
+                </View><View style={styles.songsWrapper}>
+                    <TouchableOpacity style={styles.songs} onPress={() => navigation.navigate("SongDetail")}>
+                        <Image source={require("../../assets/img/cho.jpg")} style={styles.songImage} resizeMode="cover" />
+                        <View>
+                            <Text style={styles.songTitle}>Hi</Text>
+                            <Text style={styles.songType}>ai biết</Text>
+                        </View>
+                    </TouchableOpacity>
+                    <TouchableOpacity>
+                        <Ionicons name="heart" style={{
+                            color: "pink",
+                            marginTop: 35,
+                            marginLeft: -40,
+                            fontSize: 18,
+                            marginRight:10
+                        }}></Ionicons>
+                    </TouchableOpacity>
+                    <TouchableOpacity>
+                        <Ionicons name="ellipsis-vertical" style={{
+                            color: "gray",
+                            marginTop: 35,
+                            marginLeft: -30,
+                            fontSize: 20,
+                            marginRight:10
+                        }}></Ionicons>
+                    </TouchableOpacity>
+                </View><View style={styles.songsWrapper}>
+                    <TouchableOpacity style={styles.songs} onPress={() => navigation.navigate("SongDetail")}>
+                        <Image source={require("../../assets/img/cho.jpg")} style={styles.songImage} resizeMode="cover" />
+                        <View>
+                            <Text style={styles.songTitle}>Hi</Text>
+                            <Text style={styles.songType}>ai biết</Text>
+                        </View>
+                    </TouchableOpacity>
+                    <TouchableOpacity>
+                        <Ionicons name="heart" style={{
+                            color: "pink",
+                            marginTop: 35,
+                            marginLeft: -40,
+                            fontSize: 18,
+                            marginRight:10
+                        }}></Ionicons>
+                    </TouchableOpacity>
+                    <TouchableOpacity>
+                        <Ionicons name="ellipsis-vertical" style={{
+                            color: "gray",
+                            marginTop: 35,
+                            marginLeft: -30,
+                            fontSize: 20,
+                            marginRight:10
+                        }}></Ionicons>
+                    </TouchableOpacity>
+                </View><View style={styles.songsWrapper}>
+                    <TouchableOpacity style={styles.songs} onPress={() => navigation.navigate("SongDetail")}>
+                        <Image source={require("../../assets/img/cho.jpg")} style={styles.songImage} resizeMode="cover" />
+                        <View>
+                            <Text style={styles.songTitle}>Hi</Text>
+                            <Text style={styles.songType}>ai biết</Text>
+                        </View>
+                    </TouchableOpacity>
+                    <TouchableOpacity>
+                        <Ionicons name="heart" style={{
+                            color: "pink",
+                            marginTop: 35,
+                            marginLeft: -40,
+                            fontSize: 18,
+                            marginRight:10
+                        }}></Ionicons>
+                    </TouchableOpacity>
+                    <TouchableOpacity>
+                        <Ionicons name="ellipsis-vertical" style={{
+                            color: "gray",
+                            marginTop: 35,
+                            marginLeft: -30,
+                            fontSize: 20,
+                            marginRight:10
+                        }}></Ionicons>
+                    </TouchableOpacity>
+                </View><View style={styles.songsWrapper}>
+                    <TouchableOpacity style={styles.songs} onPress={() => navigation.navigate("SongDetail")}>
+                        <Image source={require("../../assets/img/cho.jpg")} style={styles.songImage} resizeMode="cover" />
+                        <View>
+                            <Text style={styles.songTitle}>Hi</Text>
+                            <Text style={styles.songType}>ai biết</Text>
+                        </View>
+                    </TouchableOpacity>
+                    <TouchableOpacity>
+                        <Ionicons name="heart" style={{
+                            color: "pink",
+                            marginTop: 35,
+                            marginLeft: -40,
+                            fontSize: 18,
+                            marginRight:10
+                        }}></Ionicons>
+                    </TouchableOpacity>
+                    <TouchableOpacity>
+                        <Ionicons name="ellipsis-vertical" style={{
+                            color: "gray",
+                            marginTop: 35,
+                            marginLeft: -30,
+                            fontSize: 20,
+                            marginRight:10
+                        }}></Ionicons>
+                    </TouchableOpacity>
+                </View><View style={styles.songsWrapper}>
+                    <TouchableOpacity style={styles.songs} onPress={() => navigation.navigate("SongDetail")}>
+                        <Image source={require("../../assets/img/cho.jpg")} style={styles.songImage} resizeMode="cover" />
+                        <View>
+                            <Text style={styles.songTitle}>Hi</Text>
+                            <Text style={styles.songType}>ai biết</Text>
+                        </View>
+                    </TouchableOpacity>
+                    <TouchableOpacity>
+                        <Ionicons name="heart" style={{
+                            color: "pink",
+                            marginTop: 35,
+                            marginLeft: -40,
+                            fontSize: 18,
+                            marginRight:10
+                        }}></Ionicons>
+                    </TouchableOpacity>
+                    <TouchableOpacity>
+                        <Ionicons name="ellipsis-vertical" style={{
+                            color: "gray",
+                            marginTop: 35,
+                            marginLeft: -30,
+                            fontSize: 20,
+                            marginRight:10
+                        }}></Ionicons>
+                    </TouchableOpacity>
+                </View><View style={styles.songsWrapper}>
+                    <TouchableOpacity style={styles.songs} onPress={() => navigation.navigate("SongDetail")}>
+                        <Image source={require("../../assets/img/cho.jpg")} style={styles.songImage} resizeMode="cover" />
+                        <View>
+                            <Text style={styles.songTitle}>Hi</Text>
+                            <Text style={styles.songType}>ai biết</Text>
+                        </View>
+                    </TouchableOpacity>
+                    <TouchableOpacity>
+                        <Ionicons name="heart" style={{
+                            color: "pink",
+                            marginTop: 35,
+                            marginLeft: -40,
+                            fontSize: 18,
+                            marginRight:10
+                        }}></Ionicons>
+                    </TouchableOpacity>
+                    <TouchableOpacity>
+                        <Ionicons name="ellipsis-vertical" style={{
+                            color: "gray",
+                            marginTop: 35,
+                            marginLeft: -30,
+                            fontSize: 20,
+                            marginRight:10
+                        }}></Ionicons>
+                    </TouchableOpacity>
+                </View><View style={styles.songsWrapper}>
+                    <TouchableOpacity style={styles.songs} onPress={() => navigation.navigate("SongDetail")}>
+                        <Image source={require("../../assets/img/cho.jpg")} style={styles.songImage} resizeMode="cover" />
+                        <View>
+                            <Text style={styles.songTitle}>Hi</Text>
+                            <Text style={styles.songType}>ai biết</Text>
+                        </View>
+                    </TouchableOpacity>
+                    <TouchableOpacity>
+                        <Ionicons name="heart" style={{
+                            color: "pink",
+                            marginTop: 35,
+                            marginLeft: -40,
+                            fontSize: 18,
+                            marginRight:10
+                        }}></Ionicons>
+                    </TouchableOpacity>
+                    <TouchableOpacity>
+                        <Ionicons name="ellipsis-vertical" style={{
+                            color: "gray",
+                            marginTop: 35,
+                            marginLeft: -30,
+                            fontSize: 20,
+                            marginRight:10
+                        }}></Ionicons>
+                    </TouchableOpacity>
+                </View><View style={styles.songsWrapper}>
+                    <TouchableOpacity style={styles.songs} onPress={() => navigation.navigate("SongDetail")}>
+                        <Image source={require("../../assets/img/cho.jpg")} style={styles.songImage} resizeMode="cover" />
+                        <View>
+                            <Text style={styles.songTitle}>Hi</Text>
+                            <Text style={styles.songType}>ai biết</Text>
+                        </View>
+                    </TouchableOpacity>
+                    <TouchableOpacity>
+                        <Ionicons name="heart" style={{
+                            color: "pink",
+                            marginTop: 35,
+                            marginLeft: -40,
+                            fontSize: 18,
+                            marginRight:10
+                        }}></Ionicons>
+                    </TouchableOpacity>
+                    <TouchableOpacity>
+                        <Ionicons name="ellipsis-vertical" style={{
+                            color: "gray",
+                            marginTop: 35,
+                            marginLeft: -30,
+                            fontSize: 20,
+                            marginRight:10
+                        }}></Ionicons>
+                    </TouchableOpacity>
+                </View><View style={styles.songsWrapper}>
+                    <TouchableOpacity style={styles.songs} onPress={() => navigation.navigate("SongDetail")}>
+                        <Image source={require("../../assets/img/cho.jpg")} style={styles.songImage} resizeMode="cover" />
+                        <View>
+                            <Text style={styles.songTitle}>Hi</Text>
+                            <Text style={styles.songType}>ai biết</Text>
+                        </View>
+                    </TouchableOpacity>
+                    <TouchableOpacity>
+                        <Ionicons name="heart" style={{
+                            color: "pink",
+                            marginTop: 35,
+                            marginLeft: -40,
+                            fontSize: 18,
+                            marginRight:10
+                        }}></Ionicons>
+                    </TouchableOpacity>
+                    <TouchableOpacity>
+                        <Ionicons name="ellipsis-vertical" style={{
+                            color: "gray",
+                            marginTop: 35,
+                            marginLeft: -30,
+                            fontSize: 20,
+                            marginRight:10
+                        }}></Ionicons>
+                    </TouchableOpacity>
+                </View><View style={styles.songsWrapper}>
+                    <TouchableOpacity style={styles.songs} onPress={() => navigation.navigate("SongDetail")}>
+                        <Image source={require("../../assets/img/cho.jpg")} style={styles.songImage} resizeMode="cover" />
+                        <View>
+                            <Text style={styles.songTitle}>Hi</Text>
+                            <Text style={styles.songType}>ai biết</Text>
+                        </View>
+                    </TouchableOpacity>
+                    <TouchableOpacity>
+                        <Ionicons name="heart" style={{
+                            color: "pink",
+                            marginTop: 35,
+                            marginLeft: -40,
+                            fontSize: 18,
+                            marginRight:10
+                        }}></Ionicons>
+                    </TouchableOpacity>
+                    <TouchableOpacity>
+                        <Ionicons name="ellipsis-vertical" style={{
+                            color: "gray",
+                            marginTop: 35,
+                            marginLeft: -30,
+                            fontSize: 20,
+                            marginRight:10
+                        }}></Ionicons>
+                    </TouchableOpacity>
+                </View><View style={styles.songsWrapper}>
+                    <TouchableOpacity style={styles.songs} onPress={() => navigation.navigate("SongDetail")}>
+                        <Image source={require("../../assets/img/cho.jpg")} style={styles.songImage} resizeMode="cover" />
+                        <View>
+                            <Text style={styles.songTitle}>Hi</Text>
+                            <Text style={styles.songType}>ai biết</Text>
+                        </View>
+                    </TouchableOpacity>
+                    <TouchableOpacity>
+                        <Ionicons name="heart" style={{
+                            color: "pink",
+                            marginTop: 35,
+                            marginLeft: -40,
+                            fontSize: 18,
+                            marginRight:10
+                        }}></Ionicons>
+                    </TouchableOpacity>
+                    <TouchableOpacity>
+                        <Ionicons name="ellipsis-vertical" style={{
+                            color: "gray",
+                            marginTop: 35,
+                            marginLeft: -30,
+                            fontSize: 20,
+                            marginRight:10
+                        }}></Ionicons>
+                    </TouchableOpacity>
+                </View><View style={styles.songsWrapper}>
+                    <TouchableOpacity style={styles.songs} onPress={() => navigation.navigate("SongDetail")}>
+                        <Image source={require("../../assets/img/cho.jpg")} style={styles.songImage} resizeMode="cover" />
+                        <View>
+                            <Text style={styles.songTitle}>Hi</Text>
+                            <Text style={styles.songType}>ai biết</Text>
+                        </View>
+                    </TouchableOpacity>
+                    <TouchableOpacity>
+                        <Ionicons name="heart" style={{
+                            color: "pink",
+                            marginTop: 35,
+                            marginLeft: -40,
+                            fontSize: 18,
+                            marginRight:10
+                        }}></Ionicons>
+                    </TouchableOpacity>
+                    <TouchableOpacity>
+                        <Ionicons name="ellipsis-vertical" style={{
+                            color: "gray",
+                            marginTop: 35,
+                            marginLeft: -30,
+                            fontSize: 20,
+                            marginRight:10
+                        }}></Ionicons>
+                    </TouchableOpacity>
+                </View><View style={styles.songsWrapper}>
+                    <TouchableOpacity style={styles.songs} onPress={() => navigation.navigate("SongDetail")}>
+                        <Image source={require("../../assets/img/cho.jpg")} style={styles.songImage} resizeMode="cover" />
+                        <View>
+                            <Text style={styles.songTitle}>Hi</Text>
+                            <Text style={styles.songType}>ai biết</Text>
+                        </View>
+                    </TouchableOpacity>
+                    <TouchableOpacity>
+                        <Ionicons name="heart" style={{
+                            color: "pink",
+                            marginTop: 35,
+                            marginLeft: -40,
+                            fontSize: 18,
+                            marginRight:10
+                        }}></Ionicons>
+                    </TouchableOpacity>
+                    <TouchableOpacity>
+                        <Ionicons name="ellipsis-vertical" style={{
+                            color: "gray",
+                            marginTop: 35,
+                            marginLeft: -30,
+                            fontSize: 20,
+                            marginRight:10
+                        }}></Ionicons>
+                    </TouchableOpacity>
+                </View><View style={styles.songsWrapper}>
+                    <TouchableOpacity style={styles.songs} onPress={() => navigation.navigate("SongDetail")}>
+                        <Image source={require("../../assets/img/cho.jpg")} style={styles.songImage} resizeMode="cover" />
+                        <View>
+                            <Text style={styles.songTitle}>Hi</Text>
+                            <Text style={styles.songType}>ai biết</Text>
+                        </View>
+                    </TouchableOpacity>
+                    <TouchableOpacity>
+                        <Ionicons name="heart" style={{
+                            color: "pink",
+                            marginTop: 35,
+                            marginLeft: -40,
+                            fontSize: 18,
+                            marginRight:10
+                        }}></Ionicons>
+                    </TouchableOpacity>
+                    <TouchableOpacity>
+                        <Ionicons name="ellipsis-vertical" style={{
+                            color: "gray",
+                            marginTop: 35,
+                            marginLeft: -30,
+                            fontSize: 20,
+                            marginRight:10
+                        }}></Ionicons>
+                    </TouchableOpacity>
+                </View><View style={styles.songsWrapper}>
+                    <TouchableOpacity style={styles.songs} onPress={() => navigation.navigate("SongDetail")}>
+                        <Image source={require("../../assets/img/cho.jpg")} style={styles.songImage} resizeMode="cover" />
+                        <View>
+                            <Text style={styles.songTitle}>Hi</Text>
+                            <Text style={styles.songType}>ai biết</Text>
+                        </View>
+                    </TouchableOpacity>
+                    <TouchableOpacity>
+                        <Ionicons name="heart" style={{
+                            color: "pink",
+                            marginTop: 35,
+                            marginLeft: -40,
+                            fontSize: 18,
+                            marginRight:10
+                        }}></Ionicons>
+                    </TouchableOpacity>
+                    <TouchableOpacity>
+                        <Ionicons name="ellipsis-vertical" style={{
+                            color: "gray",
+                            marginTop: 35,
+                            marginLeft: -30,
+                            fontSize: 20,
+                            marginRight:10
+                        }}></Ionicons>
+                    </TouchableOpacity>
+                </View><View style={styles.songsWrapper}>
+                    <TouchableOpacity style={styles.songs} onPress={() => navigation.navigate("SongDetail")}>
+                        <Image source={require("../../assets/img/cho.jpg")} style={styles.songImage} resizeMode="cover" />
+                        <View>
+                            <Text style={styles.songTitle}>Hi</Text>
+                            <Text style={styles.songType}>ai biết</Text>
+                        </View>
+                    </TouchableOpacity>
+                    <TouchableOpacity>
+                        <Ionicons name="heart" style={{
+                            color: "pink",
+                            marginTop: 35,
+                            marginLeft: -40,
+                            fontSize: 18,
+                            marginRight:10
+                        }}></Ionicons>
+                    </TouchableOpacity>
+                    <TouchableOpacity>
+                        <Ionicons name="ellipsis-vertical" style={{
+                            color: "gray",
+                            marginTop: 35,
+                            marginLeft: -30,
+                            fontSize: 20,
+                            marginRight:10
+                        }}></Ionicons>
+                    </TouchableOpacity>
+                </View><View style={styles.songsWrapper}>
+                    <TouchableOpacity style={styles.songs} onPress={() => navigation.navigate("SongDetail")}>
+                        <Image source={require("../../assets/img/cho.jpg")} style={styles.songImage} resizeMode="cover" />
+                        <View>
+                            <Text style={styles.songTitle}>Hi</Text>
+                            <Text style={styles.songType}>ai biết</Text>
+                        </View>
+                    </TouchableOpacity>
+                    <TouchableOpacity>
+                        <Ionicons name="heart" style={{
+                            color: "pink",
+                            marginTop: 35,
+                            marginLeft: -40,
+                            fontSize: 18,
+                            marginRight:10
+                        }}></Ionicons>
+                    </TouchableOpacity>
+                    <TouchableOpacity>
+                        <Ionicons name="ellipsis-vertical" style={{
+                            color: "gray",
+                            marginTop: 35,
+                            marginLeft: -30,
+                            fontSize: 20,
+                            marginRight:10
+                        }}></Ionicons>
+                    </TouchableOpacity>
+                </View><View style={styles.songsWrapper}>
+                    <TouchableOpacity style={styles.songs} onPress={() => navigation.navigate("SongDetail")}>
+                        <Image source={require("../../assets/img/cho.jpg")} style={styles.songImage} resizeMode="cover" />
+                        <View>
+                            <Text style={styles.songTitle}>Hi</Text>
+                            <Text style={styles.songType}>ai biết</Text>
+                        </View>
+                    </TouchableOpacity>
+                    <TouchableOpacity>
+                        <Ionicons name="heart" style={{
+                            color: "pink",
+                            marginTop: 35,
+                            marginLeft: -40,
+                            fontSize: 18,
+                            marginRight:10
+                        }}></Ionicons>
+                    </TouchableOpacity>
+                    <TouchableOpacity>
+                        <Ionicons name="ellipsis-vertical" style={{
+                            color: "gray",
+                            marginTop: 35,
+                            marginLeft: -30,
+                            fontSize: 20,
+                            marginRight:10
+                        }}></Ionicons>
+                    </TouchableOpacity>
+                </View><View style={styles.songsWrapper}>
+                    <TouchableOpacity style={styles.songs} onPress={() => navigation.navigate("SongDetail")}>
+                        <Image source={require("../../assets/img/cho.jpg")} style={styles.songImage} resizeMode="cover" />
+                        <View>
+                            <Text style={styles.songTitle}>Hi</Text>
+                            <Text style={styles.songType}>ai biết</Text>
+                        </View>
+                    </TouchableOpacity>
+                    <TouchableOpacity>
+                        <Ionicons name="heart" style={{
+                            color: "pink",
+                            marginTop: 35,
+                            marginLeft: -40,
+                            fontSize: 18,
+                            marginRight:10
+                        }}></Ionicons>
+                    </TouchableOpacity>
+                    <TouchableOpacity>
+                        <Ionicons name="ellipsis-vertical" style={{
+                            color: "gray",
+                            marginTop: 35,
+                            marginLeft: -30,
+                            fontSize: 20,
+                            marginRight:10
+                        }}></Ionicons>
+                    </TouchableOpacity>
+                </View><View style={styles.songsWrapper}>
+                    <TouchableOpacity style={styles.songs} onPress={() => navigation.navigate("SongDetail")}>
+                        <Image source={require("../../assets/img/cho.jpg")} style={styles.songImage} resizeMode="cover" />
+                        <View>
+                            <Text style={styles.songTitle}>Hi</Text>
+                            <Text style={styles.songType}>ai biết</Text>
+                        </View>
+                    </TouchableOpacity>
+                    <TouchableOpacity>
+                        <Ionicons name="heart" style={{
+                            color: "pink",
+                            marginTop: 35,
+                            marginLeft: -40,
+                            fontSize: 18,
+                            marginRight:10
+                        }}></Ionicons>
+                    </TouchableOpacity>
+                    <TouchableOpacity>
+                        <Ionicons name="ellipsis-vertical" style={{
+                            color: "gray",
+                            marginTop: 35,
+                            marginLeft: -30,
+                            fontSize: 20,
+                            marginRight:10
+                        }}></Ionicons>
+                    </TouchableOpacity>
+                </View>
 
                 <View style={{ height: HEIGHT * 0.06 }}></View>
             </ScrollView >
@@ -88,7 +1025,7 @@ const styles = StyleSheet.create({
     songsWrapper: {
         backgroundColor: "black",
         flexDirection: "row",
-        justifyContent: "space-between"
+        justifyContent: "space-between",
     },
     songs: {
         height: (70 / standardHeight) * HEIGHT,
@@ -102,7 +1039,7 @@ const styles = StyleSheet.create({
         marginRight: 10
     },
     songImage: {
-        height: (50 / standardWidth) * WIDTH,
+        height: (50 / standardHeight) * HEIGHT,
         width: (50 / standardWidth) * WIDTH,
         margin: 20,
         borderRadius: 10
@@ -242,7 +1179,7 @@ const DynamicHeader = ({ value, navigation, title, cover }) => {
     });
     const textLeft = value.interpolate({
         inputRange: [Header_Min_Height, Header_Max_Height],
-        outputRange: [Dimensions.get("window").width / 2 - 120, Dimensions.get("window").width / 2 - 60],
+        outputRange: [Dimensions.get("window").width / 2 - 120, Dimensions.get("window").width / 2 - 80],
         extrapolate: 'clamp'
     });
 
