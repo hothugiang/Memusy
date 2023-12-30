@@ -40,6 +40,7 @@
     "react-native-ionicons": "^4.6.5",
     "react-native-linear-gradient": "^2.8.3",
     "react-native-lyric": "^1.0.2",
+    "react-native-modal": "^13.0.1",
     "react-native-navigation": "^7.37.1",
     "react-native-network-info": "^5.2.1",
     "react-native-pager-view": "6.2.0",

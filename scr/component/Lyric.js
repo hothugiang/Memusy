@@ -1,5 +1,6 @@
 import React, { useCallback, useEffect } from 'react';
 import { Text, Dimensions } from 'react-native';
+import { View } from 'react-native-animatable';
 import { Lyric } from 'react-native-lyric';
 
 const Lyrics = ({ lrc, currentTime }) => {
@@ -18,12 +19,14 @@ const Lyrics = ({ lrc, currentTime }) => {
     );
 
     return (
-        <Lyric
-            lrc={lrc} // Use the converted lrc data
-            currentTime={currentTime}
-            lineHeight={16}
-            lineRenderer={lineRenderer}
-        />
+        <View style={{height: 300}}>
+            <Lyric
+                lrc={lrc}
+                currentTime={currentTime}
+                lineHeight={20}
+                lineRenderer={lineRenderer}
+            />
+        </View>
     );
 };
 

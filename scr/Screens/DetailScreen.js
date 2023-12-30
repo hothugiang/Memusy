@@ -6,7 +6,10 @@ import {
   Image,
   TouchableOpacity,
   Alert,
+  TextInput,
+  ScrollView,
 } from "react-native";
+import { Button, Icon } from "react-native-elements"
 import Slider from "@react-native-community/slider";
 import { FontAwesome5 } from "@expo/vector-icons";
 import { FlatList, Dimensions } from "react-native";
@@ -18,6 +21,8 @@ import { Ionicons } from "@expo/vector-icons";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import * as Notifications from "expo-notifications";
 import Lyric from "../component/Lyric";
+import Modal from "react-native-modal";
+import playlist from "../../assets/img/playlist.png";
 
 const SKIP_INTERVAL = 10;
 
@@ -25,6 +30,7 @@ export default function DetailScreen({ navigation, route }) {
   const { s_id } = route.params;
   const [isPlaying, setIsPlaying] = useState(false);
   const [currentPosition, setCurrentPosition] = useState(0);
+  const [currentTime, setCurrentTime] = useState(0);
   const [sound, setSound] = useState();
   const [duration, setDuration] = useState(0);
   const [information, setInformation] = useState("");
@@ -52,7 +58,6 @@ export default function DetailScreen({ navigation, route }) {
     try {
       const lyricsData = await axiosInstance.get(`/musics/lyric/${s_id}`);
       setLink(lyricsData.data.data.data.file); 
-      console.log(lyricsData.data.data.data.file);
     } catch (error) {
       console.error("Error loading lyrics:", error);
     }
@@ -163,6 +168,7 @@ export default function DetailScreen({ navigation, route }) {
         sound.setOnPlaybackStatusUpdate((status) => {
           if (status.isPlaying) {
             setCurrentPosition(Math.round(status.positionMillis / 1000));
+            setCurrentTime(status.positionMillis);
           }
         });
       } else {
@@ -191,6 +197,7 @@ export default function DetailScreen({ navigation, route }) {
 
   const changeTime = (seconds) => {
     setCurrentPosition(seconds);
+    setCurrentTime(seconds * 1000);
     sound.setPositionAsync(seconds * 1000);
   };
 
@@ -198,6 +205,7 @@ export default function DetailScreen({ navigation, route }) {
     if (sound) {
       const newPosition = Math.min(duration, currentPosition + SKIP_INTERVAL);
       sound.setPositionAsync(newPosition * 1000);
+      setCurrentTime(newPosition*1000);
       setCurrentPosition(newPosition);
     }
   };
@@ -206,6 +214,7 @@ export default function DetailScreen({ navigation, route }) {
     if (sound) {
       const newPosition = Math.max(0, currentPosition - SKIP_INTERVAL);
       sound.setPositionAsync(newPosition * 1000);
+      setCurrentTime(newPosition*1000);
       setCurrentPosition(newPosition);
     }
   };
@@ -234,6 +243,7 @@ export default function DetailScreen({ navigation, route }) {
           await loadAudio();
           await playSound();
           setCurrentPosition(0);
+          setCurrentTime(0);
         };
     
         replayAsync();
@@ -251,6 +261,28 @@ export default function DetailScreen({ navigation, route }) {
     }
     
   }, [isReplay, currentPosition, duration])
+
+  //Modal
+  const [isPlaylistModalVisible, setPlaylistModalVisible] = useState(false);
+  const toggleModal = () => {
+    setPlaylistModalVisible(!isPlaylistModalVisible);
+  };
+
+  const [isCreateModalVisible, setCreateModalVisible] = useState(false);
+  const toggleModalCreate = () => {
+    setCreateModalVisible(!isCreateModalVisible);
+  };
+
+  //favourite
+  const [isFavourite, setFavourite] = useState(false);
+  const favouriteHandle = () => {
+    setFavourite(!isFavourite);
+  }
+
+  const [isSuffle, setSuffle] = useState(false);
+  const suffleHandle = () => {
+    setSuffle(!isSuffle);
+  }
 
   return (
     <View style={styles.container}>
@@ -272,8 +304,41 @@ export default function DetailScreen({ navigation, route }) {
           source={{ uri: information.thumbnailM }}
           style={styles.coverImage}
         />
-        <Text style={styles.trackName}>{information.title}</Text>
-        <Text style={styles.artistName}>{information.artistsNames}</Text>
+
+        <View style={{ alignItems: "flex-start", flexDirection: "row", justifyContent: "space-between" }}>
+          <TouchableOpacity style={{ flex: 1, marginRight: 10, alignItems:'flex-end' }}>
+            <Ionicons
+              name={"add-circle-outline"}
+              size={32}
+              color={"rgba(221,114,158,1)"}
+              style={{ marginTop: 10 }}
+              onPress={() => setPlaylistModalVisible(true)}
+            />
+          </TouchableOpacity>
+
+          <View style={{ flex: 5 }}>
+            <Text style={styles.trackName}>{information.title}</Text>
+            <Text style={styles.artistName}>{information.artistsNames}</Text>
+          </View>
+
+          <TouchableOpacity 
+            onPress={() => {
+              favouriteHandle();
+              if (!isFavourite) {
+                Alert.alert("Thông báo", "Đã thêm vào yêu thích!");
+              }
+            }} 
+            style={{ flex: 1 }}
+          >
+            <Ionicons
+              name={isFavourite ? "heart" : "heart-outline"}
+              size={32}
+              color={"rgba(221,114,158,1)"}
+              style={{ marginTop: 10 }}
+            />
+          </TouchableOpacity>
+        </View>
+        
       </View>
 
       <Slider
@@ -294,7 +359,12 @@ export default function DetailScreen({ navigation, route }) {
       </View>
 
       <View style={styles.controls}>
-        <TouchableOpacity onPress={replayMusic}>
+        <TouchableOpacity onPress={() => {
+          replayMusic();
+          if (!isReplay) {
+            Alert.alert("Thông báo", "Đã thêm vào yêu thích!");
+          }
+        }}>
           <Ionicons
             name={"repeat"}
             size={32}
@@ -316,16 +386,186 @@ export default function DetailScreen({ navigation, route }) {
           <FontAwesome5 name="redo" size={32} color="gray"></FontAwesome5>
         </TouchableOpacity>
 
-        <TouchableOpacity>
+        <TouchableOpacity 
+          onPress={() => {
+            suffleHandle();
+            if (!isSuffle) {
+              Alert.alert("Thông báo", "Đã bật chế độ phát ngẫu nhiên!")
+            }
+          }}>
           <Ionicons
-            name={"add-circle-outline"}
+            name={"shuffle-outline"}
             size={32}
-            color={"rgba(221,114,158,1)"}
+            color={isSuffle ? "rgba(221,114,158,1)" : "gray"}
           />
         </TouchableOpacity>
       </View>
 
-      <Lyric lrc={lyrics} currentTime={currentPosition} />
+      <Lyric lrc={lyrics} currentTime={currentTime} />
+
+      {/* Danh sách playlist */}
+      <Modal
+          onBackdropPress={() => setPlaylistModalVisible(false)}
+          onBackButtonPress={() => setPlayplistModalVisible(false)}
+          isVisible={isPlaylistModalVisible}
+          onSwipeComplete={toggleModal}
+          animationIn="bounceInUp"
+          animationOut="bounceOutDown"
+          animationInTiming={600}
+          animationOutTiming={300}
+          backdropTransitionInTiming={600}
+          backdropTransitionOutTiming={300}
+          style={styles.modal}
+      >
+        <View style={styles.modalContent}>
+          {/* Header */}
+          <View
+            style={{
+              flexDirection: 'row',
+              justifyContent: 'space-between',
+              paddingRight: 15,
+              paddingLeft: 10,
+              paddingTop: 10,
+              paddingBottom: 10,
+            }}>
+            <TouchableOpacity>
+              <Icon
+                name="chevron-left"
+                type="font-awesome"
+                color="white"
+                size={24}
+                style={{padding: 3}}
+                onPress={() => setPlaylistModalVisible(false)}
+              />
+            </TouchableOpacity>
+            <Text
+              style={{
+                fontSize: 18,
+                color: 'white',
+                flex: 1,
+                textAlign: 'center',
+                fontWeight: "bold"
+              }}>
+              Add to Playlist
+            </Text>
+            <TouchableOpacity/>
+          </View>
+
+          {/* Content */}
+          <View style={{height: height * 0.85}}>
+            <ScrollView>
+              <View style={{
+                flexDirection: 'row',
+                justifyContent: "space-between",
+                alignItems: "center",
+                paddingRight: 15,
+                paddingLeft: 15,
+                paddingTop: 5,
+                paddingBottom: 5,
+              }}>
+                <View style={{flexDirection: "row", alignItems: 'center'}}>
+                  <Image source={playlist} style={{width: 70, height: 70}}/>
+                  <Text style = {{color: "white", fontSize: 18 , justifyContent: "center", marginLeft: 10}}> Tên playlist </Text>
+                </View>
+
+                <TouchableOpacity 
+                  onPress={() => {
+                    toggleModal(); 
+                    Alert.alert("Thông báo", "Đã thêm vào playlist!");
+                  }} 
+                  style={{ alignItems: "flex-end" }}
+                >
+                  <View style={{ backgroundColor: "#dd729e", padding: 5, paddingHorizontal: 10, alignItems: "center", borderRadius: 5, width: 50 }}>
+                    <Text style={{ fontSize: 16 }}>Add</Text>
+                  </View>
+                </TouchableOpacity>
+              </View>
+            </ScrollView>
+          </View>
+
+          {/*Footer*/}
+          <View style={{alignItems: "center"}}>
+            <TouchableOpacity 
+              onPress={() => {
+                setPlaylistModalVisible(false);
+                setCreateModalVisible(true);
+              }}>
+              <Text style={{color: "white"}}>Create new playlist</Text>
+            </TouchableOpacity>
+          </View>
+
+        </View>
+      </Modal>
+
+      {/* Tạo playlist */}
+      <Modal
+          onBackdropPress={() => setCreateModalVisible(false)}
+          onBackButtonPress={() => setCreateModalVisible(false)}
+          isVisible={isCreateModalVisible}
+          onSwipeComplete={toggleModalCreate}
+          animationIn="bounceInUp"
+          animationOut="bounceOutDown"
+          animationInTiming={600}
+          animationOutTiming={300}
+          backdropTransitionInTiming={600}
+          backdropTransitionOutTiming={300}
+          style={styles.modal}
+      >
+        <View style={{...styles.modalContent, minHeight: height/3, alignItems: "center"}}>
+          {/* Header */}
+          <View
+            style={{
+              flexDirection: 'row',
+              justifyContent: 'space-between',
+              paddingRight: 15,
+              paddingLeft: 10,
+              paddingTop: 10,
+              paddingBottom: 10,
+            }}>
+            <TouchableOpacity>
+              <Icon
+                name="chevron-left"
+                type="font-awesome"
+                color="white"
+                size={24}
+                style={{padding: 3}}
+                onPress={() => setCreateModalVisible(false)}
+              />
+            </TouchableOpacity>
+            <Text
+              style={{
+                fontSize: 18,
+                color: 'white',
+                flex: 1,
+                textAlign: 'center',
+                fontWeight: "bold"
+              }}>
+              Create playlist
+            </Text>
+            <TouchableOpacity/>
+          </View>
+
+          <View style={styles.postContent}>
+            <TextInput
+              placeholder="Nhập tên package"
+              placeholderTextColor="gray"
+              style={styles.textPost}
+            />
+          </View>
+
+          <TouchableOpacity
+            onPress={() => {
+              toggleModalCreate(); 
+              Alert.alert("Thông báo", "Đã tạo playlist mới!");
+            }} 
+          >
+            <View style={{ backgroundColor: "#dd729e", padding: 10, paddingHorizontal: 20, alignItems: "center", borderRadius: 5, marginTop: 15 }}>
+              <Text style={{ fontSize: 18 }}>Create</Text>
+            </View>
+          </TouchableOpacity>
+          
+        </View>
+      </Modal>
     </View>
   );
 }
@@ -333,11 +573,42 @@ export default function DetailScreen({ navigation, route }) {
 const width = Dimensions.get("window").width;
 const height = Dimensions.get("window").height;
 
+const settingsWidth = width / 12;
+const paddingTopModalContent = 10;
+
 const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: "black",
     padding: 16,
+  },
+
+  textPost: {
+    padding: 15,
+    color: "white"
+  },
+
+  postContent: {
+    borderWidth: 2,
+    width: width * 0.85,
+    borderColor: "gray",
+    borderRadius: 20,
+  },
+
+  modal: {
+    justifyContent: "flex-end",
+    margin: 0,
+  },
+  modalContent: {
+    backgroundColor: "black",
+    paddingTop: paddingTopModalContent,
+    borderWidth: 5,
+    borderColor: "#000",
+    borderTopRightRadius: 35,
+    borderTopLeftRadius: 35,
+    minHeight: height,
+    paddingBottom: 20,
+    justifyContent: "start",
   },
 
   songInfor: {
