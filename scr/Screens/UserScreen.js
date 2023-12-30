@@ -1,13 +1,10 @@
 import React, { useContext } from 'react';
-import { View, Text, StyleSheet ,Dimensions,TouchableOpacity} from 'react-native';
-import { Button } from 'react-native-elements';
-import TokenContext from '../contexts/TokenContext';
+import { View, Text, StyleSheet, Dimensions, TouchableOpacity } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
 import { Image } from 'react-native';
 import { useFonts } from 'expo-font';
 import * as SplashScreen from 'expo-splash-screen';
 import { useEffect } from 'react';
-import { createMaterialTopTabNavigator } from "@react-navigation/material-top-tabs";
 import { axiosInstance } from '../constants/Axios';
 import { Platform } from 'react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
@@ -16,7 +13,7 @@ const { height: HEIGHT } = Dimensions.get("window");
 const standardWidth = 360;
 const standardHeight = 800;
 export default function UserScreen({ navigation }) {
-  
+
   const [fontsLoaded] = useFonts({
     'GentiumBookBasic-Italic': require('./../../assets/fonts/GentiumBookBasic-Italic.ttf'),
     'Open-san': require('./../../assets/fonts/Montserrat-Bold.ttf')
@@ -87,11 +84,14 @@ export default function UserScreen({ navigation }) {
           </View>
         </View>
 
-        <View style={styles.imgWrapper}>
-          <View style={styles.img}>
-            <Text style={styles.imgText}>Upload</Text>
+        <TouchableOpacity onPress={() => navigation.navigate("Favorite")}> 
+          <View style={styles.imgWrapper}>
+            <View style={styles.img}>
+              <Text style={styles.imgText}>Favorite</Text>
+            </View>
           </View>
-        </View>
+        </TouchableOpacity>
+
 
         <View style={styles.imgWrapper}>
           <View style={styles.img}>
@@ -179,12 +179,12 @@ const styles = StyleSheet.create({
     marginLeft: 10,
     marginTop: 10,
     overflow: "hidden", // Hide any overflow content
-    backgroundColor:'#2F2D38'
+    backgroundColor: '#2F2D38'
   },
   imgText: {
-    marginLeft:10,
-    marginTop:10,
-    fontWeight:"bold",
+    marginLeft: 10,
+    marginTop: 10,
+    fontWeight: "bold",
     flex: 1,
     fontSize: 20,
     color: "white",
