@@ -3,6 +3,15 @@ const router = express.Router();
 
 const MusicUserController = require("./../controllers/MusicUserController");
 
+// get all playlists of a user
+router.get("/playlists", MusicUserController.getPlaylists);
+
+// get all songs of a playlist
+router.get("/songs", MusicUserController.getSongs);
+
+// get all favorite songs of a user
+router.get("/favorites", MusicUserController.getFavorites);
+
 // create playlist
 router.post("/createplaylist", MusicUserController.createPlaylist);
 

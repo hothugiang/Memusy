@@ -123,7 +123,7 @@ router.post("/login", async (req, res) => {
 
       res
         .status(200)
-        .json({ token: token, userId: user.user_id, userName: user.username, expiresIn: 3600 });
+        .json({ token: token, userId: user.user_id, userName: user.username, userEmail: user.email, expiresIn: 3600 });
     });
   } catch (error) {
     console.error("Lỗi đăng nhập: " + error.message);
@@ -150,5 +150,24 @@ router.get("/logout", isAuthenticated, (req, res) => {
     res.status(500).json({ message: "Internal Server Error" });
   }
 });
+
+router.put("/user_info", isAuthenticated, (req, res) => {
+  try {
+    const db = req.app.locals.db;
+    const { userId, username, email } = req.body;
+    console.log(userId + " " + username + " " + email + " " + password);
+    const updateUserQuery = "UPDATE Users SET username = ?, email = ? WHERE id = ?";
+    db.query(updateUserQuery, [username, email, userId], (err, results) => {
+      if (err) {
+        console.error("Lỗi truy vấn cơ sở dữ liệu: " + err.message);
+        return res.status(500).json({ message: "Lỗi update người dùng." });
+      }
+      return res.status(200).json({ message: "Update thành công." });
+    })
+  } catch (error) {
+    console.error("Lỗi update:", error);
+    res.status(500).json({ message: "Internal Server Error" });
+  }
+})
 
 module.exports = router;

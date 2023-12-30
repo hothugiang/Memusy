@@ -52,9 +52,12 @@ export default function LoginScreen({ navigation }) {
     setPress(!press);
   };
 
-  const saveToken = async (token) => {
+  const saveToken = async (token, userId, username, email) => {
     try {
       await AsyncStorage.setItem("token", token);
+      await AsyncStorage.setItem("userId", userId);
+      await AsyncStorage.setItem("username", username);
+      await AsyncStorage.setItem("email", email);
     } catch (error) {
       console.error("Error saving token:", error);
     }
@@ -70,8 +73,11 @@ export default function LoginScreen({ navigation }) {
       if (response.status === 200) {
         // Xử lý khi đăng nhập thành công
         const token = response.data.token;
+        const username = response.data.userName;
+        const email = response.data.userEmail;
+        const userId = response.data.userId;
         console.log("Login successfully!");
-        saveToken(token);
+        saveToken(token, userId, username, email);
         const response2 = await axiosInstance.get("/users/me", {
           headers: {
             Authorization: `Bearer ${token}`,
@@ -87,6 +93,20 @@ export default function LoginScreen({ navigation }) {
       console.error("Error during login:", error);
     }
   };
+
+  useState(() => {
+    async function prepare() {
+      await SplashScreen.preventAutoHideAsync();
+    }
+    prepare();
+    async function loadData() {
+      const token = await AsyncStorage.getItem("token");
+      if (token) {
+        navigation.navigate("User");
+      }
+    }
+    loadData();
+  });
 
   return (
     <KeyboardAvoidingView
