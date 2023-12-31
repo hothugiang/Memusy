@@ -1,10 +1,10 @@
 {
   "expo": {
-    "name": "Spotify",
-    "slug": "Spotify",
+    "name": "Memusy",
+    "slug": "Memusy",
     "version": "1.0.0",
     "orientation": "portrait",
-    "icon": "./assets/icon.png",
+    "icon": "./assets/img/logo.png",
     "userInterfaceStyle": "light",
     "splash": {
       "image": "./assets/splash.png",
@@ -30,7 +30,21 @@
         "foregroundImage": "./assets/adaptive-icon.png",
         "backgroundColor": "#ffffff"
       },
-      "permissions": ["SYSTEM_ALERT_WINDOW"]
+      "permissions": ["SYSTEM_ALERT_WINDOW"],
+      "notification": {
+        "icon": "./assets/img/logo.png",
+        "color": "#dd729e",
+        "androidDisplayInForeground": true,
+        "androidShowWhenInForeground": true,
+        "channels": [
+          {
+            "name": "default",
+            "sound": true,
+            "priority": "max",
+            "id": "default"
+          }
+        ]
+      }
     },
     "web": {
       "favicon": "./assets/favicon.png"

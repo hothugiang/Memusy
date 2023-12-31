@@ -14,7 +14,6 @@ import Slider from "@react-native-community/slider";
 import { FontAwesome5 } from "@expo/vector-icons";
 import { FlatList, Dimensions } from "react-native";
 import { baseURL, axiosInstance } from "../constants/Axios";
-import * as SplashScreen from "expo-splash-screen";
 import { Audio, InterruptionModeAndroid, InterruptionModeIOS } from "expo-av";
 import * as Animatable from "react-native-animatable";
 import { Ionicons } from "@expo/vector-icons";
@@ -45,7 +44,7 @@ export default function DetailScreen({ navigation, route }) {
   }, []);
 
   useEffect(() => {
-    sendNotification();
+    if (isPlaying) sendNotification();
   }, [isPlaying]);
 
   useEffect(() => {
@@ -107,17 +106,22 @@ export default function DetailScreen({ navigation, route }) {
   };
 
   const sendNotification = async () => {
-    const content = {
-      title: "Memusy",
-      body: isPlaying ? "Đang phát nhạc" : "Dừng phát nhạc",
-      sound: true,
-    };
-
-    await Notifications.scheduleNotificationAsync({
-      content,
-      trigger: null,
-    });
+  const content = {
+    title: information.title + " - " + information.artistsNames,
+    body: isPlaying ? "Đang phát nhạc" : "Dừng phát nhạc",
+    sound: true,
+    android: {
+      channelId: 'default',
+      image: information.thumbnailM,
+    },
   };
+
+  await Notifications.scheduleNotificationAsync({
+    content,
+    trigger: null,
+  });
+};
+
   
   const loadInfomation = async () => {
     try {
@@ -558,7 +562,7 @@ export default function DetailScreen({ navigation, route }) {
 
           <View style={styles.postContent}>
             <TextInput
-              placeholder="Nhập tên package"
+              placeholder="Nhập tên playlist"
               placeholderTextColor="gray"
               style={styles.textPost}
             />
@@ -679,6 +683,7 @@ const styles = StyleSheet.create({
     marginTop: 20,
     marginLeft: 15,
     marginRight: 15,
+    paddingBottom: 15,
   },
   controlText: {
     fontSize: 18,

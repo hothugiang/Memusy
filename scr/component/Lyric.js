@@ -11,7 +11,7 @@ const Lyrics = ({ lrc, currentTime }) => {
                     style={{
                         textAlign: 'center',
                         color: active ? 'white' : 'gray',
-                        fontSize:20
+                        fontSize:18
                     }}
                 >
                     {content}
@@ -26,7 +26,7 @@ const Lyrics = ({ lrc, currentTime }) => {
             <Lyric
                 lrc={lrc}
                 currentTime={currentTime}
-                lineHeight={30}
+                lineHeight={25}
                 lineRenderer={lineRenderer}
             />
         </View>
