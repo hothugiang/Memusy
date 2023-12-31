@@ -92,11 +92,13 @@ export default function UserScreen({ navigation }) {
       </View>
       <Text style={{ marginLeft: 20, color: "white", fontFamily: "Open-san", fontSize: 20, marginBottom: 10 }}>Thư viện</Text>
       <View style={{ flexDirection: "row", flexWrap: "wrap" }}>
-        <View style={styles.imgWrapper}>
-          <View style={styles.img}>
-            <Text style={styles.imgText}>PlayList</Text>
+        <TouchableOpacity onPress={() => navigation.navigate("Playlist")}>
+          <View style={styles.imgWrapper}>
+            <View style={styles.img}>
+              <Text style={styles.imgText}>PlayList</Text>
+            </View>
           </View>
-        </View>
+        </TouchableOpacity>
 
         <TouchableOpacity onPress={() => navigation.navigate("Favorite")}> 
           <View style={styles.imgWrapper}>
@@ -106,18 +108,6 @@ export default function UserScreen({ navigation }) {
           </View>
         </TouchableOpacity>
 
-
-        <View style={styles.imgWrapper}>
-          <View style={styles.img}>
-            <Text style={styles.imgText}>Album</Text>
-          </View>
-        </View>
-
-        <View style={styles.imgWrapper}>
-          <View style={styles.img}>
-            <Text style={styles.imgText}>Nghệ sĩ</Text>
-          </View>
-        </View>
       </View>
       <View style={{ height: 60 }}></View>
     </View>
