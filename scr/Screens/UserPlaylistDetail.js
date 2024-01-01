@@ -1,4 +1,4 @@
-import { Dimensions, ImageBackground } from 'react-native';
+import { Dimensions, ImageBackground, Alert } from 'react-native';
 import React, { useRef, useState, useEffect } from 'react';
 import { Ionicons } from '@expo/vector-icons';
 import { Text, View, StyleSheet, ScrollView, Image, TouchableOpacity, Animated, FlatList } from 'react-native';
@@ -7,7 +7,7 @@ const { width: WIDTH, height: HEIGHT } = Dimensions.get("window");
 const standardWidth = 360;
 const standardHeight = 800;
 
-const Favorite = ({ navigation, route }) => {
+const UserPlaylistDetail = ({ navigation, route }) => {
     const scrollOfsetY = useRef(new Animated.Value(0)).current;
     const [scrollY] = useState(new Animated.Value(0));
 
@@ -307,7 +307,7 @@ const styles = StyleSheet.create({
     },
 });
 
-export default Favorite;
+export default UserPlaylistDetail;
 // phần xử lý header
 const Header_Max_Height = 200;
 const Header_Min_Height = 50;
@@ -360,7 +360,7 @@ const DynamicHeader = ({ value, navigation, title, cover }) => {
                         }
                     ]}
                 >
-                    <Animated.Text style={[styles.headerText, { fontSize: textSize, marginLeft: 10 }]}>Bài hát yêu thích</Animated.Text>
+                    <Animated.Text style={[styles.headerText, { fontSize: textSize, textAlign: "center" }]}>Tên playlist</Animated.Text>
                     <TouchableOpacity style={styles.edit3}>
                         <Text style={styles.edit2}>Phát ngẫu nhiên </Text>
                     </TouchableOpacity>
