@@ -296,8 +296,46 @@ export default function DetailScreen({ navigation, route }) {
 
   //favourite
   const [isFavourite, setFavourite] = useState(false);
-  const favouriteHandle = () => {
-    setFavourite(!isFavourite);
+
+  useEffect(() => {
+    const saveFavourite = async () => {
+      try {
+        const userId = await AsyncStorage.getItem("userId");
+        console.log("user id: ", userId);
+        console.log("song id: ", s_id);
+        const favourite = await axiosInstance.get(
+          `/music/isfavorite/${userId}/${s_id}`
+        );
+        if (favourite.status === 200) {
+          setFavourite(true);
+        } else if (favourite.status === 201) {
+          setFavourite(false);
+        }
+      } catch (error) {
+        console.error("Error saving favourite:", error);
+      }
+    };
+    saveFavourite();
+  }, [isFavourite]);
+
+  const favouriteHandle = async () => {
+    try {
+      const userId = await AsyncStorage.getItem("userId");
+      if (!isFavourite) {
+        const favourite = await axiosInstance.post("/music/addsongtofavorite", {
+          userId: userId,
+          songId: s_id,
+        });
+        setFavourite(true);
+      } else {
+        const favourite = await axiosInstance.delete(
+          `/music/deletesongfromfavorite/${userId}/${s_id}`
+        );
+        setFavourite(false);
+      }
+    } catch (error) {
+      console.error("Error saving favourite:", error);
+    }
   };
 
   const [isSuffle, setSuffle] = useState(false);
@@ -347,7 +385,7 @@ export default function DetailScreen({ navigation, route }) {
         console.error("Error saving playlist:", error);
       }
     }
-  }
+  };
 
   return (
     <View style={styles.container}>
@@ -399,6 +437,8 @@ export default function DetailScreen({ navigation, route }) {
               favouriteHandle();
               if (!isFavourite) {
                 Alert.alert("Thông báo", "Đã thêm vào yêu thích!");
+              } else {
+                Alert.alert("Thông báo", "Đã xóa khỏi yêu thích!");
               }
             }}
             style={{ flex: 1 }}

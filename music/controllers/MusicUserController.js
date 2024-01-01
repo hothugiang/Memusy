@@ -83,8 +83,9 @@ class MusicUserController {
         }
     }
 
-    async checkSongInFavorite(req, res) {
-        const { userId, songId } = req.body;
+    async isFavorite(req, res) {
+        const { userId, songId } = req.params;
+        console.log(userId, songId)
         const db = req.app.locals.db;
 
         try {
@@ -94,6 +95,7 @@ class MusicUserController {
                     console.error("Lỗi kiểm tra bài hát trong danh sách yêu thích: " + err.message);
                     return res.status(500).json({ message: "Lỗi kiểm tra bài hát trong danh sách yêu thích." });
                 }
+                console.log(result);
                 if (result.length > 0) {
                     return res.status(200).json({ message: "Bài hát đã có trong danh sách yêu thích." });
                 }
@@ -148,15 +150,6 @@ class MusicUserController {
                     });
                 }
             });
-
-            const addSongToFavoriteQuery = "INSERT INTO favorites (user_id, song_id) VALUES (?, ?);";
-            db.query(addSongToFavoriteQuery, [userId, songId], (err) => {
-                if (err) {
-                    console.error("Lỗi thêm bài hát vào danh sách yêu thích: " + err.message);
-                    return res.status(500).json({ message: "Lỗi thêm bài hát vào danh sách yêu thích." });
-                }
-                return res.status(201).json({ message: "Thêm bài hát vào danh sách yêu thích thành công." });
-            });
         } catch (error) {
             console.error(error);
 
@@ -169,7 +162,7 @@ class MusicUserController {
 
     async deleteSongFromFavorite(req, res) {
         try {
-            const { userId, songId } = req.body;
+            const { userId, songId } = req.params;
             const db = req.app.locals.db;
 
             const deleteSongFromFavoriteQuery = "DELETE FROM favorites WHERE user_id = ? AND song_id = ?;";
@@ -270,7 +263,7 @@ class MusicUserController {
 
     async getSongs(req, res) {
         try {
-            const { playlistId } = req.query;
+            const { playlistId } = req.params;
             const db = req.app.locals.db;
 
             const getSongsQuery = "SELECT * FROM playlistsongs WHERE playlist_id = ?;";
@@ -279,7 +272,19 @@ class MusicUserController {
                     console.error("Lỗi lấy danh sách bài hát trong playlist: " + err.message);
                     return res.status(500).json({ message: "Lỗi lấy danh sách bài hát trong playlist." });
                 }
-                return res.status(200).json(result);
+                let listSongId = [];
+                result.forEach((song) => {
+                    listSongId.push(song.song_id);
+                });
+                const getSongsInfoQuery = "SELECT * FROM song WHERE id IN (?);";
+                db.query(getSongsInfoQuery, [listSongId], (err, result) => {
+                    if (err) {
+                        console.error("Lỗi lấy thông tin bài hát: " + err.message);
+                        return res.status(500).json({ message: "Lỗi lấy thông tin bài hát." });
+                    }
+                    return res.status(200).json(result);
+                }
+                );
             });
         } catch (error) {
             console.error(error);
@@ -293,7 +298,7 @@ class MusicUserController {
 
     async getFavorites(req, res) {
         try {
-            const { userId } = req.query;
+            const { userId } = req.params;
             const db = req.app.locals.db;
 
             const getFavoritesQuery = "SELECT * FROM favorites WHERE user_id = ?;";
@@ -302,7 +307,19 @@ class MusicUserController {
                     console.error("Lỗi lấy danh sách bài hát yêu thích: " + err.message);
                     return res.status(500).json({ message: "Lỗi lấy danh sách bài hát yêu thích." });
                 }
-                return res.status(200).json(result);
+                let listSongId = [];
+                result.forEach((song) => {
+                    listSongId.push(song.song_id);
+                });
+                const getSongsInfoQuery = "SELECT * FROM song WHERE id IN (?);";
+                db.query(getSongsInfoQuery, [listSongId], (err, result) => {
+                    if (err) {
+                        console.error("Lỗi lấy thông tin bài hát: " + err.message);
+                        return res.status(500).json({ message: "Lỗi lấy thông tin bài hát." });
+                    }
+                    return res.status(200).json(result);
+                }
+                );
             });
         } catch (error) {
             console.error(error);

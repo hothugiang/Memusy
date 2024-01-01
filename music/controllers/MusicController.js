@@ -5,7 +5,6 @@ class ZingController {
   async getSong(req, res) {
     try {
       const data = await ZingMp3.getSong(req.params.id);
-      console.log(data);
 
       res.status(200).json({
         status: "success",
@@ -24,7 +23,6 @@ class ZingController {
   async getDetailPlaylist(req, res) {
     try {
       const data = await ZingMp3.getDetailPlaylist(req.params.id);
-      console.log(data);
 
       res.status(200).json({
         status: "success",
@@ -43,7 +41,6 @@ class ZingController {
   async getSongsPlaylist(req, res) {
     try {
       const data = await ZingMp3.getDetailPlaylist(req.params.id);
-      console.log(data);
 
       res.status(200).json({
         status: "success",
@@ -80,7 +77,6 @@ class ZingController {
   async getTop100(req, res) {
     try {
       const data = await ZingMp3.getTop100();
-      console.log(data);
 
       res.status(200).json({
         status: "success",
@@ -99,7 +95,6 @@ class ZingController {
   async getChartHome(req, res) {
     try {
       const data = await ZingMp3.getChartHome();
-      console.log(data);
 
       res.status(200).json({
         status: "success",
@@ -150,7 +145,6 @@ class ZingController {
   async getNewReleaseChart(req, res) {
     try {
       const data = await ZingMp3.getNewReleaseChart();
-      console.log(data);
 
       res.status(200).json({
         status: "success",
@@ -169,7 +163,6 @@ class ZingController {
   async getInfo(req, res) {
     try {
       const data = await ZingMp3.getInfoSong(req.params.id);
-      console.log(data);
 
       res.status(200).json({
         status: "success",
@@ -188,7 +181,6 @@ class ZingController {
   async getInfoSong(song_id) {
     try {
       const data = await ZingMp3.getInfoSong(song_id);
-      console.log(data);
 
       return data.data;
     } catch (error) {
@@ -199,7 +191,6 @@ class ZingController {
   async getArtist(req, res) {
     try {
       const data = await ZingMp3.getArtist(req.params.name);
-      console.log(data);
 
       res.status(200).json({
         status: "success",
@@ -222,7 +213,6 @@ class ZingController {
         req.params.page,
         req.params.count
       );
-      console.log(data);
 
       res.status(200).json({
         status: "success",
@@ -241,7 +231,6 @@ class ZingController {
   async getLyric(req, res) {
     try {
       const data = await ZingMp3.getLyric(req.params.id);
-      console.log(data);
 
       res.status(200).json({
         status: "success",
@@ -260,7 +249,6 @@ class ZingController {
   async search(req, res) {
     try {
       const data = await ZingMp3.search(req.params.q);
-      console.log(data);
 
       res.status(200).json({
         status: "success",
@@ -279,7 +267,6 @@ class ZingController {
   async getListByGenre(req, res) {
     try {
       const data = await zing.get_hub_detail(req.params.id);
-      console.log(data);
 
       res.status(200).json({
         status: "success",

@@ -8,6 +8,7 @@ const standardWidth = 360;
 const standardHeight = 800;
 
 const UserPlaylistDetail = ({ navigation, route }) => {
+    const { p_id, p_name } = route.params;
     const scrollOfsetY = useRef(new Animated.Value(0)).current;
     const [scrollY] = useState(new Animated.Value(0));
 
@@ -16,116 +17,34 @@ const UserPlaylistDetail = ({ navigation, route }) => {
         setSongs(updatedSongs);
     };
 
-    const [songs, setSongs] = useState([
-        {
-            id: 1,
-            title: 'Hi',
-            artist: 'ai biết',
-            image: require("../../assets/img/cho.jpg"),
-        },
-        {
-            id: 2,
-            title: 'Hi',
-            artist: 'ai biết',
-            image: require("../../assets/img/cho.jpg"),
-        },
-        {
-            id: 3,
-            title: 'Hi',
-            artist: 'ai biết',
-            image: require("../../assets/img/cho.jpg"),
-        },
-        {
-            id: 4,
-            title: 'Hi',
-            artist: 'ai biết',
-            image: require("../../assets/img/cho.jpg"),
-        },
-        {
-            id: 5,
-            title: 'Hi',
-            artist: 'ai biết',
-            image: require("../../assets/img/cho.jpg"),
-        },
-        {
-            id: 6,
-            title: 'Hi',
-            artist: 'ai biết',
-            image: require("../../assets/img/cho.jpg"),
-        },
-        {
-            id: 7,
-            title: 'Hi',
-            artist: 'ai biết',
-            image: require("../../assets/img/cho.jpg"),
-        },
-        {
-            id: 8,
-            title: 'Hi',
-            artist: 'ai biết',
-            image: require("../../assets/img/cho.jpg"),
-        },
-        {
-            id: 9,
-            title: 'Hi',
-            artist: 'ai biết',
-            image: require("../../assets/img/cho.jpg"),
-        },
-        {
-            id: 10,
-            title: 'Hi',
-            artist: 'ai biết',
-            image: require("../../assets/img/cho.jpg"),
-        },
-        {
-            id: 11,
-            title: 'Hi',
-            artist: 'ai biết',
-            image: require("../../assets/img/cho.jpg"),
-        },
-        {
-            id: 12,
-            title: 'Hi',
-            artist: 'ai biết',
-            image: require("../../assets/img/cho.jpg"),
-        },
-        {
-            id: 13,
-            title: 'Hi',
-            artist: 'ai biết',
-            image: require("../../assets/img/cho.jpg"),
-        },
-        {
-            id: 14,
-            title: 'Hi',
-            artist: 'ai biết',
-            image: require("../../assets/img/cho.jpg"),
-        },
-        {
-            id: 15,
-            title: 'Hi',
-            artist: 'ai biết',
-            image: require("../../assets/img/cho.jpg"),
-        },
-        {
-            id: 16,
-            title: 'Hi',
-            artist: 'ai biết',
-            image: require("../../assets/img/cho.jpg"),
-        },
-    ]);
+    const [songs, setSongs] = useState([]);
+    const [playlistName, setPlaylistName] = useState("");
+
+    useEffect(() => {
+        const fetchSongs = async () => {
+            try {
+                const res = await axiosInstance.get(`/music/songs/${p_id}`);
+                setSongs(res.data);
+            } catch (error) {
+                console.error(error);
+            }
+        };
+        fetchSongs();
+    }
+        , []);
+
 
     return (
         <View style={{ backgroundColor: "black", flex: 1 }}>
-            <DynamicHeader value={scrollOfsetY} navigation={navigation} />
+            <DynamicHeader value={scrollOfsetY} navigation={navigation} title={p_name}/>
             
             <FlatList
                 data={songs}
                 keyExtractor={(item) => item.id.toString()}
                 renderItem={({ item }) => (
                     <View key={item.id} style={styles.songsWrapper}>
-                        <TouchableOpacity style={styles.songs} onPress={() => navigation.navigate("SongDetail")}>
-                            <Image source={require("../../assets/img/cho.jpg")} style={styles.songImage} resizeMode="cover" />
+                        <TouchableOpacity style={styles.songs} onPress={() => navigation.navigate("SongDetail", {s_id: item.id})}>
+                            <Image source={{uri: item.image}} style={styles.songImage} resizeMode="cover" />
                             <View>
                                 <Text style={styles.songTitle}>{item.title}</Text>
                                 <Text style={styles.songType}>{item.artist}</Text>
@@ -360,7 +279,7 @@ const DynamicHeader = ({ value, navigation, title, cover }) => {
                         }
                     ]}
                 >
-                    <Animated.Text style={[styles.headerText, { fontSize: textSize, textAlign: "center" }]}>Tên playlist</Animated.Text>
+                    <Animated.Text style={[styles.headerText, { fontSize: textSize, textAlign: "center" }]}>{title}</Animated.Text>
                     <TouchableOpacity style={styles.edit3}>
                         <Text style={styles.edit2}>Phát ngẫu nhiên </Text>
                     </TouchableOpacity>

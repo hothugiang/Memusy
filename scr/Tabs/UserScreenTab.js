@@ -10,6 +10,7 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 import Favorite from "../Screens/Favorite";
 import ListPlaylist from "../Screens/ListPlaylist"
 import UserPlaylistDetail from "../Screens/UserPlaylistDetail";
+import DetailScreen from "../Screens/DetailScreen";
 const Stack = createNativeStackNavigator();
 
 export default function UserScreenTab() {
@@ -39,6 +40,7 @@ export default function UserScreenTab() {
       <Stack.Screen name="Favorite" component={Favorite}/>
       <Stack.Screen name="Playlist" component={ListPlaylist}/>
       <Stack.Screen name="UserPlaylistDetail" component={UserPlaylistDetail}/>
+      <Stack.Screen name="SongDetail" component={DetailScreen} />
     </Stack.Navigator>
   );
 }
