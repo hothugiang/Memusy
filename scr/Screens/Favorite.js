@@ -3,11 +3,13 @@ import React, { useRef, useState, useEffect } from 'react';
 import { Ionicons } from '@expo/vector-icons';
 import { Text, View, StyleSheet, ScrollView, Image, TouchableOpacity, Animated, FlatList } from 'react-native';
 import { axiosInstance } from '../constants/Axios';
+import AsyncStorage from "@react-native-async-storage/async-storage";
 const { width: WIDTH, height: HEIGHT } = Dimensions.get("window");
 const standardWidth = 360;
 const standardHeight = 800;
 
 const Favorite = ({ navigation, route }) => {
+    const {userId} = route.params;
     const scrollOfsetY = useRef(new Animated.Value(0)).current;
     const [scrollY] = useState(new Animated.Value(0));
 
@@ -115,6 +117,19 @@ const Favorite = ({ navigation, route }) => {
         },
     ]);
 
+    useEffect(() => {
+        const fetchData = async () => {
+            try {
+                const response = await axiosInstance.get(`/music/favorites/${userId}`);
+                setSongs(response.data);
+                console.log(songs);
+            } catch (error) {
+                console.error(error);
+            }
+        };
+        fetchData();
+    }, []);
+
     return (
         <View style={{ backgroundColor: "black", flex: 1 }}>
             <DynamicHeader value={scrollOfsetY} navigation={navigation} />
@@ -124,8 +139,8 @@ const Favorite = ({ navigation, route }) => {
                 keyExtractor={(item) => item.id.toString()}
                 renderItem={({ item }) => (
                     <View key={item.id} style={styles.songsWrapper}>
-                        <TouchableOpacity style={styles.songs} onPress={() => navigation.navigate("SongDetail")}>
-                            <Image source={require("../../assets/img/cho.jpg")} style={styles.songImage} resizeMode="cover" />
+                        <TouchableOpacity style={styles.songs} onPress={() => navigation.navigate("SongDetail", {s_id: item.id})}>
+                            <Image source={{uri: item.image.toString()}} style={styles.songImage} resizeMode="cover" />
                             <View>
                                 <Text style={styles.songTitle}>{item.title}</Text>
                                 <Text style={styles.songType}>{item.artist}</Text>
