@@ -1,5 +1,5 @@
 import * as React from "react";
-import { useState } from "react";
+import { useState, useContext } from "react";
 import {
   StyleSheet,
   View,
@@ -18,6 +18,7 @@ import { Ionicons } from "react-native-vector-icons";
 import { axiosInstance } from "../constants/Axios";
 import { useFonts } from "expo-font";
 import * as SplashScreen from "expo-splash-screen";
+import UserContext from "../contexts/UserContext";
 import { useEffect } from "react";
 
 const { width: WIDTH } = Dimensions.get("window");
@@ -42,7 +43,9 @@ export default function LoginScreen({ navigation }) {
   //     }
   //   });
 
-  const [username, setUsername] = useState("");
+  const { setUsername, setUserId } = useContext(UserContext);
+
+  const [username1, setUsername1] = useState("");
   const [password, setPassword] = useState("");
   const [showPass, setShowPass] = useState(false);
   const [press, setPress] = useState(false);
@@ -66,7 +69,7 @@ export default function LoginScreen({ navigation }) {
   const handleLogin = async () => {
     try {
       const response = await axiosInstance.post("/users/login", {
-        username: username,
+        username: username1,
         password: password,
       });
 
@@ -76,6 +79,8 @@ export default function LoginScreen({ navigation }) {
         const username = response.data.userName;
         const email = response.data.userEmail;
         const userId = response.data.userId;
+        setUsername(username);
+        setUserId(userId);
         console.log("Login successfully!");
         saveToken(token, userId, username, email);
         const response2 = await axiosInstance.get("/users/me", {
@@ -126,7 +131,7 @@ export default function LoginScreen({ navigation }) {
             placeholder={"Username"}
             placeholderTextColor={"rgba(255, 255, 255, 0.7)"}
             underlineColorAndroid="transparent"
-            onChangeText={(text) => setUsername(text)}
+            onChangeText={(text) => setUsername1(text)}
           />
           <Ionicons
             name={"ios-person"}

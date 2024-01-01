@@ -10,14 +10,15 @@ import { useEffect } from 'react';
 import { axiosInstance } from '../constants/Axios';
 import { Platform } from 'react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import UserContext from '../contexts/UserContext';
+
 const { width: WIDTH } = Dimensions.get("window");
 const { height: HEIGHT } = Dimensions.get("window");
 const standardWidth = 360;
 const standardHeight = 800;
 export default function UserScreen({ navigation }) {
 
-  const [username , setUsername] = useState("");
-  const [userId, setUserId] = useState("");
+  const { userId, username, setUserId, setUsername } = useContext(UserContext);
   
   const [fontsLoaded] = useFonts({
     'GentiumBookBasic-Italic': require('./../../assets/fonts/GentiumBookBasic-Italic.ttf'),
@@ -28,16 +29,6 @@ export default function UserScreen({ navigation }) {
       await SplashScreen.preventAutoHideAsync();
     }
     prepare();
-    async function loadData() {
-      const username = await AsyncStorage.getItem('username');
-      const userId = await AsyncStorage.getItem('userId');
-      if (!username) {
-        navigation.navigate("Login");
-      }
-      setUsername(username);
-      setUserId(userId);
-    }
-    loadData();
   });
   if (!fontsLoaded) {
     return undefined;
@@ -51,21 +42,14 @@ export default function UserScreen({ navigation }) {
       if (!token) {
         navigation.navigate("Login");
       }
-      const response = await axiosInstance.get('/users/logout', {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      });
 
-      if (response.status === 200) {
         // Xử lý khi logout thành công, ví dụ: chuyển hướng đến màn hình đăng nhập
         await AsyncStorage.removeItem("token");
         await AsyncStorage.removeItem("username");
         await AsyncStorage.removeItem("email");
-        navigation.navigate('Login');
-      } else {
-        console.error('Logout failed');
-      }
+        await AsyncStorage.removeItem("userId");
+        setUsername("");
+        setUserId("");
     } catch (error) {
       console.error('Error during logout:', error);
     }
