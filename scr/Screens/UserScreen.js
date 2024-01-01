@@ -35,7 +35,7 @@ export default function UserScreen({ navigation }) {
       setUsername(username);
     }
     loadData();
-  })
+  });
   if (!fontsLoaded) {
     return undefined;
   } else {

@@ -57,10 +57,6 @@ class MusicUserController {
                         if (result.length === 0) {
                             const songInfo = await ZingController.getInfoSong(songId);
                             const { encodeId, title, artistsNames, thumbnailM } = songInfo;
-                            console.log("encodeId: " + encodeId);
-                            console.log("title: " + title);
-                            console.log("artistsNames: " + artistsNames);
-                            console.log("thumbnailM: " + thumbnailM);
 
                             const addSongQuery = "INSERT INTO song (id, title, image, artist) VALUES (?, ?, ?, ?);";
                             db.query(addSongQuery, [encodeId, title, thumbnailM, artistsNames], (err) => {
@@ -87,6 +83,26 @@ class MusicUserController {
         }
     }
 
+    async checkSongInFavorite(req, res) {
+        const { userId, songId } = req.body;
+        const db = req.app.locals.db;
+
+        try {
+            const checkSongInFavoriteQuery = "SELECT * FROM favorites WHERE user_id = ? AND song_id = ?;";
+            db.query(checkSongInFavoriteQuery, [userId, songId], (err, result) => {
+                if (err) {
+                    console.error("Lỗi kiểm tra bài hát trong danh sách yêu thích: " + err.message);
+                    return res.status(500).json({ message: "Lỗi kiểm tra bài hát trong danh sách yêu thích." });
+                }
+                if (result.length > 0) {
+                    return res.status(200).json({ message: "Bài hát đã có trong danh sách yêu thích." });
+                }
+                return res.status(201).json({ message: "Bài hát chưa có trong danh sách yêu thích." });
+            });
+        } catch (error) {
+            console.error(error);
+        }
+    }
 
     async addSongToFavorite(req, res) {
         try {
@@ -101,6 +117,35 @@ class MusicUserController {
                 }
                 if (result.length > 0) {
                     return res.status(200).json({ message: "Bài hát đã có trong danh sách yêu thích." });
+                } else {
+                    const checkSongExistQuery = "SELECT * FROM song WHERE id = ?;";
+                    db.query(checkSongExistQuery, [songId], async (err, result) => {
+                        if (err) {
+                            console.error("Lỗi kiểm tra bài hát: " + err.message);
+                            return res.status(500).json({ message: "Lỗi kiểm tra bài hát." });
+                        }
+                        if (result.length === 0) {
+                            const songInfo = await ZingController.getInfoSong(songId);
+                            const { encodeId, title, artistsNames, thumbnailM } = songInfo;
+
+                            const addSongQuery = "INSERT INTO song (id, title, image, artist) VALUES (?, ?, ?, ?);";
+                            db.query(addSongQuery, [encodeId, title, thumbnailM, artistsNames], (err) => {
+                                if (err) {
+                                    console.error("Lỗi thêm bài hát vào cơ sở dữ liệu: " + err.message);
+                                    return res.status(500).json({ message: "Lỗi thêm bài hát vào cơ sở dữ liệu." });
+                                }
+                            });
+                        }
+
+                        const addSongToFavoriteQuery = "INSERT INTO favorites (user_id, song_id) VALUES (?, ?);";
+                        db.query(addSongToFavoriteQuery, [userId, songId], (err) => {
+                            if (err) {
+                                console.error("Lỗi thêm bài hát vào danh sách yêu thích: " + err.message);
+                                return res.status(500).json({ message: "Lỗi thêm bài hát vào danh sách yêu thích." });
+                            }
+                            return res.status(201).json({ message: "Thêm bài hát vào danh sách yêu thích thành công." });
+                        });
+                    });
                 }
             });
 

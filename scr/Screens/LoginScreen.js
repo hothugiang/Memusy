@@ -55,7 +55,7 @@ export default function LoginScreen({ navigation }) {
   const saveToken = async (token, userId, username, email) => {
     try {
       await AsyncStorage.setItem("token", token);
-      await AsyncStorage.setItem("userId", userId);
+      await AsyncStorage.setItem("userId", JSON.stringify(userId));
       await AsyncStorage.setItem("username", username);
       await AsyncStorage.setItem("email", email);
     } catch (error) {

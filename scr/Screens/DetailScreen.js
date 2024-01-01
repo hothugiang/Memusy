@@ -9,7 +9,7 @@ import {
   TextInput,
   ScrollView,
 } from "react-native";
-import { Button, Icon } from "react-native-elements"
+import { Button, Icon } from "react-native-elements";
 import Slider from "@react-native-community/slider";
 import { FontAwesome5 } from "@expo/vector-icons";
 import { FlatList, Dimensions } from "react-native";
@@ -35,6 +35,7 @@ export default function DetailScreen({ navigation, route }) {
   const [information, setInformation] = useState("");
   const [link, setLink] = useState("");
   const [lyrics, setLyrics] = useState("");
+  const [listPlaylist, setListPlaylist] = useState([]);
 
   useEffect(() => {
     loadAudio();
@@ -52,16 +53,32 @@ export default function DetailScreen({ navigation, route }) {
       fetchLyrics();
     }
   }, [link]);
-  
+
+  useEffect(() => {
+    const fetchPlaylist = async () => {
+      try {
+        const userId = await AsyncStorage.getItem("userId");
+        console.log(typeof userId);
+        const playlist = await axiosInstance.get(`/music/playlists/${userId}`);
+        console.log(playlist.data);
+        setListPlaylist(playlist.data);
+        console.log(listPlaylist);
+      } catch (error) {
+        console.error("Error loading playlist:", error);
+      }
+    };
+    fetchPlaylist();
+  }, []);
+
   const loadLyric = async () => {
     try {
       const lyricsData = await axiosInstance.get(`/musics/lyric/${s_id}`);
-      setLink(lyricsData.data.data.data.file); 
+      setLink(lyricsData.data.data.data.file);
     } catch (error) {
       console.error("Error loading lyrics:", error);
     }
   };
-  
+
   const fetchLyrics = async () => {
     try {
       const response = await axiosInstance.get(link);
@@ -70,7 +87,7 @@ export default function DetailScreen({ navigation, route }) {
         setLyrics(lyricsData);
       }
     } catch (error) {
-      console.error('Error fetching lyrics:', error.message);
+      console.error("Error fetching lyrics:", error.message);
     }
   };
 
@@ -106,23 +123,22 @@ export default function DetailScreen({ navigation, route }) {
   };
 
   const sendNotification = async () => {
-  const content = {
-    title: information.title + " - " + information.artistsNames,
-    body: isPlaying ? "Đang phát nhạc" : "Dừng phát nhạc",
-    sound: true,
-    android: {
-      channelId: 'default',
-      image: information.thumbnailM,
-    },
+    const content = {
+      title: information.title + " - " + information.artistsNames,
+      body: isPlaying ? "Đang phát nhạc" : "Dừng phát nhạc",
+      sound: true,
+      android: {
+        channelId: "default",
+        image: information.thumbnailM,
+      },
+    };
+
+    await Notifications.scheduleNotificationAsync({
+      content,
+      trigger: null,
+    });
   };
 
-  await Notifications.scheduleNotificationAsync({
-    content,
-    trigger: null,
-  });
-};
-
-  
   const loadInfomation = async () => {
     try {
       const token = await AsyncStorage.getItem("token");
@@ -160,7 +176,7 @@ export default function DetailScreen({ navigation, route }) {
           playsInSilentModeIOS: true,
           shouldDuckAndroid: true,
           interruptionModeAndroid: InterruptionModeAndroid.DuckOthers,
-          playThroughEarpieceAndroid: false
+          playThroughEarpieceAndroid: false,
         });
 
         setSound(sound);
@@ -212,16 +228,16 @@ export default function DetailScreen({ navigation, route }) {
     if (sound) {
       const newPosition = Math.min(duration, currentPosition + SKIP_INTERVAL);
       sound.setPositionAsync(newPosition * 1000);
-      setCurrentTime(newPosition*1000);
+      setCurrentTime(newPosition * 1000);
       setCurrentPosition(newPosition);
     }
   };
-  
+
   const skipBackward = () => {
     if (sound) {
       const newPosition = Math.max(0, currentPosition - SKIP_INTERVAL);
       sound.setPositionAsync(newPosition * 1000);
-      setCurrentTime(newPosition*1000);
+      setCurrentTime(newPosition * 1000);
       setCurrentPosition(newPosition);
     }
   };
@@ -237,7 +253,7 @@ export default function DetailScreen({ navigation, route }) {
   const [isReplay, setIsReplay] = useState(false);
 
   const replayMusic = async () => {
-    setIsReplay(!isReplay)
+    setIsReplay(!isReplay);
   };
 
   useEffect(() => {
@@ -252,7 +268,7 @@ export default function DetailScreen({ navigation, route }) {
           setCurrentPosition(0);
           setCurrentTime(0);
         };
-    
+
         replayAsync();
       } else {
         const stopPlayAsync = async () => {
@@ -264,10 +280,8 @@ export default function DetailScreen({ navigation, route }) {
 
         stopPlayAsync();
       }
-      
     }
-    
-  }, [isReplay, currentPosition, duration])
+  }, [isReplay, currentPosition, duration]);
 
   //Modal
   const [isPlaylistModalVisible, setPlaylistModalVisible] = useState(false);
@@ -284,11 +298,55 @@ export default function DetailScreen({ navigation, route }) {
   const [isFavourite, setFavourite] = useState(false);
   const favouriteHandle = () => {
     setFavourite(!isFavourite);
-  }
+  };
 
   const [isSuffle, setSuffle] = useState(false);
   const suffleHandle = () => {
     setSuffle(!isSuffle);
+  };
+
+  const [newPlaylist, setNewPlaylist] = useState("");
+
+  const savePlaylist = async () => {
+    try {
+      if (newPlaylist === "") {
+        return;
+      }
+      const userId = await AsyncStorage.getItem("userId");
+      const playlist = await axiosInstance.post("/music/createplaylist", {
+        userId: userId,
+        playlistName: newPlaylist,
+      });
+      console.log(playlist);
+    } catch (error) {
+      if (error.response && error.response.status === 401) {
+        navigation.navigate("Login");
+      } else {
+        console.error("Error saving playlist:", error);
+      }
+    }
+  };
+
+  const addSongToPlaylist = async (playlist_id) => {
+    try {
+      console.log("Playlist id: ", playlist_id);
+      console.log("song id: ", s_id);
+      const playlist = await axiosInstance.post("/music/addsongtoplaylist", {
+        songId: s_id,
+        playlistId: playlist_id,
+      });
+      if (playlist.status === 201) {
+        Alert.alert("Thông báo", "Đã thêm vào playlist!");
+      } else if (playlist.status === 200) {
+        Alert.alert("Thông báo", "Bài hát đã có trong playlist!");
+      }
+    } catch (error) {
+      if (error.response && error.response.status === 401) {
+        navigation.navigate("Login");
+      } else {
+        console.error("Error saving playlist:", error);
+      }
+    }
   }
 
   return (
@@ -312,8 +370,16 @@ export default function DetailScreen({ navigation, route }) {
           style={styles.coverImage}
         />
 
-        <View style={{ alignItems: "flex-start", flexDirection: "row", justifyContent: "space-between" }}>
-          <TouchableOpacity style={{ flex: 1, marginRight: 10, alignItems:'flex-end' }}>
+        <View
+          style={{
+            alignItems: "flex-start",
+            flexDirection: "row",
+            justifyContent: "space-between",
+          }}
+        >
+          <TouchableOpacity
+            style={{ flex: 1, marginRight: 10, alignItems: "flex-end" }}
+          >
             <Ionicons
               name={"add-circle-outline"}
               size={32}
@@ -328,13 +394,13 @@ export default function DetailScreen({ navigation, route }) {
             <Text style={styles.artistName}>{information.artistsNames}</Text>
           </View>
 
-          <TouchableOpacity 
+          <TouchableOpacity
             onPress={() => {
               favouriteHandle();
               if (!isFavourite) {
                 Alert.alert("Thông báo", "Đã thêm vào yêu thích!");
               }
-            }} 
+            }}
             style={{ flex: 1 }}
           >
             <Ionicons
@@ -345,7 +411,6 @@ export default function DetailScreen({ navigation, route }) {
             />
           </TouchableOpacity>
         </View>
-        
       </View>
 
       <Slider
@@ -366,12 +431,14 @@ export default function DetailScreen({ navigation, route }) {
       </View>
 
       <View style={styles.controls}>
-        <TouchableOpacity onPress={() => {
-          replayMusic();
-          if (!isReplay) {
-            Alert.alert("Thông báo", "Đã bật chế độ tự động phát lại!");
-          }
-        }}>
+        <TouchableOpacity
+          onPress={() => {
+            replayMusic();
+            if (!isReplay) {
+              Alert.alert("Thông báo", "Đã bật chế độ tự động phát lại!");
+            }
+          }}
+        >
           <Ionicons
             name={"repeat"}
             size={32}
@@ -393,13 +460,14 @@ export default function DetailScreen({ navigation, route }) {
           <FontAwesome5 name="redo" size={32} color="gray"></FontAwesome5>
         </TouchableOpacity>
 
-        <TouchableOpacity 
+        <TouchableOpacity
           onPress={() => {
             suffleHandle();
             if (!isSuffle) {
-              Alert.alert("Thông báo", "Đã bật chế độ phát ngẫu nhiên!")
+              Alert.alert("Thông báo", "Đã bật chế độ phát ngẫu nhiên!");
             }
-          }}>
+          }}
+        >
           <Ionicons
             name={"shuffle-outline"}
             size={32}
@@ -412,173 +480,226 @@ export default function DetailScreen({ navigation, route }) {
 
       {/* Danh sách playlist */}
       <Modal
-          onBackdropPress={() => setPlaylistModalVisible(false)}
-          onBackButtonPress={() => setPlayplistModalVisible(false)}
-          isVisible={isPlaylistModalVisible}
-          onSwipeComplete={toggleModal}
-          animationIn="bounceInUp"
-          animationOut="bounceOutDown"
-          animationInTiming={600}
-          animationOutTiming={300}
-          backdropTransitionInTiming={600}
-          backdropTransitionOutTiming={300}
-          style={styles.modal}
+        onBackdropPress={() => setPlaylistModalVisible(false)}
+        onBackButtonPress={() => setPlayplistModalVisible(false)}
+        isVisible={isPlaylistModalVisible}
+        onSwipeComplete={toggleModal}
+        animationIn="bounceInUp"
+        animationOut="bounceOutDown"
+        animationInTiming={600}
+        animationOutTiming={300}
+        backdropTransitionInTiming={600}
+        backdropTransitionOutTiming={300}
+        style={styles.modal}
       >
         <View style={styles.modalContent}>
           {/* Header */}
           <View
             style={{
-              flexDirection: 'row',
-              justifyContent: 'space-between',
+              flexDirection: "row",
+              justifyContent: "space-between",
               paddingRight: 15,
               paddingLeft: 10,
               paddingTop: 10,
               paddingBottom: 10,
-            }}>
+            }}
+          >
             <TouchableOpacity>
               <Icon
                 name="chevron-left"
                 type="font-awesome"
                 color="white"
                 size={24}
-                style={{padding: 3}}
+                style={{ padding: 3 }}
                 onPress={() => setPlaylistModalVisible(false)}
               />
             </TouchableOpacity>
             <Text
               style={{
                 fontSize: 18,
-                color: 'white',
+                color: "white",
                 flex: 1,
-                textAlign: 'center',
-                fontWeight: "bold"
-              }}>
+                textAlign: "center",
+                fontWeight: "bold",
+              }}
+            >
               Add to Playlist
             </Text>
-            <TouchableOpacity/>
+            <TouchableOpacity />
           </View>
 
           {/* Content */}
-          <View style={{height: height * 0.85}}>
+          <View style={{ height: height * 0.85 }}>
             <ScrollView>
-              <View style={{
-                flexDirection: 'row',
-                justifyContent: "space-between",
-                alignItems: "center",
-                paddingRight: 15,
-                paddingLeft: 15,
-                paddingTop: 5,
-                paddingBottom: 5,
-              }}>
-                <View style={{flexDirection: "row", alignItems: 'center'}}>
-                  <Image source={playlist} style={{width: 70, height: 70}}/>
-                  <Text style = {{color: "white", fontSize: 18 , justifyContent: "center", marginLeft: 10}}> Tên playlist </Text>
-                </View>
+              {listPlaylist.map((item, index) => {
+                return (
+                  <View
+                    key={index}
+                    style={{
+                      flexDirection: "row",
+                      justifyContent: "space-between",
+                      alignItems: "center",
+                      paddingRight: 15,
+                      paddingLeft: 15,
+                      paddingTop: 5,
+                      paddingBottom: 5,
+                    }}
+                  >
+                    <View
+                      style={{ flexDirection: "row", alignItems: "center" }}
+                    >
+                      <Image
+                        source={playlist}
+                        style={{ width: 70, height: 70 }}
+                      />
+                      <Text
+                        style={{
+                          color: "white",
+                          fontSize: 18,
+                          justifyContent: "center",
+                          marginLeft: 10,
+                        }}
+                      >
+                        {" "}
+                        {item.name}{" "}
+                      </Text>
+                    </View>
 
-                <TouchableOpacity 
-                  onPress={() => {
-                    toggleModal(); 
-                    Alert.alert("Thông báo", "Đã thêm vào playlist!");
-                  }} 
-                  style={{ alignItems: "flex-end" }}
-                >
-                  <View style={{ backgroundColor: "#dd729e", padding: 5, paddingHorizontal: 10, alignItems: "center", borderRadius: 5, width: 50 }}>
-                    <Text style={{ fontSize: 16 }}>Add</Text>
+                    <TouchableOpacity
+                      onPress={() => {
+                        addSongToPlaylist(item.playlist_id);
+                        toggleModal();
+                      }}
+                      style={{ alignItems: "flex-end" }}
+                    >
+                      <View
+                        style={{
+                          backgroundColor: "#dd729e",
+                          padding: 5,
+                          paddingHorizontal: 10,
+                          alignItems: "center",
+                          borderRadius: 5,
+                          width: 50,
+                        }}
+                      >
+                        <Text style={{ fontSize: 16 }}>Add</Text>
+                      </View>
+                    </TouchableOpacity>
                   </View>
-                </TouchableOpacity>
-              </View>
+                );
+              })}
             </ScrollView>
           </View>
 
           {/*Footer*/}
-          <View style={{alignItems: "center"}}>
-            <TouchableOpacity 
+          <View style={{ alignItems: "center" }}>
+            <TouchableOpacity
               onPress={() => {
                 setPlaylistModalVisible(false);
                 setCreateModalVisible(true);
-              }}>
-              <View style={{ flexDirection: 'row', alignItems: 'center' }}>
+              }}
+            >
+              <View style={{ flexDirection: "row", alignItems: "center" }}>
                 <Ionicons
                   name="add-circle-outline"
                   size={22}
-                  color="white"  
-                  style={{ marginRight: 5 }}  
+                  color="white"
+                  style={{ marginRight: 5 }}
                 />
-                <Text style={{color: "white", fontSize: 18}}>Create new playlist</Text>
+                <Text style={{ color: "white", fontSize: 18 }}>
+                  Create new playlist
+                </Text>
               </View>
             </TouchableOpacity>
           </View>
-
         </View>
       </Modal>
 
       {/* Tạo playlist */}
       <Modal
-          onBackdropPress={() => setCreateModalVisible(false)}
-          onBackButtonPress={() => setCreateModalVisible(false)}
-          isVisible={isCreateModalVisible}
-          onSwipeComplete={toggleModalCreate}
-          animationIn="bounceInUp"
-          animationOut="bounceOutDown"
-          animationInTiming={600}
-          animationOutTiming={300}
-          backdropTransitionInTiming={600}
-          backdropTransitionOutTiming={300}
-          style={styles.modal}
+        onBackdropPress={() => setCreateModalVisible(false)}
+        onBackButtonPress={() => setCreateModalVisible(false)}
+        isVisible={isCreateModalVisible}
+        onSwipeComplete={toggleModalCreate}
+        animationIn="bounceInUp"
+        animationOut="bounceOutDown"
+        animationInTiming={600}
+        animationOutTiming={300}
+        backdropTransitionInTiming={600}
+        backdropTransitionOutTiming={300}
+        style={styles.modal}
       >
-        <View style={{...styles.modalContent, minHeight: height/3, alignItems: "center"}}>
+        <View
+          style={{
+            ...styles.modalContent,
+            minHeight: height / 3,
+            alignItems: "center",
+          }}
+        >
           {/* Header */}
           <View
             style={{
-              flexDirection: 'row',
-              justifyContent: 'space-between',
+              flexDirection: "row",
+              justifyContent: "space-between",
               paddingRight: 15,
               paddingLeft: 10,
               paddingTop: 10,
               paddingBottom: 10,
-            }}>
+            }}
+          >
             <TouchableOpacity>
               <Icon
                 name="chevron-left"
                 type="font-awesome"
                 color="white"
                 size={24}
-                style={{padding: 3}}
+                style={{ padding: 3 }}
                 onPress={() => setCreateModalVisible(false)}
               />
             </TouchableOpacity>
             <Text
               style={{
                 fontSize: 18,
-                color: 'white',
+                color: "white",
                 flex: 1,
-                textAlign: 'center',
-                fontWeight: "bold"
-              }}>
+                textAlign: "center",
+                fontWeight: "bold",
+              }}
+            >
               Create playlist
             </Text>
-            <TouchableOpacity/>
+            <TouchableOpacity />
           </View>
 
           <View style={styles.postContent}>
             <TextInput
               placeholder="Nhập tên playlist"
               placeholderTextColor="gray"
+              onChangeText={(text) => setNewPlaylist(text)}
               style={styles.textPost}
             />
           </View>
 
           <TouchableOpacity
             onPress={() => {
-              toggleModalCreate(); 
+              toggleModalCreate();
+              savePlaylist();
               Alert.alert("Thông báo", "Đã tạo playlist mới!");
-            }} 
+            }}
           >
-            <View style={{ backgroundColor: "#dd729e", padding: 10, paddingHorizontal: 20, alignItems: "center", borderRadius: 5, marginTop: 15 }}>
+            <View
+              style={{
+                backgroundColor: "#dd729e",
+                padding: 10,
+                paddingHorizontal: 20,
+                alignItems: "center",
+                borderRadius: 5,
+                marginTop: 15,
+              }}
+            >
               <Text style={{ fontSize: 18 }}>Create</Text>
             </View>
           </TouchableOpacity>
-          
         </View>
       </Modal>
     </View>
@@ -600,7 +721,7 @@ const styles = StyleSheet.create({
 
   textPost: {
     padding: 15,
-    color: "white"
+    color: "white",
   },
 
   postContent: {
