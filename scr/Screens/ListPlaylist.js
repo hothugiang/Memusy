@@ -7,6 +7,7 @@ const { width: WIDTH, height: HEIGHT } = Dimensions.get("window");
 import playlist from "../../assets/img/playlist.png";
 import { Button, Icon } from "react-native-elements"
 import Modal from "react-native-modal";
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 const ListPlaylist = ({ navigation, route }) => {
     const [isCreateModalVisible, setCreateModalVisible] = useState(false);
@@ -15,74 +16,27 @@ const ListPlaylist = ({ navigation, route }) => {
     };
 
     const handleDeletePlaylist = (playlistId) => {
+        const deletePlaylist = axiosInstance.delete(`/music/deleteplaylist/${playlistId}`);
         const updatedPlaylists = playlists.filter(item => item.playlist_id !== playlistId);
         setPlaylists(updatedPlaylists);
         //dnhn gọi API delete dưới ni cx đc nè =))
     };
     
 
-    const [playlists, setPlaylists] = useState([
-        {
-            "playlist_id": 1,
-            "name": "Playlist 1",
-            "user_id": 1
-        },
-        {
-            "playlist_id": 2,
-            "name": "Tôi yêu vãi lồn",
-            "user_id": 1
-        },
-        {
-            "playlist_id": 3,
-            "name": "Tôi Yêu Việt Nam",
-            "user_id": 1
-        },
-        {
-            "playlist_id": 4,
-            "name": "Playlist 1",
-            "user_id": 1
-        },
-        {
-            "playlist_id": 5,
-            "name": "Tôi yêu vãi lồn",
-            "user_id": 1
-        },
-        {
-            "playlist_id": 6,
-            "name": "Tôi Yêu Việt Nam",
-            "user_id": 1
-        },
-        {
-            "playlist_id": 7,
-            "name": "Playlist 1",
-            "user_id": 1
-        },
-        {
-            "playlist_id": 8,
-            "name": "Tôi yêu vãi lồn",
-            "user_id": 1
-        },
-        {
-            "playlist_id": 9,
-            "name": "Tôi Yêu Việt Nam",
-            "user_id": 1
-        },
-        {
-            "playlist_id": 10,
-            "name": "Playlist 1",
-            "user_id": 1
-        },
-        {
-            "playlist_id": 11,
-            "name": "Tôi yêu vãi lồn",
-            "user_id": 1
-        },
-        {
-            "playlist_id": 12,
-            "name": "Tôi Yêu Việt Nam",
-            "user_id": 1
-        }
-    ]);
+    const [playlists, setPlaylists] = useState([]);
+
+    useEffect(() => {
+        const fetchPlaylists = async () => {
+            try {
+                const userId = await AsyncStorage.getItem("userId");
+                const res = await axiosInstance.get(`/music/playlists/${userId}`);
+                setPlaylists(res.data);
+            } catch (error) {
+                console.error(error);
+            }
+        };
+        fetchPlaylists();
+    }, []);
 
     return (
         <View style = {{backgroundColor: "black"}}>
@@ -136,7 +90,7 @@ const ListPlaylist = ({ navigation, route }) => {
                             paddingTop: 5,
                             paddingBottom: 5,
                         }}>
-                            <TouchableOpacity onPress={() => navigation.navigate("UserPlaylistDetail")}>
+                            <TouchableOpacity onPress={() => navigation.navigate("UserPlaylistDetail", { p_id: item.playlist_id, p_name: item.name })}>
                                 <View style={{ flexDirection: "row", alignItems: 'center' }}>
                                     <Image source={playlist} style={{ width: 70, height: 70 }} />
                                     <Text style={{ color: "white", fontSize: 18, justifyContent: "center", marginLeft: 10 }}>{item.name}</Text>

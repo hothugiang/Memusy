@@ -17,6 +17,7 @@ const standardHeight = 800;
 export default function UserScreen({ navigation }) {
 
   const [username , setUsername] = useState("");
+  const [userId, setUserId] = useState("");
   
   const [fontsLoaded] = useFonts({
     'GentiumBookBasic-Italic': require('./../../assets/fonts/GentiumBookBasic-Italic.ttf'),
@@ -29,13 +30,15 @@ export default function UserScreen({ navigation }) {
     prepare();
     async function loadData() {
       const username = await AsyncStorage.getItem('username');
+      const userId = await AsyncStorage.getItem('userId');
       if (!username) {
         navigation.navigate("Login");
       }
       setUsername(username);
+      setUserId(userId);
     }
     loadData();
-  })
+  });
   if (!fontsLoaded) {
     return undefined;
   } else {
@@ -100,7 +103,7 @@ export default function UserScreen({ navigation }) {
           </View>
         </TouchableOpacity>
 
-        <TouchableOpacity onPress={() => navigation.navigate("Favorite")}> 
+        <TouchableOpacity onPress={() => navigation.navigate("Favorite", {userId: userId})}> 
           <View style={styles.imgWrapper}>
             <View style={styles.img}>
               <Text style={styles.imgText}>Favorite</Text>

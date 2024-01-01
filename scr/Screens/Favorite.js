@@ -3,117 +3,36 @@ import React, { useRef, useState, useEffect } from 'react';
 import { Ionicons } from '@expo/vector-icons';
 import { Text, View, StyleSheet, ScrollView, Image, TouchableOpacity, Animated, FlatList } from 'react-native';
 import { axiosInstance } from '../constants/Axios';
+import AsyncStorage from "@react-native-async-storage/async-storage";
+import { Alert } from 'react-native';
 const { width: WIDTH, height: HEIGHT } = Dimensions.get("window");
 const standardWidth = 360;
 const standardHeight = 800;
 
 const Favorite = ({ navigation, route }) => {
+    const {userId} = route.params;
     const scrollOfsetY = useRef(new Animated.Value(0)).current;
     const [scrollY] = useState(new Animated.Value(0));
 
-    const handleDeleteSong = (songId) => {
+    const handleDeleteSong = async (songId) => {
+        const deleteSong = await axiosInstance.delete(`/music/deletesongfromfavorite/${userId}/${songId}`);
         const updatedSongs = songs.filter(item => item.id !== songId);
         setSongs(updatedSongs);
     };
 
-    const [songs, setSongs] = useState([
-        {
-            id: 1,
-            title: 'Hi',
-            artist: 'ai biết',
-            image: require("../../assets/img/cho.jpg"),
-        },
-        {
-            id: 2,
-            title: 'Hi',
-            artist: 'ai biết',
-            image: require("../../assets/img/cho.jpg"),
-        },
-        {
-            id: 3,
-            title: 'Hi',
-            artist: 'ai biết',
-            image: require("../../assets/img/cho.jpg"),
-        },
-        {
-            id: 4,
-            title: 'Hi',
-            artist: 'ai biết',
-            image: require("../../assets/img/cho.jpg"),
-        },
-        {
-            id: 5,
-            title: 'Hi',
-            artist: 'ai biết',
-            image: require("../../assets/img/cho.jpg"),
-        },
-        {
-            id: 6,
-            title: 'Hi',
-            artist: 'ai biết',
-            image: require("../../assets/img/cho.jpg"),
-        },
-        {
-            id: 7,
-            title: 'Hi',
-            artist: 'ai biết',
-            image: require("../../assets/img/cho.jpg"),
-        },
-        {
-            id: 8,
-            title: 'Hi',
-            artist: 'ai biết',
-            image: require("../../assets/img/cho.jpg"),
-        },
-        {
-            id: 9,
-            title: 'Hi',
-            artist: 'ai biết',
-            image: require("../../assets/img/cho.jpg"),
-        },
-        {
-            id: 10,
-            title: 'Hi',
-            artist: 'ai biết',
-            image: require("../../assets/img/cho.jpg"),
-        },
-        {
-            id: 11,
-            title: 'Hi',
-            artist: 'ai biết',
-            image: require("../../assets/img/cho.jpg"),
-        },
-        {
-            id: 12,
-            title: 'Hi',
-            artist: 'ai biết',
-            image: require("../../assets/img/cho.jpg"),
-        },
-        {
-            id: 13,
-            title: 'Hi',
-            artist: 'ai biết',
-            image: require("../../assets/img/cho.jpg"),
-        },
-        {
-            id: 14,
-            title: 'Hi',
-            artist: 'ai biết',
-            image: require("../../assets/img/cho.jpg"),
-        },
-        {
-            id: 15,
-            title: 'Hi',
-            artist: 'ai biết',
-            image: require("../../assets/img/cho.jpg"),
-        },
-        {
-            id: 16,
-            title: 'Hi',
-            artist: 'ai biết',
-            image: require("../../assets/img/cho.jpg"),
-        },
-    ]);
+    const [songs, setSongs] = useState([]);
+
+    useEffect(() => {
+        const fetchData = async () => {
+            try {
+                const response = await axiosInstance.get(`/music/favorites/${userId}`);
+                setSongs(response.data);
+            } catch (error) {
+                console.error(error);
+            }
+        };
+        fetchData();
+    }, []);
 
     return (
         <View style={{ backgroundColor: "black", flex: 1 }}>
@@ -124,8 +43,8 @@ const Favorite = ({ navigation, route }) => {
                 keyExtractor={(item) => item.id.toString()}
                 renderItem={({ item }) => (
                     <View key={item.id} style={styles.songsWrapper}>
-                        <TouchableOpacity style={styles.songs} onPress={() => navigation.navigate("SongDetail")}>
-                            <Image source={require("../../assets/img/cho.jpg")} style={styles.songImage} resizeMode="cover" />
+                        <TouchableOpacity style={styles.songs} onPress={() => navigation.navigate("SongDetail", {s_id: item.id})}>
+                            <Image source={{uri: item.image.toString()}} style={styles.songImage} resizeMode="cover" />
                             <View>
                                 <Text style={styles.songTitle}>{item.title}</Text>
                                 <Text style={styles.songType}>{item.artist}</Text>
