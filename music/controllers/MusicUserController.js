@@ -1,4 +1,6 @@
+const ZingController = require("./MusicController");
 class MusicUserController {
+
     async createPlaylist(req, res) {
         try {
             const { userId, playlistName } = req.body;
@@ -33,10 +35,10 @@ class MusicUserController {
     }
 
     async addSongToPlaylist(req, res) {
-        try {
-            const { playlistId, songId } = req.body;
-            const db = req.app.locals.db;
+        const db = req.app.locals.db;
+        const { playlistId, songId } = req.body;
 
+        try {
             const checkSongInPlaylistQuery = "SELECT * FROM playlistsongs WHERE playlist_id = ? AND song_id = ?;";
             db.query(checkSongInPlaylistQuery, [playlistId, songId], (err, result) => {
                 if (err) {
@@ -45,26 +47,46 @@ class MusicUserController {
                 }
                 if (result.length > 0) {
                     return res.status(200).json({ message: "Bài hát đã có trong playlist." });
-                }
-            });
+                } else {
+                    const checkSongExistQuery = "SELECT * FROM song WHERE id = ?;";
+                    db.query(checkSongExistQuery, [songId], async (err, result) => {
+                        if (err) {
+                            console.error("Lỗi kiểm tra bài hát: " + err.message);
+                            return res.status(500).json({ message: "Lỗi kiểm tra bài hát." });
+                        }
+                        if (result.length === 0) {
+                            const songInfo = await ZingController.getInfoSong(songId);
+                            const { encodeId, title, artistsNames, thumbnailM } = songInfo;
+                            console.log("encodeId: " + encodeId);
+                            console.log("title: " + title);
+                            console.log("artistsNames: " + artistsNames);
+                            console.log("thumbnailM: " + thumbnailM);
 
-            const addSongToPlaylistQuery = "INSERT INTO playlistsongs (playlist_id, song_id) VALUES (?, ?);";
-            db.query(addSongToPlaylistQuery, [playlistId, songId], (err) => {
-                if (err) {
-                    console.error("Lỗi thêm bài hát vào playlist: " + err.message);
-                    return res.status(500).json({ message: "Lỗi thêm bài hát vào playlist." });
+                            const addSongQuery = "INSERT INTO song (id, title, image, artist) VALUES (?, ?, ?, ?);";
+                            db.query(addSongQuery, [encodeId, title, thumbnailM, artistsNames], (err) => {
+                                if (err) {
+                                    console.error("Lỗi thêm bài hát vào cơ sở dữ liệu: " + err.message);
+                                    return res.status(500).json({ message: "Lỗi thêm bài hát vào cơ sở dữ liệu." });
+                                }
+                            });
+                        }
+
+                        const addSongToPlaylistQuery = "INSERT INTO playlistsongs (playlist_id, song_id) VALUES (?, ?);";
+                        db.query(addSongToPlaylistQuery, [playlistId, songId], (err) => {
+                            if (err) {
+                                console.error("Lỗi thêm bài hát vào playlist: " + err.message);
+                                return res.status(500).json({ message: "Lỗi thêm bài hát vào playlist." });
+                            }
+                            return res.status(201).json({ message: "Thêm bài hát vào playlist thành công." });
+                        });
+                    });
                 }
-                return res.status(201).json({ message: "Thêm bài hát vào playlist thành công." });
             });
         } catch (error) {
             console.error(error);
-
-            res.status(500).json({
-                status: "error",
-                message: "Internal Server Error",
-            });
         }
     }
+
 
     async addSongToFavorite(req, res) {
         try {
@@ -179,7 +201,8 @@ class MusicUserController {
 
     async getPlaylists(req, res) {
         try {
-            const { userId } = req.query;
+            const userId = req.params.id;
+            console.log(userId);
             const db = req.app.locals.db;
 
             const getPlaylistsQuery = "SELECT * FROM playlists WHERE user_id = ?;";

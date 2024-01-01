@@ -4,7 +4,7 @@ const router = express.Router();
 const MusicUserController = require("./../controllers/MusicUserController");
 
 // get all playlists of a user
-router.get("/playlists", MusicUserController.getPlaylists);
+router.get("/playlists/:id", MusicUserController.getPlaylists);
 
 // get all songs of a playlist
 router.get("/songs", MusicUserController.getSongs);

@@ -185,6 +185,17 @@ class ZingController {
     }
   }
 
+  async getInfoSong(song_id) {
+    try {
+      const data = await ZingMp3.getInfoSong(song_id);
+      console.log(data);
+
+      return data.data;
+    } catch (error) {
+      console.error(error);
+    }
+  }
+
   async getArtist(req, res) {
     try {
       const data = await ZingMp3.getArtist(req.params.name);
