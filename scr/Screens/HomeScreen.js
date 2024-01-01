@@ -1,5 +1,5 @@
 import * as React from "react";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useContext } from "react";
 import { Dimensions, Image, TouchableOpacity } from "react-native";
 import { View, Text, ScrollView, FlatList } from "react-native";
 import { useFonts } from "expo-font";
@@ -8,6 +8,7 @@ import { Ionicons } from "@expo/vector-icons";
 import { axiosInstance } from "../constants/Axios";
 import { Platform } from "react-native";
 import AsyncStorage from "@react-native-async-storage/async-storage";
+import UserContext from "../contexts/UserContext";
 
 export default function HomeScreen({ navigation }) {
   const [fontsLoaded] = useFonts({
@@ -16,7 +17,7 @@ export default function HomeScreen({ navigation }) {
   });
 
   const [songData, setSongData] = useState("");
-  const [username, setUsername] = useState("");
+  const { username } = useContext(UserContext);
   const [suyData, setSuyData] = useState("");
   const [suyTitle, setSuyTitle] = useState("");
   const [data2, setData2] = useState("");
@@ -26,11 +27,6 @@ export default function HomeScreen({ navigation }) {
   useEffect(() => {
     async function prepare() {
       await SplashScreen.preventAutoHideAsync();
-    }
-
-    async function loadDataUser() {
-      const username = await AsyncStorage.getItem("username");
-      setUsername(username);
     }
 
     async function fetchData() {
@@ -65,7 +61,6 @@ export default function HomeScreen({ navigation }) {
     }
 
     prepare();
-    loadDataUser();
     if (!dataFetch) {
       fetchData();
       fetchData2();
