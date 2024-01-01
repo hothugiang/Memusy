@@ -13,6 +13,7 @@ const UserPlaylistDetail = ({ navigation, route }) => {
     const [scrollY] = useState(new Animated.Value(0));
 
     const handleDeleteSong = (songId) => {
+        const deleteSong = axiosInstance.delete(`/music/deletesongfromplaylist/${p_id}/${songId}`);
         const updatedSongs = songs.filter(item => item.id !== songId);
         setSongs(updatedSongs);
     };

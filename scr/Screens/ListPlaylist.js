@@ -16,6 +16,7 @@ const ListPlaylist = ({ navigation, route }) => {
     };
 
     const handleDeletePlaylist = (playlistId) => {
+        const deletePlaylist = axiosInstance.delete(`/music/deleteplaylist/${playlistId}`);
         const updatedPlaylists = playlists.filter(item => item.playlist_id !== playlistId);
         setPlaylists(updatedPlaylists);
         //dnhn gọi API delete dưới ni cx đc nè =))

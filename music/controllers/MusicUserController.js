@@ -185,7 +185,7 @@ class MusicUserController {
 
     async deleteSongFromPlaylist(req, res) {
         try {
-            const { playlistId, songId } = req.body;
+            const { playlistId, songId } = req.params;
             const db = req.app.locals.db;
 
             const deleteSongFromPlaylistQuery = "DELETE FROM playlistsongs WHERE playlist_id = ? AND song_id = ?;";
@@ -208,7 +208,7 @@ class MusicUserController {
 
     async deletePlaylist(req, res) {
         try {
-            const { playlistId } = req.body;
+            const { playlistId } = req.params;
             const db = req.app.locals.db;
 
             const deletePlaylistSongQuery = "DELETE FROM playlistsongs WHERE playlist_id = ?;";
@@ -219,7 +219,7 @@ class MusicUserController {
                 }
             });
 
-            const deletePlaylistQuery = "DELETE FROM playlists WHERE id = ?;";
+            const deletePlaylistQuery = "DELETE FROM playlists WHERE playlist_id = ?;";
             db.query(deletePlaylistQuery, [playlistId], (err) => {
                 if (err) {
                     console.error("Lỗi xóa playlist: " + err.message);
@@ -276,15 +276,16 @@ class MusicUserController {
                 result.forEach((song) => {
                     listSongId.push(song.song_id);
                 });
-                const getSongsInfoQuery = "SELECT * FROM song WHERE id IN (?);";
-                db.query(getSongsInfoQuery, [listSongId], (err, result) => {
-                    if (err) {
-                        console.error("Lỗi lấy thông tin bài hát: " + err.message);
-                        return res.status(500).json({ message: "Lỗi lấy thông tin bài hát." });
+                if (listSongId.length > 0) {
+                    const getSongsInfoQuery = "SELECT * FROM song WHERE id IN (?);";
+                    db.query(getSongsInfoQuery, [listSongId], (err, result) => {
+                        if (err) {
+                            console.error("Lỗi lấy thông tin bài hát: " + err.message);
+                            return res.status(500).json({ message: "Lỗi lấy thông tin bài hát." });
+                        }
+                        return res.status(200).json(result);
                     }
-                    return res.status(200).json(result);
-                }
-                );
+                )};
             });
         } catch (error) {
             console.error(error);

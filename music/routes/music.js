@@ -28,9 +28,9 @@ router.post("/addsongtofavorite", MusicUserController.addSongToFavorite);
 router.delete("/deletesongfromfavorite/:userId/:songId", MusicUserController.deleteSongFromFavorite);
 
 // delete song from playlist
-router.delete("/deletesongfromplaylist", MusicUserController.deleteSongFromPlaylist);
+router.delete("/deletesongfromplaylist/:playlistId/:songId", MusicUserController.deleteSongFromPlaylist);
 
 // delete playlist
-router.delete("/deleteplaylist", MusicUserController.deletePlaylist);
+router.delete("/deleteplaylist/:playlistId", MusicUserController.deletePlaylist);
 
 module.exports = router;
