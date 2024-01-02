@@ -22,7 +22,6 @@ const TypeScreen = ({ navigation, route }) => {
         setURLCover(response.data.data.data.cover);
         setListSong(response.data.data.data.sections[1].items);
         setDataFetched(true);
-        console.log(listSong);
       } catch (error) {
         console.error("Lỗi khi tìm kiếm:", error);
       }
@@ -242,9 +241,13 @@ const DynamicHeader = ({ value, navigation, title, cover } ) => {
     extrapolate: 'clamp'
   });
 
+  if (!cover) {
+    console.log("DynamicHeader: Empty cover img");
+  }
+
   return (
     <ImageBackground
-      source={{ uri: cover }}
+      source={cover ? { uri: cover } : null}
       resizeMode="cover"
     >
       <Animated.View style={[styles.header, { height: animatedHeaderHeight, backgroundColor: animatedHeaderColor }]}>
