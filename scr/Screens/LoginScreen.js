@@ -43,7 +43,7 @@ export default function LoginScreen({ navigation }) {
   //     }
   //   });
 
-  const { setUsername, setUserId } = useContext(UserContext);
+  const { setUsername, setUserId, setEmail } = useContext(UserContext);
 
   const [username1, setUsername1] = useState("");
   const [password, setPassword] = useState("");
@@ -81,6 +81,7 @@ export default function LoginScreen({ navigation }) {
         const userId = response.data.userId;
         setUsername(username);
         setUserId(userId);
+        setEmail(email);
         console.log("Login successfully!");
         saveToken(token, userId, username, email);
         const response2 = await axiosInstance.get("/users/me", {

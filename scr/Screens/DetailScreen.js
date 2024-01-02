@@ -54,19 +54,20 @@ export default function DetailScreen({ navigation, route }) {
     }
   }, [link]);
 
+  const fetchPlaylist = async () => {
+    try {
+      const userId = await AsyncStorage.getItem("userId");
+      console.log(typeof userId);
+      const playlist = await axiosInstance.get(`/music/playlists/${userId}`);
+      console.log(playlist.data);
+      setListPlaylist(playlist.data);
+      console.log(listPlaylist);
+    } catch (error) {
+      console.error("Error loading playlist:", error);
+    }
+  };
+
   useEffect(() => {
-    const fetchPlaylist = async () => {
-      try {
-        const userId = await AsyncStorage.getItem("userId");
-        console.log(typeof userId);
-        const playlist = await axiosInstance.get(`/music/playlists/${userId}`);
-        console.log(playlist.data);
-        setListPlaylist(playlist.data);
-        console.log(listPlaylist);
-      } catch (error) {
-        console.error("Error loading playlist:", error);
-      }
-    };
     fetchPlaylist();
   }, []);
 
@@ -423,7 +424,10 @@ export default function DetailScreen({ navigation, route }) {
               size={32}
               color={"rgba(221,114,158,1)"}
               style={{ marginTop: 10 }}
-              onPress={() => setPlaylistModalVisible(true)}
+              onPress={() => {
+                setPlaylistModalVisible(true);
+                fetchPlaylist();
+              }}
             />
           </TouchableOpacity>
 

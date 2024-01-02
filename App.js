@@ -6,9 +6,10 @@ import UserContext from "./scr/contexts/UserContext";
 export default function App() {
   const [ username, setUsername ] = useState("");
   const [ userId, setUserId ] = useState("");
+  const [ email, setEmail ] = useState("");
 
   return (
-    <UserContext.Provider value={{ username, setUsername, userId, setUserId }}>
+    <UserContext.Provider value={{ username, setUsername, userId, setUserId, email, setEmail }}>
       <MainContainer />
     </UserContext.Provider>
   );

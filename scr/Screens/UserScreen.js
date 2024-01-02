@@ -18,7 +18,7 @@ const standardWidth = 360;
 const standardHeight = 800;
 export default function UserScreen({ navigation }) {
 
-  const { userId, username, setUserId, setUsername } = useContext(UserContext);
+  const { userId, username, email, setUserId, setUsername } = useContext(UserContext);
   
   const [fontsLoaded] = useFonts({
     'GentiumBookBasic-Italic': require('./../../assets/fonts/GentiumBookBasic-Italic.ttf'),
@@ -57,16 +57,16 @@ export default function UserScreen({ navigation }) {
   return (
     <View style={{ flex: 1, backgroundColor: 'black' }}>
       <View style={{ marginTop: Platform.OS === "ios" ? 24 : 0 }}>
-        <Ionicons name='ios-arrow-back' size={24} color='#5257DF'></Ionicons>
+        <Ionicons name='ios-arrow-back' size={24} color='black'></Ionicons>
       </View>
 
-      <View style={{ flexDirection: 'row' }}>
+      <View style={{ flexDirection: 'row', display: 'flex', justifyContent: 'center', alignItems: 'center'}}>
         <View style={styles.profileImage}>
           <Image source={require("../../assets/img/cho.jpg")} style={styles.image} resizeMode="center"></Image>
         </View>
         <View style={{ flexDirection: 'column' }}>
           <Text style={styles.name}>{username}</Text>
-          <Text style={styles.follow}>Followers 5 | Following 20</Text>
+          <Text style={styles.follow}>{email}</Text>
         </View>
       </View>
       <View style={{ flexDirection: 'row' }}>
@@ -107,7 +107,7 @@ const styles = StyleSheet.create({
     height: 100,
     borderRadius: 100,
     overflow: 'hidden',
-    marginLeft: 20
+    marginBottom: 10,
   },
   image: {
     flex: 1,
@@ -117,15 +117,14 @@ const styles = StyleSheet.create({
   },
   name: {
     color: 'white',
-    marginLeft: 30,
-    marginTop: 15,
-    fontSize: 20
+    marginLeft: 15,
+    fontSize: 22
   },
   follow: {
     color: 'gray',
-    fontSize: 17,
+    fontSize: 16,
     marginTop: 5,
-    marginLeft: 30,
+    marginLeft: 15,
   },
   edit1: {
     marginLeft: 25,
