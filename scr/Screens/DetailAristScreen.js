@@ -26,7 +26,6 @@ const DetailArtistScreen = ({ navigation, route }) => {
         setListSong(response.data.data.data.sections[0].items);
         setListSingle(response.data.data.data.sections[2].items);
         setDataFetched(true);
-        console.log(listSong);
       } catch (error) {
         console.error("Lỗi khi tìm kiếm:", error);
       }
@@ -54,9 +53,9 @@ const DetailArtistScreen = ({ navigation, route }) => {
         >
           Bài Hát Nổi Bật{" "}
         </Text>
-        {listSong.map(val => {
+        {listSong.map((val, index) => {
           return (
-            <View style={styles.songsWrapper}>
+            <View style={styles.songsWrapper} key={index}>
               <TouchableOpacity style={styles.songs} onPress={() => navigation.navigate("SongDetail", { s_id: val.encodeId })}>
                 <Image source={{uri: val.thumbnail}} style={styles.songImage} resizeMode="cover" />
                 <View>
@@ -302,7 +301,7 @@ const DynamicHeader = ({ value, navigation, title, cover} ) => {
 
   return (
     <ImageBackground
-      source={{ uri: cover }}
+    source={cover ? { uri: cover } : null}
       resizeMode="cover"
     >
       <Animated.View style={[styles.header, { height: animatedHeaderHeight, backgroundColor: animatedHeaderColor }]}>

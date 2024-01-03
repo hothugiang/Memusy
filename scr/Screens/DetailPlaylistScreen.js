@@ -66,9 +66,9 @@ const DetailArtistScreen = ({ navigation, route }) => {
         >
           Danh sách bài hát{" "}
         </Text>
-        {listSong.map(val => {
+        {listSong.map((val, index) => {
           return (
-            <View style={styles.songsWrapper}>
+            <View style={styles.songsWrapper} key={index}>
               <TouchableOpacity style={styles.songs} onPress={() => navigation.navigate("SongDetail", { s_id: val.encodeId })}>
                 <Image source={{uri: val.thumbnail}} style={styles.songImage} resizeMode="cover" />
                 <View>
@@ -258,9 +258,13 @@ const DynamicHeader = ({ value, navigation, title, cover} ) => {
     extrapolate: 'clamp'
   });
 
+  if (!cover) {
+    console.log("DynamicHeader: Empty cover img");
+  }
+
   return (
     <ImageBackground
-      source={{ uri: cover }}
+      source={cover ? { uri: cover } : null}
       resizeMode="cover"
     >
       <Animated.View style={[styles.header, { height: animatedHeaderHeight, backgroundColor: animatedHeaderColor }]}>

@@ -37,7 +37,7 @@ const UserPlaylistDetail = ({ navigation, route }) => {
 
     return (
         <View style={{ backgroundColor: "black", flex: 1 }}>
-            <DynamicHeader value={scrollOfsetY} navigation={navigation} title={p_name}/>
+            <DynamicHeader value={scrollOfsetY} navigation={navigation} title={p_name} songs={songs}/>
             
             <FlatList
                 data={songs}
@@ -232,7 +232,14 @@ export default UserPlaylistDetail;
 const Header_Max_Height = 200;
 const Header_Min_Height = 50;
 const Scroll_Distance = 140;
-const DynamicHeader = ({ value, navigation, title, cover }) => {
+const DynamicHeader = ({ value, navigation, title, songs }) => {
+    const playRandomSong = () => {
+        const randomIndex = Math.floor(Math.random() * songs.length);
+        const randomSong = songs[randomIndex];
+    
+        navigation.navigate("SongDetail", { s_id: randomSong.id });
+    };
+
     const animatedHeaderHeight = value.interpolate({
         inputRange: [0, Scroll_Distance],
         outputRange: [Header_Max_Height, Header_Min_Height],
@@ -281,7 +288,7 @@ const DynamicHeader = ({ value, navigation, title, cover }) => {
                     ]}
                 >
                     <Animated.Text style={[styles.headerText, { fontSize: textSize, textAlign: "center" }]}>{title}</Animated.Text>
-                    <TouchableOpacity style={styles.edit3}>
+                    <TouchableOpacity style={styles.edit3} onPress={playRandomSong}>
                         <Text style={styles.edit2}>Phát ngẫu nhiên </Text>
                     </TouchableOpacity>
                 </Animated.View>

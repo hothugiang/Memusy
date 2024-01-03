@@ -59,9 +59,7 @@ export default function DetailScreen({ navigation, route }) {
       const userId = await AsyncStorage.getItem("userId");
       console.log(typeof userId);
       const playlist = await axiosInstance.get(`/music/playlists/${userId}`);
-      console.log(playlist.data);
       setListPlaylist(playlist.data);
-      console.log(listPlaylist);
     } catch (error) {
       console.error("Error loading playlist:", error);
     }
@@ -525,7 +523,7 @@ export default function DetailScreen({ navigation, route }) {
       {/* Danh sách playlist */}
       <Modal
         onBackdropPress={() => setPlaylistModalVisible(false)}
-        onBackButtonPress={() => setPlayplistModalVisible(false)}
+        onBackButtonPress={() => setPlaylistModalVisible(false)}
         isVisible={isPlaylistModalVisible}
         onSwipeComplete={toggleModal}
         animationIn="bounceInUp"
@@ -819,19 +817,19 @@ const styles = StyleSheet.create({
     marginBottom: 30,
   },
   trackName: {
-    fontSize: 26,
+    fontSize: 24,
     fontWeight: "bold",
     color: "white",
     textAlign: "center",
   },
   artistName: {
-    fontSize: 18,
+    fontSize: 17,
     color: "white",
     textAlign: "center",
     fontStyle: "italic",
   },
   slider: {
-    marginTop: 20,
+    marginTop: 15,
   },
   timeContainer: {
     flexDirection: "row",

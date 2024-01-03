@@ -22,7 +22,7 @@ const Lyrics = ({ lrc, currentTime }) => {
     );
 
     return (
-        <View style={{height: 300}}>
+        <View>
             <Lyric
                 lrc={lrc}
                 currentTime={currentTime}

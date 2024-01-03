@@ -36,7 +36,7 @@ const Favorite = ({ navigation, route }) => {
 
     return (
         <View style={{ backgroundColor: "black", flex: 1 }}>
-            <DynamicHeader value={scrollOfsetY} navigation={navigation} />
+            <DynamicHeader value={scrollOfsetY} navigation={navigation} songs={songs}/>
             
             <FlatList
                 data={songs}
@@ -60,7 +60,7 @@ const Favorite = ({ navigation, route }) => {
                                 marginRight:10
                             }}
                             onPress={() => {
-                                Alert.alert("Thông báo", "Đã xoá playlist!");
+                                Alert.alert("Thông báo", "Đã bỏ yêu thích!");
                                 handleDeleteSong(item.id);
                             }} 
                             ></Ionicons>
@@ -231,7 +231,15 @@ export default Favorite;
 const Header_Max_Height = 200;
 const Header_Min_Height = 50;
 const Scroll_Distance = 140;
-const DynamicHeader = ({ value, navigation, title, cover }) => {
+const DynamicHeader = ({ value, navigation, songs }) => {
+    const playRandomSong = () => {
+        const randomIndex = Math.floor(Math.random() * songs.length);
+        const randomSong = songs[randomIndex];
+    
+        navigation.navigate("SongDetail", { s_id: randomSong.id });
+    };
+
+    
     const animatedHeaderHeight = value.interpolate({
         inputRange: [0, Scroll_Distance],
         outputRange: [Header_Max_Height, Header_Min_Height],
@@ -266,7 +274,7 @@ const DynamicHeader = ({ value, navigation, title, cover }) => {
             resizeMode="cover"
         >
             <Animated.View style={[styles.header, { height: animatedHeaderHeight, backgroundColor: animatedHeaderColor }]}>
-                <TouchableOpacity onPress={() => navigation.navigate("User")}>
+                <TouchableOpacity onPress={() => navigation.goBack()}>
                     <Ionicons name="chevron-back" style={styles.backIcon} />
                 </TouchableOpacity>
                 <Animated.View
@@ -280,7 +288,7 @@ const DynamicHeader = ({ value, navigation, title, cover }) => {
                     ]}
                 >
                     <Animated.Text style={[styles.headerText, { fontSize: textSize, marginLeft: 10 }]}>Bài hát yêu thích</Animated.Text>
-                    <TouchableOpacity style={styles.edit3}>
+                    <TouchableOpacity style={styles.edit3} onPress={playRandomSong}>
                         <Text style={styles.edit2}>Phát ngẫu nhiên </Text>
                     </TouchableOpacity>
                 </Animated.View>

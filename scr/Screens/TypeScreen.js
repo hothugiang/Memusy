@@ -50,9 +50,9 @@ const TypeScreen = ({ navigation, route }) => {
         >
           Bài Hát Nổi Bật{" "}
         </Text>
-        {listSong.map(val => {
+        {listSong.map((val, index) => {
           return (
-            <View style={styles.songsWrapper}>
+            <View style={styles.songsWrapper} key={index}>
               <TouchableOpacity style={styles.songs} onPress={() => navigation.navigate("SongDetail", { s_id: val.encodeId })}>
                 <Image source={{uri: val.thumbnailM}} style={styles.songImage} resizeMode="cover" />
                 <View>
