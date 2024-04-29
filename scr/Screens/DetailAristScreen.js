@@ -316,6 +316,9 @@ const DynamicHeader = ({ value, navigation, title, cover} ) => {
               bottom: 20,
               left: textLeft,
               top: textTop,
+              backgroundColor: "black",
+              paddingHorizontal: 5,
+              borderRadius: 5,
             }
           ]}
         >

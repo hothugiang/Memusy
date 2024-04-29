@@ -49,6 +49,10 @@ export default function LoginScreen({ navigation }) {
   const [password, setPassword] = useState("");
   const [showPass, setShowPass] = useState(false);
   const [press, setPress] = useState(false);
+  const [fontsLoaded] = useFonts({
+    'GentiumBookBasic-Italic': require('./../../assets/fonts/GentiumBookBasic-Italic.ttf'),
+    'Open-san': require('./../../assets/fonts/Montserrat-Bold.ttf')
+  });
 
   const togglePasswordVisibility = () => {
     setShowPass(!showPass);
@@ -74,7 +78,6 @@ export default function LoginScreen({ navigation }) {
       });
 
       if (response.status === 200) {
-        // Xử lý khi đăng nhập thành công
         const token = response.data.token;
         const username = response.data.userName;
         const email = response.data.userEmail;
@@ -100,19 +103,15 @@ export default function LoginScreen({ navigation }) {
     }
   };
 
-  useState(() => {
+  useEffect(() => {
     async function prepare() {
       await SplashScreen.preventAutoHideAsync();
     }
     prepare();
-    async function loadData() {
-      const token = await AsyncStorage.getItem("token");
-      if (token) {
-        navigation.navigate("User");
-      }
+    if (fontsLoaded) {
+      SplashScreen.hideAsync();
     }
-    loadData();
-  });
+  }, [fontsLoaded]);
 
   return (
     <KeyboardAvoidingView

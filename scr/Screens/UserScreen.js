@@ -43,17 +43,20 @@ export default function UserScreen({ navigation }) {
         navigation.navigate("Login");
       }
 
-        // Xử lý khi logout thành công, ví dụ: chuyển hướng đến màn hình đăng nhập
-        await AsyncStorage.removeItem("token");
-        await AsyncStorage.removeItem("username");
-        await AsyncStorage.removeItem("email");
-        await AsyncStorage.removeItem("userId");
-        setUsername("");
-        setUserId("");
+      await AsyncStorage.removeItem("token");
+      await AsyncStorage.removeItem("username");
+      await AsyncStorage.removeItem("email");
+      await AsyncStorage.removeItem("userId");
+  
+      setUsername("");
+      setUserId("");
+  
+      navigation.navigate("Login");
     } catch (error) {
       console.error('Error during logout:', error);
     }
   };
+  
   return (
     <View style={{ flex: 1, backgroundColor: 'black' }}>
       <View style={{ marginTop: Platform.OS === "ios" ? 24 : 0 }}>

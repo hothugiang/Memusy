@@ -18,11 +18,15 @@
       "supportsTablet": true,
       "config": {
         "infoPlist": {
-          "UIBackgroundModes": ["audio"]
+          "UIBackgroundModes": [
+            "audio"
+          ]
         }
       },
       "infoPlist": {
-        "UIBackgroundModes": ["audio"]
+        "UIBackgroundModes": [
+          "audio"
+        ]
       }
     },
     "android": {
@@ -30,7 +34,9 @@
         "foregroundImage": "./assets/adaptive-icon.png",
         "backgroundColor": "#ffffff"
       },
-      "permissions": ["SYSTEM_ALERT_WINDOW"],
+      "permissions": [
+        "SYSTEM_ALERT_WINDOW"
+      ],
       "notification": {
         "icon": "./assets/img/logo.png",
         "color": "#dd729e",
@@ -44,18 +50,23 @@
             "id": "default"
           }
         ]
-      }
+      },
+      "package": "com.htg2501.Memusy"
     },
     "web": {
       "favicon": "./assets/favicon.png"
     },
-
     "service": {
       "android": {
         "foregroundService": {
           "notificationTitle": "Memusy",
           "notificationIcon": "./assets/mp3/VungLaMeBay-DuongHongLoan-4796874.mp3"
         }
+      }
+    },
+    "extra": {
+      "eas": {
+        "projectId": "aaa6be4c-11b5-4b33-b3d1-963e528f6356"
       }
     }
   }
