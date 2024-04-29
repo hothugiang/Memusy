@@ -1,6 +1,5 @@
 {
   "expo": {
-    "type": "module",
     "name": "Memusy",
     "slug": "Memusy",
     "version": "1.0.0",
